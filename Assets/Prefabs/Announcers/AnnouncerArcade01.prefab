@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2434201442193239204
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2434201442193239194}
+  - component: {fileID: 2434201442193239205}
+  m_Layer: 0
+  m_Name: AnnouncerArcade01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2434201442193239194
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2434201442193239204}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2434201442193239205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2434201442193239204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7f2f535e94af384e90957130aa00fd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _super: {fileID: 8300000, guid: 56569ce4a99e6fb4e99c3427dc2bb453, type: 3}
+  _caveRunner: {fileID: 8300000, guid: 7edbdafc841f30546ba13d14523a928c, type: 3}
+  _title: {fileID: 8300000, guid: 72574a27b0fb59f438f7e0132177b14e, type: 3}
+  _d: {fileID: 8300000, guid: ebdb12240d0ea034484c22742eb64530, type: 3}
+  _x: {fileID: 8300000, guid: 31bb98c6019d4cb4e889bcf2c01a526e, type: 3}
+  _ready: {fileID: 8300000, guid: b0aeaa86a39e34d49b93994bf3ee558a, type: 3}
+  _go: {fileID: 8300000, guid: 34763f0a8f98be5429451a3d77918db8, type: 3}
+  _announcerAudio: {fileID: 0}
+  _voiceType: 0
+  _numberOfClips: 7
