@@ -851,10 +851,10 @@ MonoBehaviour:
   _readyMessage: READY...
   _goMessage: GO!!
   _veryEasyDistanceBegin: 150
-  _easyDistanceBegin: 4000
-  _mediumDistanceBegin: 3000
-  _hardDistanceBegin: 10000
-  _insaneDistanceBegin: 100000
+  _easyDistanceBegin: 300
+  _mediumDistanceBegin: 450
+  _hardDistanceBegin: 700
+  _insaneDistanceBegin: 950
   _resultButtonWaitTime: 1.5
   _gameDifficulty: 0
 --- !u!4 &325606664 stripped
@@ -3623,17 +3623,22 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a4cd8ebd011bae64a9a4b9f45f65fdd9, type: 3}
   - {fileID: 21300000, guid: 4a3a3541f5b969a4ab5011b8e63d515a, type: 3}
   - {fileID: 21300000, guid: dee4a927d729ebf4d8d9fd46cfffaa24, type: 3}
+  _platformSprites:
+  - {fileID: 21300000, guid: cad7456b4cad8104089f06b8230e81a8, type: 3}
+  - {fileID: 21300000, guid: 738533ef16608384197fa164e8d00b52, type: 3}
+  - {fileID: 21300000, guid: 0b0e7c9708d96194a81c3f04ded006e9, type: 3}
+  - {fileID: 21300000, guid: 211be0b15550af5469df2ad19568e1d7, type: 3}
   _minHeightFromBottom: 5
   _maxHeigthFromTop: 15
   _jumpHeightBuffer: 0.65
   _jumpDistanceBuffer: 0.7
   _minGapDistance: 10
   _obstacle: {fileID: 8439211006423000962, guid: 3a1639a4c646f5848b6c3b730ab5226a, type: 3}
-  _health: {fileID: 5391315453570456209, guid: 3ca73b2e471194747adf60c35fc65ba3, type: 3}
-  _introGroundObjects:
+  _healthItem: {fileID: 5391315453570456209, guid: 3ca73b2e471194747adf60c35fc65ba3, type: 3}
+  _veryEasyGroundObjects:
   - {fileID: 242893619877034462, guid: 98c8fddd9de74f449bcd49d0f271c045, type: 3}
-  _introPlatformObjects:
-  - {fileID: 0}
+  _veryEasyPlatformObjects:
+  - {fileID: 242893619877034462, guid: 359eb2c8a8cd08d479eb6f721db82945, type: 3}
   _easyGroundObjects:
   - {fileID: 242893619877034462, guid: 998510f3c4090a74bab0456d9d6520ec, type: 3}
   _easyPlatformObjects:

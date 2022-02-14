@@ -26,7 +26,6 @@ public class GameState : MonoBehaviour
      */
     public enum Difficulty
     {
-        intro,
         veryEasy,
         easy,
         medium,
@@ -378,7 +377,7 @@ public class GameState : MonoBehaviour
     private Difficulty SetDifficulty()
     {
         // New difficulty object initialised to intro
-        Difficulty difficulty = Difficulty.intro;
+        Difficulty difficulty = Difficulty.veryEasy;
 
         // Obtain the distance as an integer from the player
         int distance = Mathf.FloorToInt(_player.Distance);

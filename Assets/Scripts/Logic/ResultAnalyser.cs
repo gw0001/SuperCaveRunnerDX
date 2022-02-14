@@ -64,7 +64,7 @@ public class ResultAnalyser : MonoBehaviour
         string startingText = "YOU RAN ";
 
         // Turn the distance into a string 
-        string distanceText = distance.ToString() + " m BEFORE";
+        string distanceText = distance.ToString() + "m BEFORE";
 
         // Initialise the last actions string
         string lastActions = "";

@@ -3,7 +3,7 @@
 /*                 V 1.0                   */
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
-/* CREATED - 13/02/22                      */
+/* CREATED - 04/02/22                      */
 /* LAST MODIFIED - 14/02/22                */
 /* ======================================= */
 /* GROUND                                  */
@@ -22,14 +22,15 @@ public class Ground : MonoBehaviour
     [Header("Standard Ground Settings")]
     [SerializeField] private bool _canFeatureObstacles; // Can feature obstacles
     [SerializeField] private bool _willFeatureObstacles; // Will feature obstacles
-    [SerializeField] private bool _canFeatureHealth;
-    [SerializeField] private bool _willFeatureHealth;
-    [SerializeField, Range(1, 3)] private int _minNumberOfObstacles; // Maximum number of obstacles
-    [SerializeField, Range(3, 5)] private int _maxNumberOfObstacles; // Maximum number of obstacles
+    [SerializeField] private bool _canFeatureHealth; // Can feature health boolean
+    [SerializeField] private bool _willFeatureHealth; // Will feature health boolean
+    [SerializeField, Range(0, 3)] private int _minNumberOfObstacles; // Maximum number of obstacles
+    [SerializeField, Range(1, 5)] private int _maxNumberOfObstacles; // Maximum number of obstacles
     [SerializeField, Range(0f, 1f)] private float _safeAreaFromLeft = 0.5f; // Safe area from the left side of the ground
     [SerializeField, Range(0f, 1f)] private float _safeAreaFromRight = 0.5f; // Safa area from the right side of the ground
     [SerializeField, Range(0f, 1f)] private float _obstacleChance = 0.5f; // The chance value for obstacles to appear on the ground
     [SerializeField, Range(0f, 1f)] private float _healthChance = 0.5f; // The chance value for health to appear on the ground
+    [SerializeField, Range(0f, 1f)] private float _platformChance = 0.5f; // The chance value for health to appear on the ground
 
     // *** VARIABLES **** //
     private GroundManager _groundManager; // Ground manager
@@ -335,14 +336,41 @@ public class Ground : MonoBehaviour
      */
     public void GenerateGround()
     {
-        // Instantiate a copy of the game object
-        GameObject ground = Instantiate(NewGroundObject());
+        // Is ground object boolean, initialised to true
+        bool isGroundObject = true;
+
+        // Determine the chance that the new ground object will be a platform
+        float chance = Random.Range(0f, 1f);
+
+        // 
+        if(chance < _platformChance)
+        {
+            isGroundObject = false;
+        }
+
+        // Initialise a new game object as null
+        GameObject newGameObject = null;
+
+        // Check if the object will be a ground object
+        if(isGroundObject == true)
+        {
+            // Instance a new ground object
+            newGameObject = Instantiate(NewGroundObject());
+
+            // Set the sprite of the new ground object
+            newGameObject.GetComponent<Ground>().SetRandomGroundSprite();
+        }
+        else
+        {
+            // Instantiate a new platform object
+            newGameObject = Instantiate(NewPlatformObject());
+
+            // Set the sprite of the new platform object
+            newGameObject.GetComponent<Ground>().SetRandomPlatformSprite();
+        }
 
         // Empty position vector
         Vector2 position = Vector2.zero;
-
-        // Determine the maximum Y jump bas
-        float grountToPrevGroundHeight = (GroundHeight - HalfHeight);
 
         // Determine the maximum jump the player can achieve if holding the jump button
         float maxHoldJumpHeight = _player.MaxJumpVelocity * _player.HoldJumpTime;
@@ -375,7 +403,7 @@ public class Ground : MonoBehaviour
             newGroundHeight = maxGroundHeight;
 
             // Invoke the max height method for the new ground object
-            ground.GetComponent<Ground>().SetToMaxHeight();
+            newGameObject.GetComponent<Ground>().SetToMaxHeight();
         }
 
         // Determine the minimum ground height
@@ -388,11 +416,11 @@ public class Ground : MonoBehaviour
             newGroundHeight = minGroundHeight;
 
             // Invoke an at min height method here
-            ground.GetComponent<Ground>().SetToMinHeight();
+            newGameObject.GetComponent<Ground>().SetToMinHeight();
         }
 
         // Set the position Y component based on the new ground height minus half height
-        position.y = newGroundHeight - ground.GetComponent<Ground>().HalfHeight;
+        position.y = newGroundHeight - newGameObject.GetComponent<Ground>().HalfHeight;
 
         // Determine the time to reach the maximum jump based on the time to reach the max jump height and the players hold jump time
         float timeToReachMaxJump = maxHeightJumpTime + _player.HoldJumpTime;
@@ -413,22 +441,19 @@ public class Ground : MonoBehaviour
         float actualGap = Random.Range(minGap, maxGap);
 
         // Alter the X position based on the gap distance, the right side of the current ground object and half the width of the new ground object
-        position.x = (actualGap * _groundManager.JumpDistanceBuffer) + _rightSide + ground.GetComponent<Ground>().HalfWidth;
+        position.x = (actualGap * _groundManager.JumpDistanceBuffer) + _rightSide + newGameObject.GetComponent<Ground>().HalfWidth;
 
         // Apply the position to the new game object
-        ground.transform.position = position;
+        newGameObject.transform.position = position;
 
         // Recalculate the ground height of the game object
-        ground.GetComponent<Ground>().CalculateGroundHeight();
+        newGameObject.GetComponent<Ground>().CalculateGroundHeight();
 
         // Set the parent of the new ground object
-        ground.GetComponent<Ground>().SetParent(transform.parent);
-
-        // Set the sprite of the new ground object
-        ground.GetComponent<Ground>().SetRandomGroundSprite();
+        newGameObject.GetComponent<Ground>().SetParent(transform.parent);
 
         // Check if will feature obstacles is true
-        if (ground.GetComponent<Ground>().WillFeatureObstacles)
+        if (newGameObject.GetComponent<Ground>().WillFeatureObstacles)
         {
             // Determine the number of obstacles to generate
             int numberOfObstacles = Random.Range(_minNumberOfObstacles, _maxNumberOfObstacles);
@@ -437,15 +462,15 @@ public class Ground : MonoBehaviour
             for (int i = 0; i < numberOfObstacles; i++)
             {
                 // Invoke the add obstacle method
-                AddObstacle(ground);
+                AddObstacle(newGameObject);
             }
         }
 
         // Check if the item will feature health items
-        if(ground.GetComponent<Ground>().WillFeatureHealth)
+        if(newGameObject.GetComponent<Ground>().WillFeatureHealth)
         {
             // Add health item to the ground
-            AddHealth(ground);
+            AddHealth(newGameObject);
         }
     }
 
@@ -476,22 +501,26 @@ public class Ground : MonoBehaviour
     /*
      * NEW GROUND OBJECT METHOD
      * 
-     * When invoked, the method first determines
-     * a random index number. The index number
-     * is then used to obtain a ground object
-     * from the ground manager and returns the 
-     * found game object.
+     * When invoked, the method obtains
+     * and returns a ground game object 
+     * from the ground manager.
      */
     private GameObject NewGroundObject()
     {
-        // Obtain a random index
-        int index = Random.Range(0, (_groundManager.NumberOfObjects));
+        return _groundManager.ReturnGround();
+    }
 
-        // Obtain a ground game object from the ground manager
-        GameObject ground = _groundManager.ReturnGround(index);
-
-        // Return the ground object
-        return ground;
+    /*
+     * NEW PLATFORM OBJECT
+     * 
+     * When invoked, the method obtains
+     * and returns a platform game object
+     * from the ground manager.
+     * 
+     */
+    private GameObject NewPlatformObject()
+    {
+        return _groundManager.ReturnPlatform();
     }
 
     /*
@@ -559,10 +588,18 @@ public class Ground : MonoBehaviour
         obstacle.transform.position = position;
     }
 
+    /*
+     * ADD HEALTH METHOD
+     * 
+     * When invoked, the method will add 
+     * one health item to the 
+     * ground/platform.
+     */
+
     private void AddHealth(GameObject newGround)
     {
         // Create an instance of the obstacle
-        GameObject healthItem = Instantiate(_groundManager.ReturnHealth());
+        GameObject healthItem = Instantiate(_groundManager.ReturnHealthItem());
 
         // New position vector
         Vector2 position;
@@ -591,19 +628,36 @@ public class Ground : MonoBehaviour
         // Set the transform of the obtstacle
         healthItem.transform.position = position;
     }
+
     /*
-     * SET RANDOM SPRITE METHOD
+     * SET RANDOM GROUND SPRITE METHOD
      * 
-     * Method obtains a random sprite from the 
-     * ground manager, then applies the sprite
+     * Method obtains a random ground sprite from 
+     * the ground manager, then applies the sprite
      * to the sprite renderer.
      */
     public void SetRandomGroundSprite()
     {
-        // Determine a random index number
-        int index = Random.Range(0, (_groundManager.NumberOfSprites));
+        // Determine a random index number based on the number of ground sprites
+        int index = Random.Range(0, (_groundManager.NumberOfGroundSprites));
 
         // Obtain random ground sprite from the ground manager and apply to the sprite renderer
         _spriteRenderer.sprite = Instantiate(_groundManager.ReturnGroundSprite(index));
+    }
+
+    /*
+     * SET RANDOM PLATFORM SPRITE METHOD
+     * 
+     * Method obtains a random ground sprite from 
+     * the ground manager, then applies the sprite
+     * to the sprite renderer.
+     */
+    public void SetRandomPlatformSprite()
+    {
+        // Determine a random index number based on the number of platform sprites
+        int index = Random.Range(0, (_groundManager.NumberOfPlatformSprites));
+
+        // Obtain random ground sprite from the ground manager and apply to the sprite renderer
+        _spriteRenderer.sprite = Instantiate(_groundManager.ReturnPlatformSprite(index));
     }
 }
