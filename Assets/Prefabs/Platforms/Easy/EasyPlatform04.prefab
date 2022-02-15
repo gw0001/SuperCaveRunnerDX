@@ -559,7 +559,7 @@ MonoBehaviour:
   _maxNumberOfObstacles: 5
   _safeAreaFromLeft: 0.35
   _safeAreaFromRight: 1
-  _obstacleChance: 0.5
+  _obstacleChance: 0.75
   _healthChance: 0.5
   _platformChance: 0.5
 --- !u!1 &5202986684619522894

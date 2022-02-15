@@ -53,4 +53,6 @@ MonoBehaviour:
   _go: {fileID: 8300000, guid: 34763f0a8f98be5429451a3d77918db8, type: 3}
   _announcerAudio: {fileID: 0}
   _voiceType: 0
+  _superCaveRunnerTime: 3.75
+  _dTime: 0.75
   _numberOfClips: 7

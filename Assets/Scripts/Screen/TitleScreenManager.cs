@@ -25,13 +25,14 @@ public class TitleScreenManager : MonoBehaviour
     private Image _fadeImage; // Fade image
     private Image _titleImage; // Title image 
     private GameObject _pressStart; // Press start game object
-    //private SoundEffect _titleSound; // Title Sound
-    private AnnouncerManager _announcerVoice;
-
+    private AnnouncerManager _announcerVoice; // Announcer voice
     private float _screenFadeTimer = 0f; // Screen fade timer
     private float _titleAppearTimer = 0f; // title appear timer
     private bool _titleLoaded = false; // Title loaded boolean
     private bool _screenFadedIn = false; // Screen faded in boolean
+    private bool _mainTitlePlayed = false; // Main title played boolean
+    private bool _dPlayed = false; // D played boolean
+    private bool _xPlayed = false; // X played boolean
 
     /*
      * AWAKE METHOD
@@ -59,11 +60,8 @@ public class TitleScreenManager : MonoBehaviour
         // Disable the press start component
         _pressStart.SetActive(false);
 
-        //
+        // Obtain the announcer voice from the game scene
         _announcerVoice = GameObject.FindObjectOfType<AnnouncerManager>();
-
-        // Obtain the title sound effect
-        //_titleSound = GameObject.Find("TitleSound01").GetComponent<SoundEffect>();
     }
 
     /*
@@ -82,8 +80,29 @@ public class TitleScreenManager : MonoBehaviour
      */
     private void Update()
     {
+        // Check the voice is not the "Teuchter" voice
+        if (_announcerVoice.GameAnnouncer.VoiceType != Announcer.AnnouncerVoice.teuchter)
+        {
+            // Invoke the arcade intro method
+            AnnouncerArcadeIntro();
+        }
+        else
+        {
+            // Invoke the teuchter intro method
+            AnnouncerTeuchterIntro();
+        }
+    }
+
+    /*
+     * ANNOUNCER ARCADE INTRO METHOD
+     * 
+     * Method is used to control the title with the 
+     * standard arcade announcers.
+     */
+    private void AnnouncerArcadeIntro()
+    {
         // Check if the screen has not faded in
-        if(!_screenFadedIn)
+        if (!_screenFadedIn)
         {
             // Increment the screen fade timer by delta time
             _screenFadeTimer += Time.deltaTime;
@@ -95,7 +114,7 @@ public class TitleScreenManager : MonoBehaviour
             _fadeImage.color = new Vector4(0f, 0f, 0f, alpha);
 
             // Check if the screen fade time is greater than or equal to, the screen fade time
-            if(_screenFadeTimer >= _screenFadeTime)
+            if (_screenFadeTimer >= _screenFadeTime)
             {
                 // Set the colour of the fade image to make it completely invisible
                 _fadeImage.color = new Vector4(0f, 0f, 0f, 0f);
@@ -107,7 +126,7 @@ public class TitleScreenManager : MonoBehaviour
         else
         {
             // Check if the title has not loaded
-            if(!_titleLoaded)
+            if (!_titleLoaded)
             {
                 // Increment the title appear timer by delta time
                 _titleAppearTimer += Time.deltaTime;
@@ -119,20 +138,108 @@ public class TitleScreenManager : MonoBehaviour
                 _titleImage.color = new Vector4(1f, 1f, 1f, alpha);
 
                 // Check if the title appear timer is greater than, or equal to, the title appear time
-                if(_titleAppearTimer >= _titleAppearTime)
+                if (_titleAppearTimer >= _titleAppearTime && !_mainTitlePlayed)
                 {
                     // Set the title colour so that it will be completely visible
                     _titleImage.color = new Vector4(1f, 1f, 1f, 1f);
-
-                    // Set title loaded to true
-                    _titleLoaded = true;
 
                     // Enable the press start object
                     _pressStart.SetActive(true);
 
                     // Play the title sound effect
-                    //_titleSound.PlaySoundEffect();
                     _announcerVoice.GameAnnouncer.PlaySound(2);
+
+                    // Set main title played to true
+                    _mainTitlePlayed = true;
+                }
+
+                // Check if the title appear time is greater than sum of the appear time and "super cave runner" time, and main title played is true and d played is false
+                if (_titleAppearTimer >= (_titleAppearTime + _announcerVoice.GameAnnouncer.SuperCaveRunnerTime) && _mainTitlePlayed && !_dPlayed)
+                {
+                    // Play the "D" sound effect
+                    _announcerVoice.GameAnnouncer.PlaySound(3, true);
+
+                    // Set d played to true
+                    _dPlayed = true;
+                }
+
+                // Check if the title appear time is greater than sum of the appear time, "super cave runner" time and "D" time, and main title played is true and d played is false
+                if (_titleAppearTimer >= (_titleAppearTime + _announcerVoice.GameAnnouncer.SuperCaveRunnerTime + +_announcerVoice.GameAnnouncer.DTime) && _mainTitlePlayed && _dPlayed && !_xPlayed)
+                {
+                    // Play the "X" voice
+                    _announcerVoice.GameAnnouncer.PlaySound(4, true);
+
+                    // Set x played boolean to true
+                    _xPlayed = true;
+
+                    // Set title loaded to true
+                    _titleLoaded = true;
+                }
+            }
+        }
+    }
+
+    /*
+     * ANNOUNCER TEUCHTER INTRO METHOD
+     * 
+     * Method is used to control the title
+     * with the special teuchter announcer.
+     */
+    private void AnnouncerTeuchterIntro()
+    {
+        // Check if the screen has not faded in
+        if (!_screenFadedIn)
+        {
+            // Increment the screen fade timer by delta time
+            _screenFadeTimer += Time.deltaTime;
+
+            // Determine the alpha value
+            float alpha = 1 - (_screenFadeTimer / _screenFadeTime);
+
+            // Alter the colour of the fade image with the new alpha colour
+            _fadeImage.color = new Vector4(0f, 0f, 0f, alpha);
+
+            // Check if the screen fade time is greater than or equal to, the screen fade time
+            if (_screenFadeTimer >= _screenFadeTime)
+            {
+                // Set the colour of the fade image to make it completely invisible
+                _fadeImage.color = new Vector4(0f, 0f, 0f, 0f);
+
+                // Set the screen faded in boolean to true
+                _screenFadedIn = true;
+            }
+        }
+        else
+        {
+            // Check if the title has not loaded
+            if (!_titleLoaded)
+            {
+                // Increment the title appear timer by delta time
+                _titleAppearTimer += Time.deltaTime;
+
+                // Determine the alpha value
+                float alpha = _titleAppearTimer / _titleAppearTime;
+
+                // Set the colour of the title image with the new alpha value
+                _titleImage.color = new Vector4(1f, 1f, 1f, alpha);
+
+                // Check if the title appear timer is greater than, or equal to, the title appear time
+                if (_titleAppearTimer >= _titleAppearTime && !_mainTitlePlayed)
+                {
+                    // Set the title colour so that it will be completely visible
+                    _titleImage.color = new Vector4(1f, 1f, 1f, 1f);
+
+                    // Enable the press start object
+                    _pressStart.SetActive(true);
+
+                    // Play the title sound effect
+                    _announcerVoice.GameAnnouncer.PlaySound(2);
+
+                    // Set the main title boolean played to true
+                    _mainTitlePlayed = true;
+
+                    // Set title loaded to true
+                    _titleLoaded = true;
                 }
             }
         }

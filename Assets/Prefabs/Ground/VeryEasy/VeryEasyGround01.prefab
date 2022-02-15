@@ -131,8 +131,8 @@ MonoBehaviour:
   _willFeatureObstacles: 0
   _canFeatureHealth: 0
   _willFeatureHealth: 0
-  _minNumberOfObstacles: 1
-  _maxNumberOfObstacles: 3
+  _minNumberOfObstacles: 3
+  _maxNumberOfObstacles: 5
   _safeAreaFromLeft: 0
   _safeAreaFromRight: 0
   _obstacleChance: 0.5

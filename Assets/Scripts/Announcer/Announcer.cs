@@ -36,9 +36,17 @@ public class Announcer : MonoBehaviour
     [SerializeField] private AudioSource _announcerAudio; // Announcer audio source
     [SerializeField] private AnnouncerVoice _voiceType; // Voice type
 
+    [SerializeField] private float _superCaveRunnerTime = 3.9f; // Time it takes to finish saying "Super Cave Runner"
+    [SerializeField] private float _dTime = 0.75f; // Time it takes to finish saying "D"
+
     private AudioClip[] _audio; // Audio array
     [SerializeField] private int _numberOfClips = 7;
 
+    /*
+     * VOICE TYPE GET METHOD
+     * 
+     * Method returns the 
+     */
     public AnnouncerVoice VoiceType
     {
         get
@@ -47,12 +55,27 @@ public class Announcer : MonoBehaviour
         }
     }
 
+    public float SuperCaveRunnerTime
+    {
+        get
+        {
+            return _superCaveRunnerTime;
+        }
+    }
+
+    public float DTime
+    {
+        get
+        {
+            return _dTime;
+        }
+    }
+
+
     void Awake()
     {
         // Initialise the array
         InitialiseComponent();
-
-
 
     }
 

@@ -1828,7 +1828,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adcca5f2efbd92348aa64dc04d5db9a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _screenFadeTime: 2
+  _screenFadeTime: 2.5
   _titleAppearTime: 2
 --- !u!1 &1193907178
 GameObject:
@@ -3013,7 +3013,7 @@ MonoBehaviour:
     m_ActionName: UIController/Cancel
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: 44c5ff73-dc43-41d2-86e2-1ddca1d47842
+  m_DefaultActionMap: UIController
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 935797199}
 --- !u!114 &1831092557
@@ -3390,7 +3390,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3835183286bcd9349b8255cc945cb05b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 0
   _maxHealth: 0
   _gravity: 100
   _maxJumpVelocity: 20
@@ -3436,7 +3435,7 @@ Transform:
   - {fileID: 1951601721}
   - {fileID: 204661419}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2107980564 stripped
 Transform:
@@ -3456,7 +3455,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3003535497509210159, guid: 7aeff8cf193f84845b8f1d13cdb4cee1, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3003535497509210159, guid: 7aeff8cf193f84845b8f1d13cdb4cee1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3509,7 +3508,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 801462367588083452, guid: 7d86c78bb9572f94499bb8c80c972ec2, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 801462367588083452, guid: 7d86c78bb9572f94499bb8c80c972ec2, type: 3}
       propertyPath: m_LocalPosition.x

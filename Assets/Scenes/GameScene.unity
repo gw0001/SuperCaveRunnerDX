@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &37024766
 RectTransform:
   m_ObjectHideFlags: 0
@@ -158,7 +158,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -430.00006, y: 61.00006}
+  m_AnchoredPosition: {x: -430, y: 61}
   m_SizeDelta: {x: 810, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &37024767
@@ -850,11 +850,11 @@ MonoBehaviour:
   _goTime: 1.5
   _readyMessage: READY...
   _goMessage: GO!!
-  _veryEasyDistanceBegin: 150
+  _veryEasyDistanceBegin: 100
   _easyDistanceBegin: 300
-  _mediumDistanceBegin: 450
-  _hardDistanceBegin: 700
-  _insaneDistanceBegin: 950
+  _mediumDistanceBegin: 1000
+  _hardDistanceBegin: 5000
+  _insaneDistanceBegin: 100000
   _resultButtonWaitTime: 1.5
   _gameDifficulty: 0
 --- !u!4 &325606664 stripped
@@ -1432,13 +1432,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3003535497509210156, guid: 7aeff8cf193f84845b8f1d13cdb4cee1, type: 3}
+      propertyPath: _teuchterChance
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3003535497509210158, guid: 7aeff8cf193f84845b8f1d13cdb4cee1, type: 3}
       propertyPath: m_Name
       value: Announcer(DISABLE BEFORE BUILDING)
       objectReference: {fileID: 0}
     - target: {fileID: 3003535497509210158, guid: 7aeff8cf193f84845b8f1d13cdb4cee1, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3003535497509210159, guid: 7aeff8cf193f84845b8f1d13cdb4cee1, type: 3}
       propertyPath: m_RootOrder
@@ -1688,7 +1692,7 @@ MonoBehaviour:
   _easyDistance: 0
   _mediumDistance: 0
   _hardDistance: 0
-  _insaneDistance: 100000
+  _insaneDistance: 0
 --- !u!1 &1040915809
 GameObject:
   m_ObjectHideFlags: 0
@@ -2057,7 +2061,7 @@ MonoBehaviour:
   _maxHealth: 3
   _gravity: 400
   _maxJumpVelocity: 50
-  _maxRunVelocity: 75
+  _maxRunVelocity: 100
   _maxAcceleration: 15
   _maxHoldJumpTime: 0.25
   _jumpGroundThreshold: 1
@@ -2657,7 +2661,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1670036291
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3602,22 +3606,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ca01e386be5f364ba8fae2de7f26f48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _groundObjects:
-  - {fileID: 5130134430945803033, guid: 7d5fc98552ea5d14c9f13fbd7ef4427d, type: 3}
-  - {fileID: 5130134430945803033, guid: 6a52a35579bc5614f874daa1f8ec64db, type: 3}
-  - {fileID: 5130134430945803033, guid: 5d07792bdae563340982a184c7878695, type: 3}
-  - {fileID: 5130134430945803033, guid: 7b3a40eb3f4301746b0e1b3915e39866, type: 3}
-  - {fileID: 5130134430945803033, guid: 95ccf620cb7c01644a2e3d70aed5d131, type: 3}
-  - {fileID: 5130134430945803033, guid: 8b70626c53b3e0942af8ced2e9f8ff46, type: 3}
-  - {fileID: 5130134430945803033, guid: 0961e5e7951c1d44eaec435cb7503ee8, type: 3}
-  - {fileID: 5130134430945803033, guid: c72126768acb7f74180eaab131def0e8, type: 3}
-  - {fileID: 5130134430945803033, guid: e8db5e71c78f65f428e78421028545de, type: 3}
-  - {fileID: 5130134430945803033, guid: fb4ff2527b316004f89b56758b0f8f54, type: 3}
-  - {fileID: 5130134430945803033, guid: eee6637330280714385d5dfd4e9b9203, type: 3}
-  - {fileID: 5130134430945803033, guid: cf5756aedbd560b42a1f1494f462ba08, type: 3}
-  - {fileID: 5130134430945803033, guid: d50311329cb8f464d8bd84de2121f8c0, type: 3}
-  - {fileID: 5130134430945803033, guid: 85f36ec9eeef3b34b8db2336406d6cc1, type: 3}
-  - {fileID: 5130134430945803033, guid: 5ef71951eeb4e24498fcfa51ae73332e, type: 3}
+  _veryEasyGroundObjects:
+  - {fileID: 5130134430945803033, guid: 199f75e655864e748ada6690a44b5bdc, type: 3}
+  - {fileID: 5130134430945803033, guid: b685755fe7c365b468afb80b0c88b3ee, type: 3}
+  - {fileID: 5130134430945803033, guid: d71a8476482ba0e4397a227917e21cce, type: 3}
+  _easyGroundObjects:
+  - {fileID: 5130134430945803033, guid: 8f68463b0a908d04ba23854394c423ba, type: 3}
+  - {fileID: 5130134430945803033, guid: 14cd14f9295a0fe439964b704a78e5a8, type: 3}
+  - {fileID: 5130134430945803033, guid: 242a7236e217ae54dac4c0e46b496e00, type: 3}
+  - {fileID: 5130134430945803033, guid: 8278e757b6cdd604e87b632914c16033, type: 3}
+  _mediumGroundObjects:
+  - {fileID: 5130134430945803033, guid: 172fd7315fddcb94cbc93791ee743db7, type: 3}
+  - {fileID: 5130134430945803033, guid: 48f881ee5854f064e9edb3801ef6fec5, type: 3}
+  - {fileID: 5130134430945803033, guid: 504948017f60ebb43bce100338478658, type: 3}
+  - {fileID: 5130134430945803033, guid: a5b9384c8b222c7498508a7198cb7f37, type: 3}
+  _hardGroundObjects:
+  - {fileID: 5130134430945803033, guid: 269d490e02f1a3e44ad126010755f774, type: 3}
+  - {fileID: 5130134430945803033, guid: 03809f2731350f94ab8fe3186f2cb521, type: 3}
+  - {fileID: 5130134430945803033, guid: cf3882b35e8b0cf4e818122866194931, type: 3}
+  _insaneGroundObjects:
+  - {fileID: 5130134430945803033, guid: ae431db92d2b5ca4da0db81a8c7ffda6, type: 3}
+  - {fileID: 5130134430945803033, guid: fb6f321e921de2141878b3de53d77bc6, type: 3}
+  _veryEasyPlatformObjects:
+  - {fileID: 5130134430945803033, guid: 57a0cb6db5afbb94e99a3343a970123e, type: 3}
+  - {fileID: 5130134430945803033, guid: f35fc2df67b35a54cab767dac4b04b36, type: 3}
+  - {fileID: 5130134430945803033, guid: e49b7c754b4e36c4a89c4c381942f4c4, type: 3}
+  _easyPlatformObjects:
+  - {fileID: 5130134430945803033, guid: 6b5e42f200b0b364f966484ebe67b2f1, type: 3}
+  - {fileID: 5130134430945803033, guid: bc369824aaf5a6542902ea3c60a3a04a, type: 3}
+  - {fileID: 5130134430945803033, guid: fe84f663d38553a4bac8b73bfee7719f, type: 3}
+  - {fileID: 5130134430945803033, guid: d78bd5425135ce242b3ff8c62e643f1c, type: 3}
+  _mediumPlatformObjects:
+  - {fileID: 5130134430945803033, guid: 0f371b8e41ae03f4d9d2a9aaae9db00b, type: 3}
+  - {fileID: 5130134430945803033, guid: 62ea2a105cc936b469c091fa15c942cb, type: 3}
+  - {fileID: 5130134430945803033, guid: 6eb54a092dccff94aaddc29bfa680548, type: 3}
+  - {fileID: 5130134430945803033, guid: 074941d92694bee499920e3a878a22fe, type: 3}
+  _hardPlatformObjects:
+  - {fileID: 5130134430945803033, guid: 58aec7329983d364482cc95b161fa08b, type: 3}
+  - {fileID: 5130134430945803033, guid: 5866d4be8c12c9a40a2e895340e799d1, type: 3}
+  - {fileID: 5130134430945803033, guid: 6f3fc30acd9a91d43ae1420e7fa89cb5, type: 3}
+  _insanePlatformObjects:
+  - {fileID: 5130134430945803033, guid: 617fc55a046286e48b97347b95747eac, type: 3}
+  - {fileID: 5130134430945803033, guid: 949b32b5b4c76fc47836fde4b3b75f2e, type: 3}
   _groundSprites:
   - {fileID: 21300000, guid: f2b75c6011bc7434d8f6f2dbc7b8a204, type: 3}
   - {fileID: 21300000, guid: a4cd8ebd011bae64a9a4b9f45f65fdd9, type: 3}
@@ -3635,26 +3665,6 @@ MonoBehaviour:
   _minGapDistance: 10
   _obstacle: {fileID: 8439211006423000962, guid: 3a1639a4c646f5848b6c3b730ab5226a, type: 3}
   _healthItem: {fileID: 5391315453570456209, guid: 3ca73b2e471194747adf60c35fc65ba3, type: 3}
-  _veryEasyGroundObjects:
-  - {fileID: 242893619877034462, guid: 98c8fddd9de74f449bcd49d0f271c045, type: 3}
-  _veryEasyPlatformObjects:
-  - {fileID: 242893619877034462, guid: 359eb2c8a8cd08d479eb6f721db82945, type: 3}
-  _easyGroundObjects:
-  - {fileID: 242893619877034462, guid: 998510f3c4090a74bab0456d9d6520ec, type: 3}
-  _easyPlatformObjects:
-  - {fileID: 242893619877034462, guid: 359eb2c8a8cd08d479eb6f721db82945, type: 3}
-  _mediumGroundObjects:
-  - {fileID: 242893619877034462, guid: a408d43dc0346c3459132fff25030184, type: 3}
-  _mediumPlatformObjects:
-  - {fileID: 242893619877034462, guid: 05d07dac847d0354d9a4f741e6178a69, type: 3}
-  _hardGroundObjects:
-  - {fileID: 242893619877034462, guid: 4cb6d842bd303634f971ffb8438bef39, type: 3}
-  _hardPlatformObjects:
-  - {fileID: 242893619877034462, guid: f714d9529d2e3724a91c75c2aea56868, type: 3}
-  _insaneGroundObjects:
-  - {fileID: 242893619877034462, guid: efb93b27513fbe74c9697c3387cfd409, type: 3}
-  _insanePlatformObjects:
-  - {fileID: 242893619877034462, guid: 0dd47665e7501f047bb438a8f1c51281, type: 3}
 --- !u!4 &2077560683
 Transform:
   m_ObjectHideFlags: 0
