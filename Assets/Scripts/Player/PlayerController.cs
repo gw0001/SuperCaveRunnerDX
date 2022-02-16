@@ -3,13 +3,15 @@
 /*                 V 1.0                   */
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
-/* CREATED - 13/02/22                      */
-/* LAST MODIFIED - 14/02/22                */
+/* CREATED - 01/02/22                      */
+/* LAST MODIFIED - 16/02/22                */
 /* ======================================= */
-/* TITLE
- * FileName.cs*/
+/* PLAYER CONTROLLER                       */
+/* PlayerController.cs                     */
 /* ======================================= */
-/* Desc        */
+/* Script controls the behaviour of the    */
+/* player object and allows for player     */
+/* input to alter the behaviour.           */
 /* ======================================= */
 
 // Directives
@@ -58,6 +60,18 @@ public class PlayerController : MonoBehaviour
     private bool _isInvincible = false; // Is invincible boolean
     private bool _gameStarted; // Game started boolean
     private bool _hasHitGround; // Has hit ground boolean
+
+
+
+    private bool _isColourOne = true;
+    private Color _colourOne = new Color(0.337f, 0.705f, 0.913f, 1.0f); // Colour One
+    private Color _colourTwo = new Color(0.901f, 0.623f, 0.0f, 1.0f); // Colour One
+    [SerializeField] private float _colourCooldownTime = 0.5f;
+    private float _colourCooldownTimer;
+    private bool _canChangeColour = true;
+    private bool _hasChangedColour = false;
+
+
 
     // Player State Enumerator
     public enum PlayerState
@@ -362,6 +376,14 @@ public class PlayerController : MonoBehaviour
             // Set the x velocity of the player to the menu speed
             _velocity.x = _menuMoveSpeed;
         }
+
+        _playerSprite.color = _colourOne;
+
+        // Set the can change colour to true
+        _canChangeColour = true;
+
+        // Set the has changed colour to false
+        _hasChangedColour = false;
     }
 
     /*
@@ -409,6 +431,35 @@ public class PlayerController : MonoBehaviour
 
                     // Return to avoid unecessary calculation
                     return;
+                }
+
+                // Check if colour has changed
+                if (_hasChangedColour)
+                {
+                    // Check colour
+                    if (_isColourOne)
+                    {
+                        // Set the colour to colour one
+                        _playerSprite.color = _colourOne;
+                    }
+                    else
+                    {
+                        // Set the colour to colour two
+                        _playerSprite.color = _colourTwo;
+                    }
+
+                    // Increment the cool down timer by the fixed time increment
+                    _colourCooldownTimer += Time.fixedDeltaTime;
+
+                    // Check if the colour cool down timer is greater than, or equal to, the colour cool down time
+                    if (_colourCooldownTimer >= _colourCooldownTime)
+                    {
+                        // Change the has changed boolean to false
+                        _hasChangedColour = false;
+
+                        // Set the can change colour boolean to true
+                        _canChangeColour = true;
+                    }
                 }
 
                 // Check if the player is invinvicle
@@ -666,7 +717,7 @@ public class PlayerController : MonoBehaviour
             _invinFlashTimer = 0f;
 
             // Set the colour of the sprite to white with 1f alpha value
-            _playerSprite.color = new Vector4(1f, 1f, 1f, 1f);
+            _playerSprite.color = new Vector4(_playerSprite.color.r, _playerSprite.color.g, _playerSprite.color.b, 1f);
         }
     }
 
@@ -679,7 +730,7 @@ public class PlayerController : MonoBehaviour
         if (_invinFlashTimer < _invinFlashTime)
         {
             // Set the sprite colour to white with 0 alpha value
-            _playerSprite.color = new Vector4(1f, 1f, 1f, 0f);
+            _playerSprite.color = new Vector4(_playerSprite.color.r, _playerSprite.color.g, _playerSprite.color.b, 0f);
         }
         // Check if the invincibility flash timer is greater than, or equal to, twice the invincibility flash time
         else if (_invinFlashTimer >= 2 * _invinFlashTime)
@@ -690,7 +741,7 @@ public class PlayerController : MonoBehaviour
         else
         { 
             // Set the colour of the sprite to white with 1f alpha value
-            _playerSprite.color = new Vector4(1f, 1f, 1f, 1f);
+            _playerSprite.color = new Vector4(_playerSprite.color.r, _playerSprite.color.g, _playerSprite.color.b, 1f);
         }
     }
 
@@ -776,6 +827,29 @@ public class PlayerController : MonoBehaviour
         {
             // Set "is holding jump" to false
             _isHoldingJump = false;
+        }
+    }
+
+    public void ChangeColour(InputAction.CallbackContext context)
+    {
+        // Check if the context has been performed and the game has started
+        if(context.performed && _gameStarted)
+        {
+            // Check if the player can change colour
+            if (_canChangeColour )
+            {
+                // Invert the colour
+                _isColourOne = !_isColourOne;
+
+                // Set the has changed colour boolean to true
+                _hasChangedColour = true;
+
+                // Reset the cooldown timer
+                _colourCooldownTimer = 0f;
+
+                // Set the can change colour boolean to false
+                _canChangeColour = false;
+            }
         }
     }
 
