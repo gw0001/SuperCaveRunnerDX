@@ -53,6 +53,6 @@ public class UIDistance : MonoBehaviour
     void FixedUpdate()
     {
         // Update the distance text
-        _distanceText.text = Mathf.FloorToInt(_player.Distance).ToString() + " m";
+        _distanceText.text = Mathf.FloorToInt(_player.Distance).ToString() + "m";
     }
 }

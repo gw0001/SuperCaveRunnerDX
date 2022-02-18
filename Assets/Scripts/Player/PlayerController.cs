@@ -715,9 +715,6 @@ public class PlayerController : MonoBehaviour
             // Lose one hit point
             _health--;
 
-            // Alter the X velocity value by multiplying by the remaining speed
-            _velocity.x *= (1 - _obstacleHitSpeedLoss);
-
             // Set the last collision made by the player to the obstacle
             _lastCollision = LastCollision.lightgate;
 

@@ -90,6 +90,10 @@ public class Ground : MonoBehaviour
         {
             return _willFeatureLightGate;
         }
+        set
+        {
+            _willFeatureLightGate = value;
+        }
     }
 
     /*
@@ -238,67 +242,139 @@ public class Ground : MonoBehaviour
             _canFeatureHealth = false;
         }
 
-        // WILL NEED TO REWORK THIS BIT COMPLETELY
-        // WILL NEED TO INCLUDE THE CHANCE VALUES OF THE OBSTACLES AND HEALTH PICKUPS
-        // 1. DETERMINE IF THE GROUND OBJECT WILL FEATURE OBSTACLES BASED ON THE OBSTACLE CHANCE VALUE
-        // 2. DETERMINE IF THE GROUND OBJECT WILL FEATURE HEALTH BASED ON THE HEALTH CHANCE
-        // 3. IF OBJECT CAN FEATURE HEALTH AND OBSTACLES, DETERMINE IF ONE SHOULD OVERRIDE THE OTHER OR BOTH BE FEATURED
-
-        // 1.
         // Check if can feature health is true
         if (_canFeatureHealth)
         {
             // Randomly determine if the ground object will generate health
-            int willFeatureHealth = Random.Range(0, 2);
+            float chance = Random.Range(0f, 1f);
 
             // Convert integer value to boolean value
-            _willFeatureHealth = willFeatureHealth == 0 ? false : true;
+            _willFeatureHealth = chance <= _healthChance ? false : true;
         }
 
-        // 2.
         // Check if the ground object can feature obstacles
         if (_canFeatureObstacles)
         {
-            // Randomly determine if the ground object will feature obstacles
-            int willFeatureObstacles = Random.Range(0, 2);
+            // 
+            float chance = Random.Range(0f, 1f);
 
             // Convert integer value to boolean value
-            _willFeatureObstacles = willFeatureObstacles == 0 ? false : true;
+            _willFeatureObstacles = chance <= _obstacleChance ? false : true;
         }
 
-
+        // Check if the ground object can feature light gates
         if(_canFeatureLightGate)
         {
             // Randomly determine if the ground object will feature obstacles
-            int willFeatureLightGate = Random.Range(0, 2);
+            float chance = Random.Range(0f, 1f);
 
             // Convert integer value to boolean value
-            _willFeatureLightGate = willFeatureLightGate == 0 ? false : true;
+            _willFeatureLightGate = chance == _lightGateChance ? false : true;
         }
 
-
-        // 3.
-        if(_willFeatureHealth && _willFeatureObstacles)
+        // Check if the object will feature health
+        if(_willFeatureHealth)
         {
-            // Randomly determine if the ground object will feature obstacles
-            int chance = Random.Range(0, 2);
+            // Check if the object will feature obstacles
+            if(_willFeatureObstacles)
+            {
+                // Check if the obstacle chance is lower than the health chance
+                if(_obstacleChance < _healthChance)
+                {
+                    // Favour the health, set will feature health to true
+                    _willFeatureHealth = true;
 
-            // Check if chance is equal to 0
-            if(chance == 0)
+                    // Set will feature obstacles to false
+                    _willFeatureObstacles = false;
+                }
+                else
+                {
+                    // Give an extra chance for health
+                    // Randomly determine if the ground object will feature obstacles
+                    float chance = Random.Range(0f, 1f);
+
+                    // Check if chance is equal to 0
+                    if (chance <= 0.5f)
+                    {
+                        // Set will feature health to true
+                        _willFeatureHealth = true;
+
+                        // Set will feature obstacles to false
+                        _willFeatureObstacles = false;
+
+                    }
+                    else
+                    {
+                        // Set will feature health to false
+                        _willFeatureHealth = false;
+
+                        // Set will feature obstacles to true
+                        _willFeatureObstacles = true;
+                    }
+                }
+            }
+
+            // Check if the object will feature light gates
+            if(_willFeatureLightGate)
+            {
+                // Check if the light gate chance is less than the health chance
+                if(_lightGateChance < _healthChance)
+                {
+                    // Favour the health, set will feature health to true
+                    _willFeatureHealth = true;
+
+                    // Set will feature obstacles to false
+                    _willFeatureLightGate = false;
+                }
+                else
+                {
+                    // Give an extra chance for health
+                    // Randomly determine if the ground object will feature obstacles
+                    float chance = Random.Range(0f, 1f);
+
+                    // Check if chance is equal to 0
+                    if (chance <= 0.5f)
+                    {
+                        // Set will feature health to true
+                        _willFeatureHealth = true;
+
+                        // Set will feature obstacles to false
+                        _willFeatureLightGate = false;
+                    }
+                    else
+                    {
+                        // Set will feature health to false
+                        _willFeatureHealth = false;
+
+                        // Set will feature obstacles to true
+                        _willFeatureLightGate = true;
+                    }
+                }
+            }
+        }
+
+        // Check for condition where will feature obstacles and will feature light gate are both true
+        if(_willFeatureObstacles && _willFeatureLightGate)
+        {
+            // Determine a random chance value
+            float chance = Random.Range(0f, 1f);
+
+            // Check if the value is less than 50%
+            if(chance <= 0.5f)
             {
                 // Set will feature obstacles to true
                 _willFeatureObstacles = true;
 
-                // Set will feature health to false
-                _willFeatureHealth = false;
+                // Set will feature lightgates to false
+                _willFeatureLightGate = false;
             }
             else
             {
                 // Set will feature obstacles to false
                 _willFeatureObstacles = false;
 
-                // Set will feature health to true
-                _willFeatureHealth = true;
+                // Set will feature light gate to true
+                _willFeatureLightGate = true;
             }
         }
     }
@@ -505,9 +581,17 @@ public class Ground : MonoBehaviour
             AddHealth(newGameObject);
         }
 
+        // Check if the current game object has a light gate
+        if(this._willFeatureLightGate)
+        {
+            // Prevent generation of light gate on new ground object
+            newGameObject.GetComponent<Ground>().WillFeatureLightGate = false;
+        }
+
         // Check if the new game object will feature light gates
         if(newGameObject.GetComponent<Ground>().WillFeatureLightGate)
         {
+            // Add light gate to the new game object
             AddLightGate(newGameObject);
         }
     }
@@ -554,7 +638,6 @@ public class Ground : MonoBehaviour
      * When invoked, the method obtains
      * and returns a platform game object
      * from the ground manager.
-     * 
      */
     private GameObject NewPlatformObject()
     {
@@ -670,7 +753,11 @@ public class Ground : MonoBehaviour
      * ADD LIGHT GATE METHOD
      * 
      * Method is used to add a light gate to
-     * a new ground object.
+     * a new ground object. Light gate is
+     * positioned at either the left edge
+     * of the ground object, the right
+     * edge if the ground object, or the 
+     * middle of the ground object.
      */
     private void AddLightGate(GameObject newGround)
     {

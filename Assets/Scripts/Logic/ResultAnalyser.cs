@@ -27,7 +27,6 @@ public class ResultAnalyser : MonoBehaviour
     private int _hardDistance; // Excelent Distance
     private int _insaneDistance; // Insane Distance
 
-
     private void Awake()
     {
         // Obtain the player controller from the scene
@@ -87,13 +86,19 @@ public class ResultAnalyser : MonoBehaviour
             if(lastCollision == PlayerController.LastCollision.ground)
             {
                 // Relay the ground collision to the player
-                lastActions += ", FACE PLANETED A WALL, THEN FELL DOWN A PIT.";
+                lastActions += ", FACE PLANTED INTO A WALL, THEN FELL DOWN A PIT.";
             }
             // Check if the last collision was with an obstacle
             else if(lastCollision == PlayerController.LastCollision.obstacle)
             {
                 // Relay the obstacle collision to the player
                 lastActions += ", THEN LANDED ON A STALAGMITE.";
+            }
+            // Check if the last collision was with an obstacle
+            else if (lastCollision == PlayerController.LastCollision.lightgate)
+            {
+                // Relay the last collision as an obstacle
+                lastActions += " INTO A BEAM OF LIGHT AND SPONTANIOUSLY COMBUSTED.";
             }
             // Check if the player fell into the pit
             else if(lastCollision == PlayerController.LastCollision.pit)
@@ -119,6 +124,12 @@ public class ResultAnalyser : MonoBehaviour
             {
                 // Relay the last collision as an obstacle
                 lastActions += " INTO A STALAGMITE.";
+            }
+            // Check if the last collision was with an obstacle
+            else if (lastCollision == PlayerController.LastCollision.lightgate)
+            {
+                // Relay the last collision as an obstacle
+                lastActions += " INTO A BEAM OF LIGHT AND CAUGHT FIRE.";
             }
             // Check if the players last collision was with a pit
             else if (lastCollision == PlayerController.LastCollision.pit)
