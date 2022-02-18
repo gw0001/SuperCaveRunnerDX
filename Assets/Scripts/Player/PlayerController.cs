@@ -4,7 +4,7 @@
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
 /* CREATED - 01/02/22                      */
-/* LAST MODIFIED - 16/02/22                */
+/* LAST MODIFIED - 17/02/22                */
 /* ======================================= */
 /* PLAYER CONTROLLER                       */
 /* PlayerController.cs                     */
@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _obstacleHitSpeedLoss = 0.3f; // Obstacle speed loss;
     [SerializeField] private float _invicibilityTime = 0.5f; // Invincibility time
     [SerializeField] private float _invinFlashTime = 0.1f; // Invincibility flash time
+    [SerializeField] private float _colourCooldownTime = 0.5f;
 
     // *** SERIALIZED MENU OPTIONS *** //
     [Header ("Menu object settings")]
@@ -60,18 +61,12 @@ public class PlayerController : MonoBehaviour
     private bool _isInvincible = false; // Is invincible boolean
     private bool _gameStarted; // Game started boolean
     private bool _hasHitGround; // Has hit ground boolean
-
-
-
-    private bool _isColourOne = true;
+    private bool _isColourOne = true; // Is colour one initialised to true
     private Color _colourOne = new Color(0.337f, 0.705f, 0.913f, 1.0f); // Colour One
     private Color _colourTwo = new Color(0.901f, 0.623f, 0.0f, 1.0f); // Colour One
-    [SerializeField] private float _colourCooldownTime = 0.5f;
-    private float _colourCooldownTimer;
-    private bool _canChangeColour = true;
-    private bool _hasChangedColour = false;
-
-
+    private float _colourCooldownTimer; // Colour cool down timer
+    private bool _canChangeColour = true; // Can change colour
+    private bool _hasChangedColour = false; // Has changed colour
 
     // Player State Enumerator
     public enum PlayerState
@@ -97,7 +92,6 @@ public class PlayerController : MonoBehaviour
         obstacle,
         lightgate
     }
-
 
     /*
      * PLAYER STATE GET METHOD
@@ -491,6 +485,20 @@ public class PlayerController : MonoBehaviour
                         HitObstacle(obstacle);
                     }
 
+                    // Obtain a light beam from the collider
+                    LightBeam lightBeam = crashForward.collider.GetComponent<LightBeam>();
+
+                    // Check if the light beam exists
+                    if(lightBeam != null)
+                    {
+                        // Check if the player is not the same colour as the light beam
+                        if (_isColourOne != lightBeam.IsColourOne)
+                        {
+                            // Invoke the hit light gate method
+                            HitLightGate();
+                        }
+                    }
+
                     // Obtain the ground from the collider
                     Ground ground = crashForward.collider.GetComponent<Ground>();
 
@@ -699,6 +707,36 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void HitLightGate()
+    {
+        // Check if the player is not invincible
+        if (!_isInvincible)
+        {
+            // Lose one hit point
+            _health--;
+
+            // Alter the X velocity value by multiplying by the remaining speed
+            _velocity.x *= (1 - _obstacleHitSpeedLoss);
+
+            // Set the last collision made by the player to the obstacle
+            _lastCollision = LastCollision.lightgate;
+
+            // Check if the players health is greater than 0
+            if (Health > 0)
+            {
+                // Set the is invincible boolean to true
+                _isInvincible = true;
+            }
+        }
+    }
+
+    /*
+     * INVINCIBILITY METHOD
+     * 
+     * Method handles the ability for the player
+     * to become invincible for a short period
+     * of time.
+     */
     private void Invincibilty()
     {
         // Increment the invincibility timer by the fixed delta time
@@ -721,6 +759,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /*
+     * FLASH SPRITE METHOD
+     * 
+     * Method handles the flashing of the
+     * player sprite when invoked.
+     */
     private void FlashSprite()
     {
         // Increment the invincibility flash timer by delta time
@@ -830,6 +874,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /*
+     * CHANGE COLOUR METHOD
+     * 
+     * Method allows for the user to press a
+     * button and change the colour of the
+     * player.
+     */
     public void ChangeColour(InputAction.CallbackContext context)
     {
         // Check if the context has been performed and the game has started
@@ -856,9 +907,8 @@ public class PlayerController : MonoBehaviour
     /*
      * GAME START METHOD
      * 
-     * Invoked to start the game.
-     * 
-     * Set the game started boolean to 
+     * Invoked to start the game. Sets
+     * the game started boolean to 
      * true and the player status
      * to running.
      */

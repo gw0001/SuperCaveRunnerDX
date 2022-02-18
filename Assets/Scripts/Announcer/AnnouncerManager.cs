@@ -4,7 +4,7 @@
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
 /* CREATED - 13/02/22                      */
-/* LAST MODIFIED - 13/02/22                */
+/* LAST MODIFIED - 18/02/22                */
 /* ======================================= */
 /* ANNOUNCER MANAGER                       */
 /* AnnouncerManager.cs                     */
@@ -19,6 +19,7 @@ using UnityEngine;
 public class AnnouncerManager : MonoBehaviour
 {
     // *** SERIALIZED VARIABLES *** //
+    [Header ("Announcer manager settings")]
     [SerializeField] private Announcer _announcerArcade01; // Arcade announcer 01
     [SerializeField] private Announcer _announcerArcade02; // Arcade announcer 02
     [SerializeField] private Announcer _announcerTeuchter; // Teuchter announcer
@@ -48,8 +49,6 @@ public class AnnouncerManager : MonoBehaviour
      * 
      * Method is invoked when the script is 
      * awoken.
-     * 
-     * 
      */
     private void Awake()
     {
@@ -94,26 +93,30 @@ public class AnnouncerManager : MonoBehaviour
     }
 
     /*
-     * CHOOSE ANNOUNCER
+     * CHOOSE ANNOUNCER METHOD
+     * 
+     * When invoked, the method determines
+     * which announcer will be present
+     * for the game.
      */
     private void ChooseAnnouncer()
     {
         // Randomly determine a float between 0f and 1f
-        float chance = Random.Range(0f, 1f);
+        float teuchterChance = Random.Range(0f, 1f);
 
-        // Check if the chance is lower than the
-        if (chance < _teuchterChance)
+        // Check if the teuchter chance is lower than the teuchter chance setting
+        if (teuchterChance < _teuchterChance)
         {
             // Set the teuchter as the announcer
             _gameAnnouncer = Instantiate(_announcerTeuchter);
         }
         else
         {
-            // Determine a standard chance value
-            float standardChance = Random.Range(0f, 1f);
+            // Determine a random arcade chance value
+            float arcadeChance = Random.Range(0f, 1f);
 
             // Check if the standard chance vaalue is less than the arcade chance 
-            if (standardChance < _arcade01Chance)
+            if (arcadeChance < _arcade01Chance)
             {
                 // Set the announcer to arcade 01
                 _gameAnnouncer = Instantiate(_announcerArcade01);
@@ -124,8 +127,5 @@ public class AnnouncerManager : MonoBehaviour
                 _gameAnnouncer = Instantiate(_announcerArcade02);
             }
         }
-
-        // Initialise the component
-        _gameAnnouncer.InitialiseComponent();
     }
 }

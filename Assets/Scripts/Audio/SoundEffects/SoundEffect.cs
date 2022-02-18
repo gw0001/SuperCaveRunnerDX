@@ -18,9 +18,14 @@ using UnityEngine;
 
 public class SoundEffect : MonoBehaviour
 {
+    // *** VARIABLE *** //
     private AudioSource _soundEffect; // Sound effect audio source
 
-    // Start is called before the first frame update
+    /*
+     * AWAKE METHOD
+     * 
+     * Method is invoked when the script is awoken.
+     */
     void Awake()
     {
         // Obtain the sound effect from the game object script is attached to

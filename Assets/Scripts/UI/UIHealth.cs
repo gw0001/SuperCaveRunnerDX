@@ -3,13 +3,15 @@
 /*                 V 1.0                   */
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
-/* CREATED - 13/02/22                      */
+/* CREATED - 10/02/22                      */
 /* LAST MODIFIED - 14/02/22                */
 /* ======================================= */
-/* TITLE
- * FileName.cs*/
+/* UI HEALTH                               */
+/* UIHealth.cs                             */
 /* ======================================= */
-/* Desc        */
+/* Script controls the behaviour of the    */
+/* UI elements to display the players      */
+/* health to the screen.                   */
 /* ======================================= */
 
 // Directives
@@ -98,14 +100,25 @@ public class UIHealth : MonoBehaviour
         }
     }
 
-
-
+    /*
+     * FIXED UPDATE METHOD
+     * 
+     * Method is invoked at regular time intervals.
+     * Invokes the method to display the health
+     * to the screen.
+     */
     private void FixedUpdate()
     {
         // Display the player velocity to the screen
         DisplayPlayerHealth();
     }
 
+    /*
+     * DISPLAY PLAYER HEALTH METHOD
+     * 
+     * Method is used to control how the player
+     * health is displayed to the screen.
+     */
     private void DisplayPlayerHealth()
     {
         // Iterate over all elements of the hearts array
@@ -125,20 +138,37 @@ public class UIHealth : MonoBehaviour
         }
     }
 
+    /*
+     * INCREASE ICONS METHOD
+     * 
+     * Method is used to increase the number of 
+     * icons on the screen.
+     */
     private void IncreaseIcons(int aNumber)
     {
+        // Increment the number of icons by a number
         _numberOfIcons += aNumber;
 
+        // Check if the number of icons is greater than the maximum number of icons
         if (_numberOfIcons > _maxNumberOfIcons)
         {
+            // Set the number of icons to the maximum number of icons
             _numberOfIcons = _maxNumberOfIcons;
         }
 
+        // Reinitialise the heart array
         InitialiseHeartArray();
 
+        // Display the health to the screen after the new update
         DisplayPlayerHealth();
     }
 
+    /*
+     * DECREASE ICONS METHOD
+     * 
+     * Method is used to decrease the number
+     * of icons displayed on screen by a number.
+     */
     private void DecreaseIcons(int aNumber)
     {
         // Decrement the number of icons by the value passed through the argument
@@ -157,5 +187,4 @@ public class UIHealth : MonoBehaviour
         // Display the player velocity
         DisplayPlayerHealth();
     }
-
 }

@@ -3403,6 +3403,7 @@ MonoBehaviour:
   _invinFlashTime: 0.1
   _isMenuObject: 1
   _menuMoveSpeed: 175
+  _colourCooldownTime: 0.5
 --- !u!1 &2074019755
 GameObject:
   m_ObjectHideFlags: 0

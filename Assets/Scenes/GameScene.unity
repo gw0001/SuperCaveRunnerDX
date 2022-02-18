@@ -296,7 +296,7 @@ Transform:
   m_Children:
   - {fileID: 86947467}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &106875470
 MonoBehaviour:
@@ -856,7 +856,6 @@ MonoBehaviour:
   _hardDistanceBegin: 5000
   _insaneDistanceBegin: 100000
   _resultButtonWaitTime: 1.5
-  _gameDifficulty: 0
 --- !u!4 &325606664 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 198111913358041161, guid: 77e7b47298e3dd04b806d8103637e623, type: 3}
@@ -1432,10 +1431,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3003535497509210156, guid: 7aeff8cf193f84845b8f1d13cdb4cee1, type: 3}
-      propertyPath: _teuchterChance
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3003535497509210158, guid: 7aeff8cf193f84845b8f1d13cdb4cee1, type: 3}
       propertyPath: m_Name
       value: Announcer(DISABLE BEFORE BUILDING)
@@ -1446,7 +1441,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3003535497509210159, guid: 7aeff8cf193f84845b8f1d13cdb4cee1, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3003535497509210159, guid: 7aeff8cf193f84845b8f1d13cdb4cee1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1581,7 +1576,7 @@ Transform:
   - {fileID: 321987708}
   - {fileID: 1001429415}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &958402778
 PrefabInstance:
@@ -1688,11 +1683,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fe204709e5615643be9ddad25503913, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _veryEasyDistance: 0
-  _easyDistance: 0
-  _mediumDistance: 0
-  _hardDistance: 0
-  _insaneDistance: 0
 --- !u!1 &1040915809
 GameObject:
   m_ObjectHideFlags: 0
@@ -1767,7 +1757,19 @@ MonoBehaviour:
     m_ActionId: 188f9ed3-f752-4a98-ad26-afbbf24b9c4c
     m_ActionName: PlayerControl/Jump[/Keyboard/space,/Keyboard/r,/Mouse/leftButton]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1353138669}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: ChangeColour
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 885437c1-a4ab-40f4-86a1-36d6590aa1d7
     m_ActionName: PlayerControl/ChangeColour[/Keyboard/ctrl,/Keyboard/f,/Mouse/rightButton]
   - m_PersistentCalls:
@@ -2069,6 +2071,7 @@ MonoBehaviour:
   _obstacleHitSpeedLoss: 0.3
   _invicibilityTime: 2
   _invinFlashTime: 0.07
+  _colourCooldownTime: 0.5
   _isMenuObject: 0
   _menuMoveSpeed: 50
 --- !u!1 &1414443829
@@ -3663,8 +3666,10 @@ MonoBehaviour:
   _jumpHeightBuffer: 0.65
   _jumpDistanceBuffer: 0.7
   _minGapDistance: 10
-  _obstacle: {fileID: 8439211006423000962, guid: 3a1639a4c646f5848b6c3b730ab5226a, type: 3}
+  _obstacles:
+  - {fileID: 8439211006423000962, guid: 3a1639a4c646f5848b6c3b730ab5226a, type: 3}
   _healthItem: {fileID: 5391315453570456209, guid: 3ca73b2e471194747adf60c35fc65ba3, type: 3}
+  _lightGate: {fileID: 4776911971551137168, guid: 301a7f31c10ffad45869d79c7a23eac2, type: 3}
 --- !u!4 &2077560683
 Transform:
   m_ObjectHideFlags: 0

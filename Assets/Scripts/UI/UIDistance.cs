@@ -1,9 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
+/* ======================================= */
+/*          SUPER CAVE RUNNER DX           */
+/*                 V 1.0                   */
+/* ======================================= */
+/* AUTHOR - Graeme White - 2022            */
+/* CREATED - 02/02/22                      */
+/* LAST MODIFIED - 18/02/22                */
+/* ======================================= */
+/* UI DISTANCE                             */
+/* UIDistance.cs                           */
+/* ======================================= */
+/* Script manages the behaviour of the     */
+/* distance text to relay how far the      */
+/* player has travelled.                   */
+/* ======================================= */
+
+// Directives
 using UnityEngine;
 using TMPro;
 
-public class UIController : MonoBehaviour
+public class UIDistance : MonoBehaviour
 {
     // *** VARIABLES *** //
     private PlayerController _player; // Player character

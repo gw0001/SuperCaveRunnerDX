@@ -3,8 +3,8 @@
 /*                 V 1.0                   */
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
-/* CREATED - 05/02/22                      */
-/* LAST MODIFIED - 14/02/22                */
+/* CREATED - 04/02/22                      */
+/* LAST MODIFIED - 18/02/22                */
 /* ======================================= */
 /* GROUND MANAGER                          */
 /* GroundManager.cs                        */
@@ -15,8 +15,6 @@
 /* ======================================= */
 
 // Directives
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GroundManager : MonoBehaviour
@@ -44,8 +42,9 @@ public class GroundManager : MonoBehaviour
     [SerializeField] private float _jumpHeightBuffer = 0.7f; // Jump height buffer
     [SerializeField] private float _jumpDistanceBuffer = 0.7f; // Jump distance buffer
     [SerializeField] private float _minGapDistance = 10f; // Minium gap distance
-    [SerializeField] private GameObject _obstacle; // Obstacle
+    [SerializeField] private GameObject[] _obstacles; // Obstacles array
     [SerializeField] private GameObject _healthItem; // Health item
+    [SerializeField] private GameObject _lightGate;
 
     // *** VARIABLE *** //
     private GameState _gameState; // Game state object
@@ -151,6 +150,14 @@ public class GroundManager : MonoBehaviour
         }
     }
 
+    /*
+     * UPDATE METHOD
+     * 
+     * Method is invoked at each frame.
+     * 
+     * Cheap hacky method to ensure the game state
+     * is obtained from the scene.
+     */
     private void Update()
     {
         // Check if the game state is null
@@ -390,11 +397,16 @@ public class GroundManager : MonoBehaviour
     /*
      * RETURN OBSTACLE METHOD
      * 
-     * Method returns an obstacle... - WILL NEED TO UPDATE THIS ONE WITH AN ARRAY TO SELECT RANDOM OBSTACLES
+     * Method returns a random obstacle
+     * from the obstacles array.
      */
     public GameObject ReturnObstacle()
     {
-        return _obstacle;
+        // Create a random index number
+        int randomIndex = Random.Range(0, _obstacles.Length);
+
+        // Return the obstacle at the random index number
+        return _obstacles[randomIndex];
     }
 
     /*
@@ -431,5 +443,10 @@ public class GroundManager : MonoBehaviour
     public GameObject ReturnHealthItem()
     {
         return _healthItem;
+    }
+
+    public GameObject ReturnLightGate()
+    {
+        return _lightGate;
     }
 }

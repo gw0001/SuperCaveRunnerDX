@@ -3,7 +3,7 @@
 /*                 V 1.0                   */
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
-/* CREATED - 08/02/22                      */
+/* CREATED - 07/02/22                      */
 /* LAST MODIFIED - 08/02/22                */
 /* ======================================= */
 /* CONTROL SCEHEME                         */
@@ -19,8 +19,9 @@ using UnityEngine.InputSystem;
 
 public class ControlScheme : MonoBehaviour
 {
-    [SerializeField] private PlayerInput _playerInput; // Player Input component
-    [SerializeField] private string _playerControlScheme; // Player control scheme string
+    // *** VARIABLES *** //
+    private PlayerInput _playerInput; // Player Input component
+    private string _playerControlScheme; // Player control scheme string
 
     /*
      * PLAYER CONTROL SCHEME GET METHOD
@@ -54,8 +55,14 @@ public class ControlScheme : MonoBehaviour
         _playerControlScheme = _playerInput.currentControlScheme;
     }
 
-    // Update is called once per frame
-    void Update()
+    /*
+     * FIXED UPDATE METHOD
+     * 
+     * Method is invoked at fixed time intervals.
+     * Obtains the control scheme used by 
+     * the player
+     */
+    void FixedUpdate()
     {
         // Obtain the control scheme based on the player's current control scheme
         _playerControlScheme = _playerInput.currentControlScheme;

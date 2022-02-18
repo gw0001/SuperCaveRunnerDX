@@ -19,6 +19,7 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour
 {
+    // *** OBSTACLE VARIABLES *** //
     private PlayerController _player; // Player object
     private ScreenInfo _screenInfo; // Screen info object
     private float _halfHeight; // Half height

@@ -4,7 +4,7 @@
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
 /* CREATED - 11/02/22                      */
-/* LAST MODIFIED - 13/02/22                */
+/* LAST MODIFIED - 18/02/22                */
 /* ======================================= */
 /* TITLE SCREEN MANAGER                    */
 /* TitleScreenManager.cs                   */
@@ -19,9 +19,12 @@ using UnityEngine.UI;
 
 public class TitleScreenManager : MonoBehaviour
 {
+    // *** TITLE SCREEN SETTINGS *** //
+    [Header ("Title screen settings")]
     [SerializeField] private float _screenFadeTime = 2f; // Screen fade time
     [SerializeField] private float _titleAppearTime = 2f; // Title appear time
 
+    // *** VARIABLES *** //
     private Image _fadeImage; // Fade image
     private Image _titleImage; // Title image 
     private GameObject _pressStart; // Press start game object
@@ -147,7 +150,7 @@ public class TitleScreenManager : MonoBehaviour
                     _pressStart.SetActive(true);
 
                     // Play the title sound effect
-                    _announcerVoice.GameAnnouncer.PlaySound(2);
+                    _announcerVoice.GameAnnouncer.PlaySound(0);
 
                     // Set main title played to true
                     _mainTitlePlayed = true;
@@ -156,8 +159,11 @@ public class TitleScreenManager : MonoBehaviour
                 // Check if the title appear time is greater than sum of the appear time and "super cave runner" time, and main title played is true and d played is false
                 if (_titleAppearTimer >= (_titleAppearTime + _announcerVoice.GameAnnouncer.SuperCaveRunnerTime) && _mainTitlePlayed && !_dPlayed)
                 {
+                    // Stop any current audio from the announcer
+                    _announcerVoice.GameAnnouncer.Stop();
+
                     // Play the "D" sound effect
-                    _announcerVoice.GameAnnouncer.PlaySound(3, true);
+                    _announcerVoice.GameAnnouncer.PlaySound(1);
 
                     // Set d played to true
                     _dPlayed = true;
@@ -166,8 +172,11 @@ public class TitleScreenManager : MonoBehaviour
                 // Check if the title appear time is greater than sum of the appear time, "super cave runner" time and "D" time, and main title played is true and d played is false
                 if (_titleAppearTimer >= (_titleAppearTime + _announcerVoice.GameAnnouncer.SuperCaveRunnerTime + +_announcerVoice.GameAnnouncer.DTime) && _mainTitlePlayed && _dPlayed && !_xPlayed)
                 {
+                    // Stop any current audio from the announcer
+                    _announcerVoice.GameAnnouncer.Stop();
+
                     // Play the "X" voice
-                    _announcerVoice.GameAnnouncer.PlaySound(4, true);
+                    _announcerVoice.GameAnnouncer.PlaySound(2);
 
                     // Set x played boolean to true
                     _xPlayed = true;
@@ -233,7 +242,7 @@ public class TitleScreenManager : MonoBehaviour
                     _pressStart.SetActive(true);
 
                     // Play the title sound effect
-                    _announcerVoice.GameAnnouncer.PlaySound(2);
+                    _announcerVoice.GameAnnouncer.PlaySound(0);
 
                     // Set the main title boolean played to true
                     _mainTitlePlayed = true;

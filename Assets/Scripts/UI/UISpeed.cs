@@ -1,5 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
+/* ======================================= */
+/*          SUPER CAVE RUNNER DX           */
+/*                 V 1.0                   */
+/* ======================================= */
+/* AUTHOR - Graeme White - 2022            */
+/* CREATED - 10/02/22                      */
+/* LAST MODIFIED - 14/02/22                */
+/* ======================================= */
+/* UI SPEED                                */
+/* UISpeed.cs                              */
+/* ======================================= */
+/* Script controls the UI elements used    */
+/* to display the players speed on screen. */
+/* ======================================= */
+
+// Directives
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -161,6 +175,12 @@ public class UISpeed : MonoBehaviour
         }
     }
 
+    /*
+     * INCREASE ICONS METHOD
+     * 
+     * Method is used to increase the number
+     * of icons on screen by a number.
+     */
     private void IncreaseIcons(int aNumber)
     {
         // Increment the number of icons by the value passed through the argument
@@ -180,7 +200,12 @@ public class UISpeed : MonoBehaviour
         DisplayPlayerVelocity();
     }
 
-
+    /*
+     * DECREASE ICONS METHOD
+     * 
+     * Method is used to decrease the speed
+     * icons on the screen by a number.
+     */
     private void DecreaseIcons(int aNumber)
     {
         // Decrement the number of icons by the value passed through the argument

@@ -4,36 +4,25 @@
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
 /* CREATED - 13/02/22                      */
-/* LAST MODIFIED - 14/02/22                */
+/* LAST MODIFIED - 18/02/22                */
 /* ======================================= */
-/* TITLE
- * FileName.cs*/
+/* GAME STATE                              */
+/* GameState.cs                            */
 /* ======================================= */
-/* Desc        */
+/* Script controls the state and behaviour */
+/* of the game.                            */
 /* ======================================= */
 
 // Directives
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using TMPro;
 
 public class GameState : MonoBehaviour
 {
-    /*
-     * DIFFICULTY ENUMERATOR
-     */
-    public enum Difficulty
-    {
-        veryEasy,
-        easy,
-        medium,
-        hard,
-        insane
-    }
-
     // *** SERIALISED GAME SETTINGS *** //
+    [Header ("Game Settings")]
     [SerializeField] private float _waitTime; // Wait time
     [SerializeField] private float _goTime; // Go time
     [SerializeField] private string _readyMessage = "READY..."; // Ready message for the player
@@ -56,17 +45,25 @@ public class GameState : MonoBehaviour
     private GameObject _healthUI; // Health UI game object
     private GameObject _speedUI; // Speed UI game object
     private GameObject _distanceUI; // Distance UI game object
-
     private float _resultButtonWaitTimer; // Button wait timer
     private float _timer; // Timer
-
     private bool _gameStarted; // Game started boolean
     private bool _gameEnded; // Game ended boolean
     private bool _canPressButton; // Can press button boolean
     private bool _resultsDisplayed; // Result displayed boolean
     private bool _readySoundPlayed; // Ready sound played boolean
     private bool _goSoundPlayed; // Go sound played boolean
-    [SerializeField] private Difficulty _gameDifficulty; // Game Difficulty
+    private Difficulty _gameDifficulty; // Game Difficulty
+
+    // Difficulty enumerator
+    public enum Difficulty
+    {
+        veryEasy,
+        easy,
+        medium,
+        hard,
+        insane
+    }
 
     /*
      * GAME DIFFICULTY GET METHOD
@@ -223,6 +220,8 @@ public class GameState : MonoBehaviour
 
     /*
      * FIXED UPDATE METHOD
+     * 
+     * Method is invoked at fixed time intervals.
      */
     private void FixedUpdate()
     {
@@ -239,8 +238,11 @@ public class GameState : MonoBehaviour
             // Check if the ready sound hasn't been played
             if(!_readySoundPlayed)
             {
+                // Stop any audio the announcer may be saying
+                _announcer.GameAnnouncer.Stop();
+
                 // Play the "Ready" sound effect from the announcer
-                _announcer.GameAnnouncer.PlaySound(5, true);
+                _announcer.GameAnnouncer.PlaySound(3);
 
                 // Set the ready sound played boolean to true
                 _readySoundPlayed = true;
@@ -258,8 +260,11 @@ public class GameState : MonoBehaviour
                 // Check if the go sound hasn't been played
                 if (!_goSoundPlayed)
                 {
+                    // Stop any audio the announcer may be saying
+                    _announcer.GameAnnouncer.Stop();
+
                     // Play the "Go" sound effect from the announcer
-                    _announcer.GameAnnouncer.PlaySound(6);
+                    _announcer.GameAnnouncer.PlaySound(4);
 
                     // Set the go sound played boolean to true
                     _goSoundPlayed = true;

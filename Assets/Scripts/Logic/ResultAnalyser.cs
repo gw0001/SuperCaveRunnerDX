@@ -18,13 +18,15 @@ using UnityEngine;
 
 public class ResultAnalyser : MonoBehaviour
 {
+    // *** VARIABLES ***//
     private PlayerController _player; // Player object
     private GameState _gameState; // Game state object
-    [SerializeField] private int _veryEasyDistance; // Poor distance
-    [SerializeField] private int _easyDistance; // Decent distance
-    [SerializeField] private int _mediumDistance; // Good Distance
-    [SerializeField] private int _hardDistance; // Excelent Distance
-    [SerializeField] private int _insaneDistance; // Insane Distance
+    private int _veryEasyDistance; // Poor distance
+    private int _easyDistance; // Decent distance
+    private int _mediumDistance; // Good Distance
+    private int _hardDistance; // Excelent Distance
+    private int _insaneDistance; // Insane Distance
+
 
     private void Awake()
     {

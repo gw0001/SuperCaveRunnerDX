@@ -44,15 +44,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7f2f535e94af384e90957130aa00fd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _super: {fileID: 8300000, guid: 56569ce4a99e6fb4e99c3427dc2bb453, type: 3}
-  _caveRunner: {fileID: 8300000, guid: 7edbdafc841f30546ba13d14523a928c, type: 3}
-  _title: {fileID: 8300000, guid: 72574a27b0fb59f438f7e0132177b14e, type: 3}
-  _d: {fileID: 8300000, guid: ebdb12240d0ea034484c22742eb64530, type: 3}
-  _x: {fileID: 8300000, guid: 31bb98c6019d4cb4e889bcf2c01a526e, type: 3}
-  _ready: {fileID: 8300000, guid: b0aeaa86a39e34d49b93994bf3ee558a, type: 3}
-  _go: {fileID: 8300000, guid: 34763f0a8f98be5429451a3d77918db8, type: 3}
   _announcerAudio: {fileID: 0}
   _voiceType: 0
   _superCaveRunnerTime: 3.75
   _dTime: 0.75
-  _numberOfClips: 7
+  _audio:
+  - {fileID: 8300000, guid: 72574a27b0fb59f438f7e0132177b14e, type: 3}
+  - {fileID: 8300000, guid: ebdb12240d0ea034484c22742eb64530, type: 3}
+  - {fileID: 8300000, guid: 31bb98c6019d4cb4e889bcf2c01a526e, type: 3}
+  - {fileID: 8300000, guid: b0aeaa86a39e34d49b93994bf3ee558a, type: 3}
+  - {fileID: 8300000, guid: 34763f0a8f98be5429451a3d77918db8, type: 3}

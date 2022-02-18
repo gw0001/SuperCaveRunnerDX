@@ -3,8 +3,8 @@
 /*                 V 1.0                   */
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
-/* CREATED - 04/02/22                      */
-/* LAST MODIFIED - 14/02/22                */
+/* CREATED - 01/02/22                      */
+/* LAST MODIFIED - 18/02/22                */
 /* ======================================= */
 /* GROUND                                  */
 /* Ground.cs                               */
@@ -19,16 +19,16 @@ using UnityEngine;
 public class Ground : MonoBehaviour
 {
     // *** SERIALIZED VARIABLES *** //
-    [Header("Standard Ground Settings")]
+    [Header("Ground feature settings")]
     [SerializeField] private bool _canFeatureObstacles; // Can feature obstacles
-    [SerializeField] private bool _willFeatureObstacles; // Will feature obstacles
     [SerializeField] private bool _canFeatureHealth; // Can feature health boolean
-    [SerializeField] private bool _willFeatureHealth; // Will feature health boolean
+    [SerializeField] private bool _canFeatureLightGate; // Can feature light gate
     [SerializeField, Range(0, 3)] private int _minNumberOfObstacles; // Maximum number of obstacles
     [SerializeField, Range(1, 5)] private int _maxNumberOfObstacles; // Maximum number of obstacles
     [SerializeField, Range(0f, 1f)] private float _safeAreaFromLeft = 0.5f; // Safe area from the left side of the ground
     [SerializeField, Range(0f, 1f)] private float _safeAreaFromRight = 0.5f; // Safa area from the right side of the ground
     [SerializeField, Range(0f, 1f)] private float _obstacleChance = 0.5f; // The chance value for obstacles to appear on the ground
+    [SerializeField, Range(0f, 1f)] private float _lightGateChance = 0.5f; // The chance value for obstacles to appear on the ground
     [SerializeField, Range(0f, 1f)] private float _healthChance = 0.5f; // The chance value for health to appear on the ground
     [SerializeField, Range(0f, 1f)] private float _platformChance = 0.5f; // The chance value for health to appear on the ground
 
@@ -45,6 +45,9 @@ public class Ground : MonoBehaviour
     private bool _hasGeneratedGround = false; // Has generated ground boolean
     private bool _atMaxHeight = false; // At max height boolean
     private bool _atMinHeight = false; // At min height boolean
+    [SerializeField] private bool _willFeatureObstacles; // Will feature obstacles
+    [SerializeField] private bool _willFeatureHealth; // Will feature health boolean
+    [SerializeField] private bool _willFeatureLightGate; // Will feature light gate boolean
 
     /*
      * WILL FEATURE OBSTACLES GET METHOD
@@ -75,6 +78,21 @@ public class Ground : MonoBehaviour
     }
 
     /*
+     * WILL FEATURE LIGHT GATE METHOD
+     * 
+     * Method returns the boolean value
+     * held by the will feature light
+     * gate variable.
+     */
+    public bool WillFeatureLightGate
+    {
+        get
+        {
+            return _willFeatureLightGate;
+        }
+    }
+
+    /*
      * SAFE AREA FROM LEFT GET METHOD
      * 
      * Method returns the float value held by
@@ -101,7 +119,6 @@ public class Ground : MonoBehaviour
             return _safeAreaFromRight;
         }
     }
-
 
     /*
      * GROUND HEIGHT GET METHOD
@@ -144,7 +161,6 @@ public class Ground : MonoBehaviour
             return _halfHeight;
         }
     }
-
 
     /*
      * AT MAX HEIGHT GET METHOD
@@ -250,6 +266,17 @@ public class Ground : MonoBehaviour
             _willFeatureObstacles = willFeatureObstacles == 0 ? false : true;
         }
 
+
+        if(_canFeatureLightGate)
+        {
+            // Randomly determine if the ground object will feature obstacles
+            int willFeatureLightGate = Random.Range(0, 2);
+
+            // Convert integer value to boolean value
+            _willFeatureLightGate = willFeatureLightGate == 0 ? false : true;
+        }
+
+
         // 3.
         if(_willFeatureHealth && _willFeatureObstacles)
         {
@@ -332,7 +359,11 @@ public class Ground : MonoBehaviour
     /*
      * GENERATE GROUND METHOD
      * 
-     * 
+     * Method determines if the next 
+     * object is a ground object or a 
+     * platform object and populates the 
+     * object with obstacles, light gates,
+     * or a health item.
      */
     public void GenerateGround()
     {
@@ -342,9 +373,10 @@ public class Ground : MonoBehaviour
         // Determine the chance that the new ground object will be a platform
         float chance = Random.Range(0f, 1f);
 
-        // 
+        // Check if the chance value is less than the platform chance value
         if(chance < _platformChance)
         {
+            // Set is ground object to false
             isGroundObject = false;
         }
 
@@ -472,6 +504,12 @@ public class Ground : MonoBehaviour
             // Add health item to the ground
             AddHealth(newGameObject);
         }
+
+        // Check if the new game object will feature light gates
+        if(newGameObject.GetComponent<Ground>().WillFeatureLightGate)
+        {
+            AddLightGate(newGameObject);
+        }
     }
 
     /*
@@ -595,10 +633,9 @@ public class Ground : MonoBehaviour
      * one health item to the 
      * ground/platform.
      */
-
     private void AddHealth(GameObject newGround)
     {
-        // Create an instance of the obstacle
+        // Create an instance of the health item
         GameObject healthItem = Instantiate(_groundManager.ReturnHealthItem());
 
         // New position vector
@@ -625,8 +662,64 @@ public class Ground : MonoBehaviour
         // Set the X component of the position vector
         position.x = healthItemXPosition;
 
-        // Set the transform of the obtstacle
+        // Set the transform of the health item
         healthItem.transform.position = position;
+    }
+
+    /*
+     * ADD LIGHT GATE METHOD
+     * 
+     * Method is used to add a light gate to
+     * a new ground object.
+     */
+    private void AddLightGate(GameObject newGround)
+    {
+        // Create an instance of the obstacle
+        GameObject lightGate = Instantiate(_groundManager.ReturnLightGate());
+
+        // Invoke the find components method for the light gate
+        lightGate.GetComponent<LightGate>().FindComponents();
+
+        // Invoke the initialise components method for the light gate
+        lightGate.GetComponent<LightGate>().InitialiseComponents();
+
+        // New position vector
+        Vector2 position;
+
+        // Determine the Y position of the 
+        position.y = newGround.GetComponent<Ground>().GroundHeight;
+
+        // Determine the left side of the ground object with half with width of the light gate
+        float leftSide = newGround.transform.position.x - newGround.GetComponent<Ground>().HalfWidth + lightGate.GetComponent<LightGate>().HalfWidth;
+
+        // Determine the right side of the ground object with half the width of the light gate
+        float rightSide = newGround.transform.position.x + newGround.GetComponent<Ground>().HalfWidth - lightGate.GetComponent<LightGate>().HalfWidth;
+
+        // Determine the middle of the new ground object
+        float middle = newGround.transform.position.x;
+
+        // Determine a random integer from 0 (inclusive) to 3 (exclusive)
+        int randomInt = Random.Range(0, 3);
+
+        // Check the value of the random integer
+        if (randomInt == 0)
+        {
+            // Set the x position to the left side of the new ground object
+            position.x = leftSide;
+        }
+        else if (randomInt == 1)
+        {
+            // Set the position to the middle of the new ground object
+            position.x = middle;
+        }
+        else
+        {
+            // Set the position to the right side of the game object
+            position.x = rightSide;
+        }
+
+        // Set the transform of the light gate
+        lightGate.transform.position = position;
     }
 
     /*

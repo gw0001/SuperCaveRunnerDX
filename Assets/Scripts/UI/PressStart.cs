@@ -1,14 +1,28 @@
+/* ======================================= */
+/*          SUPER CAVE RUNNER DX           */
+/*                 V 1.0                   */
+/* ======================================= */
+/* AUTHOR - Graeme White - 2022            */
+/* CREATED - 12/02/22                      */
+/* LAST MODIFIED - 18/02/22                */
+/* ======================================= */
+/* PRESS START                             */
+/* PressStart.cs                           */
+/* ======================================= */
+/* Script manages the press start text     */
+/* that appears on the title screen.       */
+/* ======================================= */
+
+// Directives
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using TMPro;
-
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PressStart : MonoBehaviour
 {
     // *** SERIALIZED CLASS VARIABLES *** //
-
     [Header ("Press Start settings")]
     [SerializeField] private ControlScheme _controlScheme;
     [SerializeField] private float _waitTime = 2f;
@@ -18,23 +32,19 @@ public class PressStart : MonoBehaviour
     [SerializeField] private float _onOffTime = 0.2f;
     [SerializeField] private float _disappearTime = 2.0f;
 
-    private SoundEffect _startSound;
-    private bool _soundEffectPlayed;
-
     // *** VARIABLES *** //
     private ButtonSpriteManager _buttonManager; // Button manager object
     private TextMeshProUGUI _startText; // Start text object
     private Image _startButton; // Start button image button
-
+    private SoundEffect _startSound; // Start sound effect
     private Color _visible = new Vector4(1f, 1f, 1f, 1f); // Visible colour
     private Color _invisible = new Vector4(1f, 1f, 1f, 0f); // Invisible colour
     private string _playerDevice; // Player device string
-
+    private bool _soundEffectPlayed; // Sound effect played boolean
     private bool _textOnScreen = false; // Text on screen boolean - initialised to false
     private bool _beginFade = false; // Begin Fade boolean - initialised to false
-    private bool _canPressButton = false;
+    private bool _canPressButton = false; // Can press button initialised to false
     private bool _buttonPressed = false; // Button pressed boolean - initialised to false
-
     private float _waitTimer = 0f; // Wait timer initialised to 0 seconds
     private float _fadeTimer = 0f; // Fade timer initialised to 0 seconds
     private float _textTimer = 0f; // Text timer initialised to 0 seconds
@@ -70,6 +80,11 @@ public class PressStart : MonoBehaviour
 
     /*
      * UPDATE METHOD
+     * 
+     * Method is invoked at each frame.
+     * 
+     * Method handles how the "press start" text
+     * appears on screen.
      */
     private void Update()
     {
@@ -179,8 +194,6 @@ public class PressStart : MonoBehaviour
                 // Set the sound effect played boolean to true
                 _soundEffectPlayed = true;
             }
-
-
         }
     }
 

@@ -18,8 +18,15 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
+    // *** SERIALISED VARIABLE ***//
     [SerializeField] private AudioSource _musicSource; // Music source
 
+    /*
+     * AWAKE METHOD
+     * 
+     * Method is invoked when the script is first
+     * awoken.
+     */
     private void Awake()
     {
         // Ensure the music object can be obtained from
@@ -61,7 +68,6 @@ public class MusicManager : MonoBehaviour
      * 
      * When invoked, the music is stopped.
      */
-
     public void StopMusic()
     {
         _musicSource.Stop();
