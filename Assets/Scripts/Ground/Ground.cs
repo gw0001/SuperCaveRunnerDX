@@ -582,7 +582,7 @@ public class Ground : MonoBehaviour
         }
 
         // Check if the current game object has a light gate
-        if(this._willFeatureLightGate)
+        if(_willFeatureLightGate)
         {
             // Prevent generation of light gate on new ground object
             newGameObject.GetComponent<Ground>().WillFeatureLightGate = false;

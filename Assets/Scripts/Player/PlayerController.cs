@@ -62,8 +62,8 @@ public class PlayerController : MonoBehaviour
     private bool _gameStarted; // Game started boolean
     private bool _hasHitGround; // Has hit ground boolean
     private bool _isColourOne = true; // Is colour one initialised to true
-    private Color _colourOne = new Color(0.337f, 0.705f, 0.913f, 1.0f); // Colour One
-    private Color _colourTwo = new Color(0.901f, 0.623f, 0.0f, 1.0f); // Colour One
+    //private Color _colourOne = new Color(0.337f, 0.705f, 0.913f, 1.0f); // Colour One
+    //private Color _colourTwo = new Color(0.901f, 0.623f, 0.0f, 1.0f); // Colour One
     private float _colourCooldownTimer; // Colour cool down timer
     private bool _canChangeColour = true; // Can change colour
     private bool _hasChangedColour = false; // Has changed colour
@@ -74,6 +74,7 @@ public class PlayerController : MonoBehaviour
         idle,
         running,
         inAir,
+        dying,
         dead
     }
 
@@ -308,6 +309,20 @@ public class PlayerController : MonoBehaviour
     }
 
     /*
+     * IS COLOUR ONE GET METHOD
+     * 
+     * Method returns the boolean value held
+     * by the is colour one variable.
+     */
+    public bool IsColourOne
+    {
+        get
+        {
+            return _isColourOne;
+        }
+    }
+
+    /*
      * AWAKE METHOD
      * 
      * Method is invoked when the script is 
@@ -371,7 +386,7 @@ public class PlayerController : MonoBehaviour
             _velocity.x = _menuMoveSpeed;
         }
 
-        _playerSprite.color = _colourOne;
+        //_playerSprite.color = _colourOne;
 
         // Set the can change colour to true
         _canChangeColour = true;
@@ -405,8 +420,10 @@ public class PlayerController : MonoBehaviour
                 // Check if the player has fallen off the screen
                 if (position.y <= _screenInfo.BottomEdge - HalfHeight)
                 {
+                    // Check if the last collision is not with the ground
                     if(_lastCollision != LastCollision.ground)
                     {
+                        // Set last collision to pit
                         _lastCollision = LastCollision.pit;
                     }
 
@@ -430,18 +447,6 @@ public class PlayerController : MonoBehaviour
                 // Check if colour has changed
                 if (_hasChangedColour)
                 {
-                    // Check colour
-                    if (_isColourOne)
-                    {
-                        // Set the colour to colour one
-                        _playerSprite.color = _colourOne;
-                    }
-                    else
-                    {
-                        // Set the colour to colour two
-                        _playerSprite.color = _colourTwo;
-                    }
-
                     // Increment the cool down timer by the fixed time increment
                     _colourCooldownTimer += Time.fixedDeltaTime;
 
@@ -523,10 +528,14 @@ public class PlayerController : MonoBehaviour
                 // Draw the ray in the scene view
                 Debug.DrawRay(crashRayOrigin, Vector2.right * (HalfWidth + 0.1f), Color.cyan);
 
-                RaycastHit2D obstHitY = Physics2D.Raycast(crashRayOrigin, Vector2.up, VerticalVelocity * Time.fixedDeltaTime);
-                if (obstHitY.collider != null)
+                // Cast crash ray downwards
+                RaycastHit2D crashDown= Physics2D.Raycast(crashRayOrigin, Vector2.up, VerticalVelocity * Time.fixedDeltaTime);
+                
+                // Check if the crash down collider exists
+                if (crashDown.collider != null)
                 {
-                    Obstacle obstacle = obstHitY.collider.GetComponent<Obstacle>();
+                    // Obtain an obstacle from the crash down collider
+                    Obstacle obstacle = crashDown.collider.GetComponent<Obstacle>();
 
                     // Check obstacle exists
                     if (obstacle != null)
@@ -582,7 +591,6 @@ public class PlayerController : MonoBehaviour
                     RaycastHit2D hit2D = Physics2D.Raycast(groundCheckRayOrigin, groundCheckRayDirection, groundCheckRayDistance);
 
                     // Check if the collider exists and the X value of the collision point is the same as the X value of the ray origin
-                    //if (hit2D.collider != null && hit2D.point.x == groundCheckRayOrigin.x)
                     if (hit2D.collider != null && !_hasHitGround)
                     {
                         // Obtain the ground object from the collision

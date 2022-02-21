@@ -27,11 +27,10 @@ public class GameState : MonoBehaviour
     [SerializeField] private float _goTime; // Go time
     [SerializeField] private string _readyMessage = "READY..."; // Ready message for the player
     [SerializeField] private string _goMessage = "GO!!"; // Go message for the player
-    [SerializeField] private int _veryEasyDistanceBegin; // Very easy distance
-    [SerializeField] private int _easyDistanceBegin; // Easy distance begin
-    [SerializeField] private int _mediumDistanceBegin; // Medium distance begin
-    [SerializeField] private int _hardDistanceBegin; // Hard distance begin
-    [SerializeField] private int _insaneDistanceBegin; // Insane distance begin
+    [SerializeField] private int _easyDistance; // Easy distance begin
+    [SerializeField] private int _mediumDistance; // Medium distance begin
+    [SerializeField] private int _hardDistance; // Hard distance begin
+    [SerializeField] private int _insaneDistance; // Insane distance begin
     [SerializeField] private float _resultButtonWaitTime = 2f; // Button wait time
 
     // *** VARIABLES *** //
@@ -80,20 +79,6 @@ public class GameState : MonoBehaviour
     }
 
     /*
-     * VERY EASY DISTANCE GET METHOD
-     * 
-     * Method returns the value held by the
-     * very easy distance variable
-     */
-    public int VeryEasyDistance
-    {
-        get
-        {
-            return _veryEasyDistanceBegin;
-        }
-    }
-
-    /*
      * EASY DISTANCE GET METHOD
      * 
      * Method returns the value held by the 
@@ -103,7 +88,7 @@ public class GameState : MonoBehaviour
     {
         get
         {
-            return _easyDistanceBegin;
+            return _easyDistance;
         }
     }
 
@@ -117,7 +102,7 @@ public class GameState : MonoBehaviour
     {
         get
         {
-            return _mediumDistanceBegin;
+            return _mediumDistance;
         }
     }
 
@@ -131,7 +116,7 @@ public class GameState : MonoBehaviour
     {
         get
         {
-            return _hardDistanceBegin;
+            return _hardDistance;
         }
     }
 
@@ -145,7 +130,7 @@ public class GameState : MonoBehaviour
     {
         get
         {
-            return _insaneDistanceBegin;
+            return _insaneDistance;
         }
     }
 
@@ -388,31 +373,32 @@ public class GameState : MonoBehaviour
         int distance = Mathf.FloorToInt(_player.Distance);
 
         // Check the state of the distance agains the other 
-        if (distance >= _veryEasyDistanceBegin && distance < _easyDistanceBegin)
+        if (distance < _easyDistance)
         {
-            // Set the difficulty to easy
+            // Set the difficulty to very easy
             difficulty = Difficulty.veryEasy;
         }
-        if (distance >= _easyDistanceBegin && distance < _mediumDistanceBegin)
+        else if (distance >= _easyDistance && distance < _mediumDistance)
         {
             // Set the difficulty to easy
             difficulty = Difficulty.easy;
         }
-        else if(distance >= _mediumDistanceBegin && distance < _hardDistanceBegin)
+        else if (distance >= _mediumDistance && distance < _hardDistance)
         {
             // Set the difficulty to medium
             difficulty = Difficulty.medium;
         }
-        else if(distance >= _hardDistanceBegin && distance < _insaneDistanceBegin)
+        else if (distance >= _hardDistance && distance < _insaneDistance)
         {
             // Set the difficulty to hard
             difficulty = Difficulty.hard;
         }
-        else if(distance >= _insaneDistanceBegin)
+        else if (distance >= _insaneDistance)
         {
             // Set the difficulty to insane
             difficulty = Difficulty.insane;
         }
+
 
         // Return difficulty
         return difficulty;

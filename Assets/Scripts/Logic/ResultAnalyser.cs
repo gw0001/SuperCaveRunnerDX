@@ -21,10 +21,9 @@ public class ResultAnalyser : MonoBehaviour
     // *** VARIABLES ***//
     private PlayerController _player; // Player object
     private GameState _gameState; // Game state object
-    private int _veryEasyDistance; // Poor distance
-    private int _easyDistance; // Decent distance
-    private int _mediumDistance; // Good Distance
-    private int _hardDistance; // Excelent Distance
+    private int _easyDistance; // Easy distance
+    private int _mediumDistance; // Medium Distance
+    private int _hardDistance; // Hard Distance
     private int _insaneDistance; // Insane Distance
 
     private void Awake()
@@ -36,7 +35,6 @@ public class ResultAnalyser : MonoBehaviour
         _gameState = GameObject.FindObjectOfType<GameState>();
 
         // Set distances from the game state object
-        _veryEasyDistance = _gameState.VeryEasyDistance;
         _easyDistance = _gameState.EasyDistance;
         _mediumDistance = _gameState.MediumDistance;
         _hardDistance = _gameState.HardDistance;
@@ -143,34 +141,29 @@ public class ResultAnalyser : MonoBehaviour
         string additionalComment = "\n\n";
 
         // Check the distance against the cut off points
-        if (distance < _veryEasyDistance)
+        if (distance < _easyDistance)
         {
-            // Display the message for a poor distance
+            // Display the message for failing at very easy difficulty
             additionalComment += "C'MON! YOU CAN DO BETTER THAN THAT!!";
         }
-        else if (distance >= _veryEasyDistance && distance < _easyDistance)
+        else if (distance >= _easyDistance && distance < _mediumDistance)
         {
-            // Display the message for a poor to decent distance
-            additionalComment += "YOU DIDN'T GET VERY FAR, BUT I'M SURE YOU CAN DO BETTER NEXT TIME!!";
-        }
-        else if (distance > _easyDistance && distance < _mediumDistance)
-        {
-            // Display the message for a decent to good distance
+            // Display the message for failing at easy difficulty
             additionalComment += "YOU'RE GETTING THE HANG OF IT, KEEP TRYING!!";
         }
-        else if (distance >= _mediumDistance && distance < _hardDistance)
+        else if (distance > _mediumDistance && distance < _hardDistance)
         {
-            // Display the message for a good to excellent distance
+            // Display the message for failing at medium difficulty
             additionalComment += "GOOD DISTANCE, YOU'RE PRETTY GOOD!!";
         }
         else if (distance >= _hardDistance && distance < _insaneDistance)
         {
-            // Display the message for excellent to an insane
+            // Display the message for failing at hard difficulty
             additionalComment += "WOW! NOW THAT'S FAR! THANKS FOR PLAYING!!";
         }
         else if (distance >= _insaneDistance)
         {
-            // Display a message for an insane distance
+            // Display a message for at insane difficulty
             additionalComment += "HOW IN THE WORLD DID YOU GET THIS FAR!? I HOPE YOU REALISE THERE IS NO END TO THIS GAME!!";
         }
 
