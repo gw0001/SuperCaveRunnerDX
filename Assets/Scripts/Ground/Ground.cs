@@ -4,7 +4,7 @@
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
 /* CREATED - 01/02/22                      */
-/* LAST MODIFIED - 18/02/22                */
+/* LAST MODIFIED - 22/02/22                */
 /* ======================================= */
 /* GROUND                                  */
 /* Ground.cs                               */
@@ -20,11 +20,11 @@ public class Ground : MonoBehaviour
 {
     // *** SERIALIZED VARIABLES *** //
     [Header("Ground feature settings")]
-    [SerializeField] private bool _canFeatureObstacles; // Can feature obstacles
-    [SerializeField] private bool _canFeatureHealth; // Can feature health boolean
-    [SerializeField] private bool _canFeatureLightGate; // Can feature light gate
+    [SerializeField] private bool _canFeatureObstacles = false; // Can feature obstacles
+    [SerializeField] private bool _canFeatureHealth = false; // Can feature health boolean
+    [SerializeField] private bool _canFeatureLightGate = false; // Can feature light gate
     [SerializeField, Range(0, 3)] private int _minNumberOfObstacles; // Maximum number of obstacles
-    [SerializeField, Range(1, 5)] private int _maxNumberOfObstacles; // Maximum number of obstacles
+    [SerializeField, Range(0, 4)] private int _maxNumberOfObstacles; // Maximum number of obstacles
     [SerializeField, Range(0f, 1f)] private float _safeAreaFromLeft = 0.5f; // Safe area from the left side of the ground
     [SerializeField, Range(0f, 1f)] private float _safeAreaFromRight = 0.5f; // Safa area from the right side of the ground
     [SerializeField, Range(0f, 1f)] private float _obstacleChance = 0.5f; // The chance value for obstacles to appear on the ground
@@ -45,9 +45,11 @@ public class Ground : MonoBehaviour
     private bool _hasGeneratedGround = false; // Has generated ground boolean
     private bool _atMaxHeight = false; // At max height boolean
     private bool _atMinHeight = false; // At min height boolean
-    [SerializeField] private bool _willFeatureObstacles; // Will feature obstacles
-    [SerializeField] private bool _willFeatureHealth; // Will feature health boolean
-    [SerializeField] private bool _willFeatureLightGate; // Will feature light gate boolean
+    private bool _hasHealth = false; // Has generated health
+    private bool _hasLightGate = false; // Has generated light gate
+    [SerializeField] private bool _willFeatureObstacles = false; // Will feature obstacles
+    [SerializeField] private bool _willFeatureHealth = false; // Will feature health boolean
+    [SerializeField] private bool _willFeatureLightGate = false; // Will feature light gate boolean
 
     /*
      * WILL FEATURE OBSTACLES GET METHOD
@@ -195,6 +197,70 @@ public class Ground : MonoBehaviour
     }
 
     /*
+     * HAS LIGHT GATE GET METHOD
+     * 
+     * Method is used to return the value
+     * held by the has light gate boolean
+     * variable, and to set the variable
+     * to a value.
+     */
+    public bool HasLightGate
+    {
+        get
+        {
+            return _hasLightGate;
+        }
+        set
+        {
+            _hasLightGate = value;
+        }
+    }
+
+    /*
+     * HAS HEALTH GET METHOD
+     * 
+     * Method is used to return the value
+     * held by the has health boolean
+     * variable, and to set the variable
+     * to a value.
+     */
+    public bool HasHealth
+    {
+        get
+        {
+            return _hasHealth;
+        }
+        set
+        {
+            _hasHealth = value;
+        }
+    }
+
+    public bool CanFeatureLightGate
+    {
+        set
+        {
+            _canFeatureLightGate = value;
+        }
+    }
+
+    public int MinObstacles
+    {
+        get
+        {
+            return _minNumberOfObstacles;
+        }
+    }
+
+    public int MaxObstacles
+    {
+        get
+        {
+            return _maxNumberOfObstacles;
+        }
+    }
+
+    /*
      * AWAKE METHOD
      * 
      * Method is invoked when the script is initialised.
@@ -229,154 +295,6 @@ public class Ground : MonoBehaviour
 
         // Calculate the ground height based on the Y coordinate of the objects position and half the Y value of the collider
         CalculateGroundHeight();
-
-        // Check the health of the player
-        if(_player.Health < _player.MaxHealth)
-        {
-            // Set can feature health to true
-            _canFeatureHealth = true;
-        }
-        else
-        {
-            // Set can feature health to false
-            _canFeatureHealth = false;
-        }
-
-        // Check if can feature health is true
-        if (_canFeatureHealth)
-        {
-            // Randomly determine if the ground object will generate health
-            float chance = Random.Range(0f, 1f);
-
-            // Convert integer value to boolean value
-            _willFeatureHealth = chance <= _healthChance ? false : true;
-        }
-
-        // Check if the ground object can feature obstacles
-        if (_canFeatureObstacles)
-        {
-            // 
-            float chance = Random.Range(0f, 1f);
-
-            // Convert integer value to boolean value
-            _willFeatureObstacles = chance <= _obstacleChance ? false : true;
-        }
-
-        // Check if the ground object can feature light gates
-        if(_canFeatureLightGate)
-        {
-            // Randomly determine if the ground object will feature obstacles
-            float chance = Random.Range(0f, 1f);
-
-            // Convert integer value to boolean value
-            _willFeatureLightGate = chance == _lightGateChance ? false : true;
-        }
-
-        // Check if the object will feature health
-        if(_willFeatureHealth)
-        {
-            // Check if the object will feature obstacles
-            if(_willFeatureObstacles)
-            {
-                // Check if the obstacle chance is lower than the health chance
-                if(_obstacleChance < _healthChance)
-                {
-                    // Favour the health, set will feature health to true
-                    _willFeatureHealth = true;
-
-                    // Set will feature obstacles to false
-                    _willFeatureObstacles = false;
-                }
-                else
-                {
-                    // Give an extra chance for health
-                    // Randomly determine if the ground object will feature obstacles
-                    float chance = Random.Range(0f, 1f);
-
-                    // Check if chance is equal to 0
-                    if (chance <= 0.5f)
-                    {
-                        // Set will feature health to true
-                        _willFeatureHealth = true;
-
-                        // Set will feature obstacles to false
-                        _willFeatureObstacles = false;
-
-                    }
-                    else
-                    {
-                        // Set will feature health to false
-                        _willFeatureHealth = false;
-
-                        // Set will feature obstacles to true
-                        _willFeatureObstacles = true;
-                    }
-                }
-            }
-
-            // Check if the object will feature light gates
-            if(_willFeatureLightGate)
-            {
-                // Check if the light gate chance is less than the health chance
-                if(_lightGateChance < _healthChance)
-                {
-                    // Favour the health, set will feature health to true
-                    _willFeatureHealth = true;
-
-                    // Set will feature obstacles to false
-                    _willFeatureLightGate = false;
-                }
-                else
-                {
-                    // Give an extra chance for health
-                    // Randomly determine if the ground object will feature obstacles
-                    float chance = Random.Range(0f, 1f);
-
-                    // Check if chance is equal to 0
-                    if (chance <= 0.5f)
-                    {
-                        // Set will feature health to true
-                        _willFeatureHealth = true;
-
-                        // Set will feature obstacles to false
-                        _willFeatureLightGate = false;
-                    }
-                    else
-                    {
-                        // Set will feature health to false
-                        _willFeatureHealth = false;
-
-                        // Set will feature obstacles to true
-                        _willFeatureLightGate = true;
-                    }
-                }
-            }
-        }
-
-        // Check for condition where will feature obstacles and will feature light gate are both true
-        if(_willFeatureObstacles && _willFeatureLightGate)
-        {
-            // Determine a random chance value
-            float chance = Random.Range(0f, 1f);
-
-            // Check if the value is less than 50%
-            if(chance <= 0.5f)
-            {
-                // Set will feature obstacles to true
-                _willFeatureObstacles = true;
-
-                // Set will feature lightgates to false
-                _willFeatureLightGate = false;
-            }
-            else
-            {
-                // Set will feature obstacles to false
-                _willFeatureObstacles = false;
-
-                // Set will feature light gate to true
-                _willFeatureLightGate = true;
-            }
-        }
     }
 
     /*
@@ -490,7 +408,7 @@ public class Ground : MonoBehaviour
         float naturalJumpHeight = (_player.MaxJumpVelocity * maxHeightJumpTime + (0.5f * (_player.Gravity * (maxHeightJumpTime * maxHeightJumpTime))));
 
         // Determine the maximum jump height
-        float maxJumpHeight = (maxHoldJumpHeight + naturalJumpHeight);
+        float maxJumpHeight = maxHoldJumpHeight + naturalJumpHeight;
 
         // Determine the new maximum ground height by taking the current ground height and adding the maximum jump height multiplied by a jump buffer
         float newHeightMax = GroundHeight + (maxJumpHeight * _groundManager.JumpHeightBuffer);
@@ -560,11 +478,50 @@ public class Ground : MonoBehaviour
         // Set the parent of the new ground object
         newGameObject.GetComponent<Ground>().SetParent(transform.parent);
 
+        // Determine the possible features that the new ground object can have
+        newGameObject.GetComponent<Ground>().DetermineFeatures();
+
+        if (_hasLightGate)
+        {
+            newGameObject.GetComponent<Ground>().CanFeatureLightGate = false;
+        }
+
+        // Determine the object the objects will be 
+        newGameObject.GetComponent<Ground>().DetermineObjectType();
+
+        // Check if the item will feature health items
+        if(newGameObject.GetComponent<Ground>().WillFeatureHealth)
+        {
+            // Check that the current platform doesn't feature a healing item
+            if(!HasHealth)
+            {
+                // Add health item to the ground
+                AddHealth(newGameObject);
+
+                // Set the has health boolean of the new game ground object to true
+                newGameObject.GetComponent<Ground>().HasHealth = true;
+            }
+        }
+
+        // Check if the new game object will feature light gates
+        if(newGameObject.GetComponent<Ground>().WillFeatureLightGate)
+        {
+            // Check that the current platform doesn't feature a light gate
+            if(!HasLightGate)
+            {
+                // Add light gate to the new game object
+                AddLightGate(newGameObject);
+
+                // Set the has light gate boolean of the new ground object to true
+                newGameObject.GetComponent<Ground>().HasLightGate = true;
+            }
+        }
+
         // Check if will feature obstacles is true
         if (newGameObject.GetComponent<Ground>().WillFeatureObstacles)
         {
             // Determine the number of obstacles to generate
-            int numberOfObstacles = Random.Range(_minNumberOfObstacles, _maxNumberOfObstacles);
+            int numberOfObstacles = Random.Range(newGameObject.GetComponent<Ground>().MinObstacles, newGameObject.GetComponent<Ground>().MaxObstacles);
 
             // Generate the obstacles
             for (int i = 0; i < numberOfObstacles; i++)
@@ -572,27 +529,6 @@ public class Ground : MonoBehaviour
                 // Invoke the add obstacle method
                 AddObstacle(newGameObject);
             }
-        }
-
-        // Check if the item will feature health items
-        if(newGameObject.GetComponent<Ground>().WillFeatureHealth)
-        {
-            // Add health item to the ground
-            AddHealth(newGameObject);
-        }
-
-        // Check if the current game object has a light gate
-        if(_willFeatureLightGate)
-        {
-            // Prevent generation of light gate on new ground object
-            newGameObject.GetComponent<Ground>().WillFeatureLightGate = false;
-        }
-
-        // Check if the new game object will feature light gates
-        if(newGameObject.GetComponent<Ground>().WillFeatureLightGate)
-        {
-            // Add light gate to the new game object
-            AddLightGate(newGameObject);
         }
     }
 
@@ -724,8 +660,8 @@ public class Ground : MonoBehaviour
         // New position vector
         Vector2 position;
 
-        // Determine the Y position
-        position.y = newGround.GetComponent<Ground>().GroundHeight + (healthItem.GetComponent<HealthItem>().HalfHeight);
+        // Determine the Y position of the health item, based on the ground height of the new ground and 1.5 times the half height
+        position.y = newGround.GetComponent<Ground>().GroundHeight + 1.5f * healthItem.GetComponent<HealthItem>().HalfHeight;
 
         // Obtain the left side of the new ground object
         float healthLeftSide = newGround.transform.position.x - (1f - newGround.GetComponent<Ground>().SafeAreaFromLeft) * newGround.GetComponent<Ground>().HalfWidth;
@@ -839,5 +775,230 @@ public class Ground : MonoBehaviour
 
         // Obtain random ground sprite from the ground manager and apply to the sprite renderer
         _spriteRenderer.sprite = Instantiate(_groundManager.ReturnPlatformSprite(index));
+    }
+
+    public void DetermineFeatures()
+    {
+        // Check the health of the player
+        if (_player.Health < _player.MaxHealth)
+        {
+            // Set can feature health to true
+            _canFeatureHealth = true;
+        }
+        else
+        {
+            // Set can feature health to false
+            _canFeatureHealth = false;
+        }
+
+        // Check if can feature health is true
+        if (_canFeatureHealth)
+        {
+            // Comparing to the health chance and determine if the ground object will feature a healing item
+            _willFeatureHealth = true;
+        }
+
+        // Check if the ground object can feature obstacles
+        if (_canFeatureObstacles)
+        {
+            // Determine a random chance value
+            float chance = Random.Range(0f, 1f);
+
+            // Check if the chance is less than, or equal to, the obstacle chance
+            if (chance <= _obstacleChance)
+            {
+                // Set the will feature obstacles boolean to true
+                _willFeatureObstacles = true;
+                Debug.Log(name + " will feature obstacles");
+            }
+            else
+            {
+                _willFeatureObstacles = false;
+            }
+        }
+
+        // Check if the ground object can feature light gates
+        if (_canFeatureLightGate)
+        {
+            // Determine a random chance value
+            float chance = Random.Range(0f, 1f);
+
+            // Check if the chance is less than, or equal to, the light gate chance
+            if (chance <= _lightGateChance)
+            {
+                // Set the will feature light gate boolean to true
+                _willFeatureLightGate = true;
+                Debug.Log(name + " will feature light gate");
+            }
+            else
+            {
+                _willFeatureLightGate = false;
+            }
+        }
+    }
+
+
+
+
+
+    /*
+     * DETERMINE GROUND OBJECTS METHOD
+     * 
+     * Method determines if the ground object will
+     * feature obstacles, light gates, healing item,
+     * or nothing at all.
+     */
+    public void DetermineObjectType()
+    {
+        // Check for condition where will feature obstacles and will feature light gate are both true
+        if (_willFeatureObstacles && _willFeatureLightGate)
+        {
+            // Check if the obstacle chance is greater than the light gate chance
+            if(_obstacleChance > _lightGateChance)
+            {
+                // Set will feature obstacles to true
+                _willFeatureObstacles = true;
+
+                // Set will feature lightgates to false
+                _willFeatureLightGate = false;
+            }
+            // Else, check if the obstacle chance is lower than the light gate chance
+            else if(_obstacleChance < _lightGateChance)
+            {
+                // Set will feature obstacles to false
+                _willFeatureObstacles = false;
+
+                // Set will feature light gate to true
+                _willFeatureLightGate = true;
+            }
+            // Else, both have same probability
+            else
+            {
+                // Determine a random chance value
+                float chance = Random.Range(0f, 1f);
+
+                // Check if the value is less than 50%
+                if (chance <= 0.5f)
+                {
+                    // Set will feature obstacles to true
+                    _willFeatureObstacles = true;
+
+                    // Set will feature lightgates to false
+                    _willFeatureLightGate = false;
+                }
+                else
+                {
+                    // Set will feature obstacles to false
+                    _willFeatureObstacles = false;
+
+                    // Set will feature light gate to true
+                    _willFeatureLightGate = true;
+                }
+            }
+        }
+
+        // Check if will feature health and will feature obstacles are both true
+        if (_willFeatureHealth && _willFeatureObstacles)
+        {
+            // Randomly determine if the ground object will feature obstacles
+            float chance = Random.Range(0f, 1f);
+
+            // Check if chance is equal to 0
+            if (chance <= _healthChance)
+            {
+                // Set will feature health to true
+                _willFeatureHealth = true;
+
+                // Set will feature obstacles to false
+                _willFeatureObstacles = false;
+            }
+            else
+            {
+                // Set will feature health to false
+                _willFeatureHealth = false;
+
+                // Set will feature obstacles to true
+                _willFeatureObstacles = true;
+            }
+        }
+        // Check if will feature health and will feature light gates are both true
+        else if (_willFeatureHealth && _willFeatureLightGate)
+        {
+            // Randomly determine if the ground object will feature obstacles
+            float chance = Random.Range(0f, 1f);
+
+            // Check if chance is equal to 0
+            if (chance <= _healthChance)
+            {
+                // Set will feature health to true
+                _willFeatureHealth = true;
+
+                // Set will feature obstacles to false
+                _willFeatureLightGate = false;
+            }
+            else
+            {
+                // Set will feature health to false
+                _willFeatureHealth = false;
+
+                // Set will feature obstacles to true
+                _willFeatureLightGate = true;
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private void AddObstacles(GameObject newGround)
+    {
+        // Determine the number of obstacles to generate
+        int numberOfObstacles = Random.Range(_minNumberOfObstacles, _maxNumberOfObstacles + 1);
+
+        // Generate the obstacles
+        for (int i = 0; i < numberOfObstacles; i++)
+        {
+            // Create an instance of the obstacle
+            GameObject obstacle = Instantiate(_groundManager.ReturnObstacle());
+
+            // New position vector
+            Vector2 position;
+
+            // Determine the Y position
+            position.y = newGround.GetComponent<Ground>().GroundHeight + obstacle.GetComponent<Obstacle>().HalfHeight;
+
+            // Obtain the left side of the new ground object
+            float obstacleLeftSide = newGround.transform.position.x - (1f - newGround.GetComponent<Ground>().SafeAreaFromLeft) * newGround.GetComponent<Ground>().HalfWidth;
+
+            // Obtain the right side of the new ground object
+            float obstacleRightSide = newGround.transform.position.x + (1f - newGround.GetComponent<Ground>().SafeAreaFromRight) * newGround.GetComponent<Ground>().HalfWidth;
+
+            // Determine the minimum X position
+            float minXPosition = (obstacleLeftSide) + obstacle.GetComponent<Obstacle>().HalfWidth;
+
+            // Determine the maximum X position
+            float maxXPosition = (obstacleRightSide) - obstacle.GetComponent<Obstacle>().HalfWidth;
+
+            // Randomly determine the X position from the min and max range
+            float obstacleXPosition = Random.Range(minXPosition, maxXPosition);
+
+            // Set the X component of the position vector
+            position.x = obstacleXPosition;
+
+            // Set the transform of the obtstacle
+            obstacle.transform.position = position;
+        }
     }
 }

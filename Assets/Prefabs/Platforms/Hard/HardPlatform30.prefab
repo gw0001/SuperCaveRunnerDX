@@ -297,13 +297,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _canFeatureObstacles: 0
   _canFeatureHealth: 0
-  _canFeatureLightGate: 0
+  _canFeatureLightGate: 1
   _minNumberOfObstacles: 0
-  _maxNumberOfObstacles: 1
-  _safeAreaFromLeft: 0
-  _safeAreaFromRight: 0
-  _obstacleChance: 0.65
-  _lightGateChance: 0
+  _maxNumberOfObstacles: 0
+  _safeAreaFromLeft: 1
+  _safeAreaFromRight: 1
+  _obstacleChance: 0
+  _lightGateChance: 0.8
   _healthChance: 0.35
   _platformChance: 0.5
   _willFeatureObstacles: 0

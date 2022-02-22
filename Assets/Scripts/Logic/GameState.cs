@@ -4,7 +4,7 @@
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
 /* CREATED - 13/02/22                      */
-/* LAST MODIFIED - 18/02/22                */
+/* LAST MODIFIED - 22/02/22                */
 /* ======================================= */
 /* GAME STATE                              */
 /* GameState.cs                            */
@@ -17,6 +17,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using TMPro;
 
 public class GameState : MonoBehaviour
@@ -38,9 +39,13 @@ public class GameState : MonoBehaviour
     private PlayerController _player; // Player
     private PlayerInput _playerInput; // Player input
     private GameObject _resultsPanel; // Result panel
+    private TextMeshProUGUI _retryText; // Retry Text
+    private Image _retryButton; // Retry Button
     private TextMeshProUGUI _resultsText; // Results text
     private ResultAnalyser _resultAnalyser; // Result analyser object
     private AnnouncerManager _announcer; // Announcer object
+    [SerializeField] private ControlScheme _controlScheme;
+    private ButtonSpriteManager _buttonManager; // Button manager object
     private GameObject _healthUI; // Health UI game object
     private GameObject _speedUI; // Speed UI game object
     private GameObject _distanceUI; // Distance UI game object
@@ -52,7 +57,7 @@ public class GameState : MonoBehaviour
     private bool _resultsDisplayed; // Result displayed boolean
     private bool _readySoundPlayed; // Ready sound played boolean
     private bool _goSoundPlayed; // Go sound played boolean
-    private Difficulty _gameDifficulty; // Game Difficulty
+    [SerializeField] private Difficulty _distanceDifficulty; // Game Difficulty
 
     // Difficulty enumerator
     public enum Difficulty
@@ -70,11 +75,11 @@ public class GameState : MonoBehaviour
      * Method returns the value of held by the 
      * game difficulty varaible.
      */
-    public Difficulty GameDifficulty
+    public Difficulty DistanceDifficulty
     {
         get
         {
-            return _gameDifficulty;
+            return _distanceDifficulty;
         }
     }
 
@@ -139,6 +144,12 @@ public class GameState : MonoBehaviour
      */
     void Awake()
     {
+        // Obtain the control scheme from the game scene
+        _controlScheme = GameObject.FindObjectOfType<ControlScheme>();
+
+        // Obtain the button manager
+        _buttonManager = GameObject.FindObjectOfType<ButtonSpriteManager>();
+
         // Obtain the player
         _player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
@@ -156,6 +167,18 @@ public class GameState : MonoBehaviour
 
         // Obtain the results text
         _resultsText = GameObject.Find("ResultText").GetComponent<TextMeshProUGUI>();
+
+        // Obtain the retry text
+        _retryText = GameObject.Find("RetryText").GetComponent<TextMeshProUGUI>();
+
+        // Obtain the retry button
+        _retryButton = GameObject.Find("RetryButtonIcon").GetComponent<Image>();
+
+        // Set the alpha of the reults text to 0f
+        _retryText.alpha = 0f;
+
+        // Set the retry button to colour with alpha set to 0f
+        _retryButton.color = new Vector4(_retryButton.color.r, _retryButton.color.g, _retryButton.color.b, 0f);
 
         // Set the results panel to inactive
         _resultsPanel.SetActive(false);
@@ -211,8 +234,7 @@ public class GameState : MonoBehaviour
     private void FixedUpdate()
     {
         // Set the difficulty
-        _gameDifficulty = SetDifficulty();
-
+        _distanceDifficulty = SetDifficulty();
 
         // Check if the game has not started
         if(!_gameStarted)
@@ -298,8 +320,10 @@ public class GameState : MonoBehaviour
                 if(_resultButtonWaitTimer >= _resultButtonWaitTime)
                 {
                     // Will need to enable text to tell the player to press a button to reset the game
+                    _retryText.alpha = 1f;
 
-
+                    // Set the retry button to the a colour with alpha value of 1f
+                    _retryButton.color = new Vector4(_retryButton.color.r, _retryButton.color.g, _retryButton.color.b, 1f);
 
                     // Set can press button to true
                     _canPressButton = true;
@@ -311,6 +335,12 @@ public class GameState : MonoBehaviour
             // Check the players status
             CheckPlayer();
         }
+    }
+
+    private void Update()
+    {
+        // Obtain the button sprite to use
+        UpdateIcon();
     }
 
     /*
@@ -364,6 +394,16 @@ public class GameState : MonoBehaviour
         _distanceUI.SetActive(false);
     }
 
+    /*
+     * SET DIFFICULTY METHOD
+     * 
+     * Method sets the difficulty of the game,
+     * based on the distance the player has 
+     * travelled. As the player travels further,
+     * the difficulty increases allowing for 
+     * more difficult ground objects to be 
+     * generated via the ground manager.
+     */
     private Difficulty SetDifficulty()
     {
         // New difficulty object initialised to intro
@@ -399,8 +439,38 @@ public class GameState : MonoBehaviour
             difficulty = Difficulty.insane;
         }
 
-
         // Return difficulty
         return difficulty;
+    }
+
+    /*
+ * UPDATE ICON METHOD
+ * 
+ * Method is used to update the start
+ * button text icon, depending on the device
+ * that the user is currently using.
+ */
+    private void UpdateIcon()
+    {
+        // Obtain the players device
+         string playerDevice = _controlScheme.PlayerControlScheme;
+
+        // Check if the player device is a gamepad
+        if (playerDevice == "Gamepad")
+        {
+            // Set the sprite to the A button sprite
+            _retryButton.sprite = _buttonManager.ReturnGamepadSprite(0, true);
+        }
+        // Check if the player device is the mouse
+        else if (playerDevice == "Mouse")
+        {
+            // Set the sprite to the LMB button sprite
+            _retryButton.sprite = _buttonManager.ReturnMouseSprite(0, true);
+        }
+        else if (playerDevice == "Keyboard")
+        {
+            // Set the button to the Space bar sprite
+            _retryButton.sprite = _buttonManager.ReturnKeyboardSprite(0, true);
+        }
     }
 }

@@ -381,17 +381,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ae7f3fdf73bc2a49a0badfef5f1898c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canFeatureObstacles: 1
-  _willFeatureObstacles: 0
+  _canFeatureObstacles: 0
   _canFeatureHealth: 0
-  _willFeatureHealth: 0
-  _minNumberOfObstacles: 3
-  _maxNumberOfObstacles: 5
-  _safeAreaFromLeft: 0.35
+  _canFeatureLightGate: 0
+  _minNumberOfObstacles: 0
+  _maxNumberOfObstacles: 0
+  _safeAreaFromLeft: 1
   _safeAreaFromRight: 1
-  _obstacleChance: 0.5
-  _healthChance: 0.5
+  _obstacleChance: 0
+  _lightGateChance: 0
+  _healthChance: 0
   _platformChance: 0.5
+  _willFeatureObstacles: 0
+  _willFeatureHealth: 0
+  _willFeatureLightGate: 0
 --- !u!1 &5202986684619522894
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
 /* CREATED - 01/02/22                      */
-/* LAST MODIFIED - 17/02/22                */
+/* LAST MODIFIED - 22/02/22                */
 /* ======================================= */
 /* PLAYER CONTROLLER                       */
 /* PlayerController.cs                     */
@@ -62,8 +62,6 @@ public class PlayerController : MonoBehaviour
     private bool _gameStarted; // Game started boolean
     private bool _hasHitGround; // Has hit ground boolean
     private bool _isColourOne = true; // Is colour one initialised to true
-    //private Color _colourOne = new Color(0.337f, 0.705f, 0.913f, 1.0f); // Colour One
-    //private Color _colourTwo = new Color(0.901f, 0.623f, 0.0f, 1.0f); // Colour One
     private float _colourCooldownTimer; // Colour cool down timer
     private bool _canChangeColour = true; // Can change colour
     private bool _hasChangedColour = false; // Has changed colour
@@ -695,7 +693,7 @@ public class PlayerController : MonoBehaviour
         obstacle.DestroyObstacle();
 
         // Check if the player is not invincible
-        if(!_isInvincible)
+        if (!_isInvincible)
         {
             // Lose one hit point
             _health--;

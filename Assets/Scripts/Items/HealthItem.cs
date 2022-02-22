@@ -4,7 +4,7 @@
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
 /* CREATED - 13/02/22                      */
-/* LAST MODIFIED - 14/02/22                */
+/* LAST MODIFIED - 22/02/22                */
 /* ======================================= */
 /* HEALTH ITEM                             */
 /* HealthItem.cs                           */
@@ -43,8 +43,6 @@ public class HealthItem : MonoBehaviour
         {
             return _halfHeight;
         }
-
-
     }
 
     /*

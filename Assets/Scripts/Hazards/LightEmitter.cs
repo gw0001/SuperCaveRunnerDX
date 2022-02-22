@@ -4,7 +4,7 @@
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
 /* CREATED - 16/02/22                      */
-/* LAST MODIFIED - 17/02/22                */
+/* LAST MODIFIED - 22/02/22                */
 /* ======================================= */
 /* LIGHT EMITTER                           */
 /* LightEmitter.cs                         */
@@ -66,6 +66,7 @@ public class LightEmitter : MonoBehaviour
         _emitterSpriteRenderer = GetComponent<SpriteRenderer>();
 
         // Determine the half width
-        _halfWidth = _emitterSpriteRenderer.size.x / 2f;
+        _halfWidth = transform.localScale.x / 2f;
+        //_halfWidth = _emitterSpriteRenderer.size.x / 2f;
     }
 }

@@ -4,7 +4,7 @@
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
 /* CREATED - 04/02/22                      */
-/* LAST MODIFIED - 18/02/22                */
+/* LAST MODIFIED - 22/02/22                */
 /* ======================================= */
 /* GROUND MANAGER                          */
 /* GroundManager.cs                        */
@@ -182,7 +182,7 @@ public class GroundManager : MonoBehaviour
         GameObject ground = null;
 
         // Determine the difficulty of the game to determine which array to return the ground object from
-        if (_gameState.GameDifficulty == GameState.Difficulty.veryEasy)
+        if (_gameState.DistanceDifficulty == GameState.Difficulty.veryEasy)
         {
             // Create a random index number for the very easy ground object array
             int idx = Random.Range(0, _veryEasyGroundObjects.Length);
@@ -190,7 +190,7 @@ public class GroundManager : MonoBehaviour
             // Invoke the return very easy ground method
             ground = ReturnVeryEasyGround(idx);
         }
-        else if (_gameState.GameDifficulty == GameState.Difficulty.easy)
+        else if (_gameState.DistanceDifficulty == GameState.Difficulty.easy)
         {
             // Create a random index number for the easy ground object array
             int idx = Random.Range(0, _easyGroundObjects.Length);
@@ -198,7 +198,7 @@ public class GroundManager : MonoBehaviour
             // Invoke the return easy ground method
             ground = ReturnEasyGround(idx);
         }
-        else if (_gameState.GameDifficulty == GameState.Difficulty.medium)
+        else if (_gameState.DistanceDifficulty == GameState.Difficulty.medium)
         {
             // Create a random index number for the medium ground object array
             int idx = Random.Range(0, _mediumGroundObjects.Length);
@@ -206,7 +206,7 @@ public class GroundManager : MonoBehaviour
             // Invoke the return medium ground method
             ground = ReturnMediumGround(idx);
         }
-        else if (_gameState.GameDifficulty == GameState.Difficulty.hard)
+        else if (_gameState.DistanceDifficulty == GameState.Difficulty.hard)
         {
             // Create a random index number for the medium ground object array
             int idx = Random.Range(0, _hardGroundObjects.Length);
@@ -214,7 +214,7 @@ public class GroundManager : MonoBehaviour
             // Invoke the return hard ground method
             ground = ReturnHardGround (idx);
         }
-        else if (_gameState.GameDifficulty == GameState.Difficulty.insane)
+        else if (_gameState.DistanceDifficulty == GameState.Difficulty.insane)
         {
             // Create a random index number for the medium ground object array
             int idx = Random.Range(0, _insaneGroundObjects.Length);
@@ -293,8 +293,8 @@ public class GroundManager : MonoBehaviour
         // Create a new empty ground object
         GameObject platform = null;
 
-        // Determine the difficulty of the game to determine which array to return the ground object from
-        if (_gameState.GameDifficulty == GameState.Difficulty.veryEasy)
+        // Determine the distance difficulty to determine which array to return the ground object from
+        if (_gameState.DistanceDifficulty == GameState.Difficulty.veryEasy)
         {
             // Create a random index number for the very easy ground object array
             int idx = Random.Range(0, _veryEasyPlatformObjects.Length);
@@ -302,7 +302,7 @@ public class GroundManager : MonoBehaviour
             // Invoke the return very easy ground method
             platform = ReturnVeryEasyPlatform(idx);
         }
-        else if (_gameState.GameDifficulty == GameState.Difficulty.easy)
+        else if (_gameState.DistanceDifficulty == GameState.Difficulty.easy)
         {
             // Create a random index number for the easy ground object array
             int idx = Random.Range(0, _easyPlatformObjects.Length);
@@ -310,7 +310,7 @@ public class GroundManager : MonoBehaviour
             // Invoke the return easy ground method
             platform = ReturnEasyPlatform(idx);
         }
-        else if (_gameState.GameDifficulty == GameState.Difficulty.medium)
+        else if (_gameState.DistanceDifficulty == GameState.Difficulty.medium)
         {
             // Create a random index number for the medium ground object array
             int idx = Random.Range(0, _mediumPlatformObjects.Length);
@@ -318,7 +318,7 @@ public class GroundManager : MonoBehaviour
             // Invoke the return medium ground method
             platform = ReturnMediumPlatform(idx);
         }
-        else if (_gameState.GameDifficulty == GameState.Difficulty.hard)
+        else if (_gameState.DistanceDifficulty == GameState.Difficulty.hard)
         {
             // Create a random index number for the medium ground object array
             int idx = Random.Range(0, _hardPlatformObjects.Length);
@@ -326,7 +326,7 @@ public class GroundManager : MonoBehaviour
             // Invoke the return hard ground method
             platform = ReturnHardPlatform(idx);
         }
-        else if (_gameState.GameDifficulty == GameState.Difficulty.insane)
+        else if (_gameState.DistanceDifficulty == GameState.Difficulty.insane)
         {
             // Create a random index number for the medium ground object array
             int idx = Random.Range(0, _insanePlatformObjects.Length);
