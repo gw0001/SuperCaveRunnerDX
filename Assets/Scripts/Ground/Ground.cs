@@ -244,6 +244,14 @@ public class Ground : MonoBehaviour
         }
     }
 
+    public bool CanFeatureHealth
+    {
+        set
+        {
+            _canFeatureHealth = value;
+        }
+    }
+
     public int MinObstacles
     {
         get
@@ -478,13 +486,22 @@ public class Ground : MonoBehaviour
         // Set the parent of the new ground object
         newGameObject.GetComponent<Ground>().SetParent(transform.parent);
 
-        // Determine the possible features that the new ground object can have
-        newGameObject.GetComponent<Ground>().DetermineFeatures();
-
+        // Check if the current ground object has a light gate
         if (_hasLightGate)
         {
+            // Prevent the new ground object from featuring a light gate
             newGameObject.GetComponent<Ground>().CanFeatureLightGate = false;
         }
+
+        // Check if the current ground object has a health item
+        if(_hasHealth)
+        {
+            // Prevent the new ground object from featuring health
+            newGameObject.GetComponent<Ground>().CanFeatureHealth = false;
+        }
+
+        // Determine the possible features that the new ground object can have
+        newGameObject.GetComponent<Ground>().DeterminePossibleFeatures();
 
         // Determine the object the objects will be 
         newGameObject.GetComponent<Ground>().DetermineObjectType();
@@ -493,28 +510,28 @@ public class Ground : MonoBehaviour
         if(newGameObject.GetComponent<Ground>().WillFeatureHealth)
         {
             // Check that the current platform doesn't feature a healing item
-            if(!HasHealth)
-            {
+            //if(!HasHealth)
+            //{
                 // Add health item to the ground
                 AddHealth(newGameObject);
 
                 // Set the has health boolean of the new game ground object to true
                 newGameObject.GetComponent<Ground>().HasHealth = true;
-            }
+            //}
         }
 
         // Check if the new game object will feature light gates
         if(newGameObject.GetComponent<Ground>().WillFeatureLightGate)
         {
-            // Check that the current platform doesn't feature a light gate
-            if(!HasLightGate)
-            {
+            //// Check that the current platform doesn't feature a light gate
+            //if(!HasLightGate)
+            //{
                 // Add light gate to the new game object
                 AddLightGate(newGameObject);
 
                 // Set the has light gate boolean of the new ground object to true
                 newGameObject.GetComponent<Ground>().HasLightGate = true;
-            }
+            //}
         }
 
         // Check if will feature obstacles is true
@@ -777,7 +794,7 @@ public class Ground : MonoBehaviour
         _spriteRenderer.sprite = Instantiate(_groundManager.ReturnPlatformSprite(index));
     }
 
-    public void DetermineFeatures()
+    public void DeterminePossibleFeatures()
     {
         // Check the health of the player
         if (_player.Health < _player.MaxHealth)
@@ -809,10 +826,10 @@ public class Ground : MonoBehaviour
             {
                 // Set the will feature obstacles boolean to true
                 _willFeatureObstacles = true;
-                Debug.Log(name + " will feature obstacles");
             }
             else
             {
+                // Set will feature obstacles to false
                 _willFeatureObstacles = false;
             }
         }
@@ -828,18 +845,14 @@ public class Ground : MonoBehaviour
             {
                 // Set the will feature light gate boolean to true
                 _willFeatureLightGate = true;
-                Debug.Log(name + " will feature light gate");
             }
             else
             {
+                // Set will feature light gate to false
                 _willFeatureLightGate = false;
             }
         }
     }
-
-
-
-
 
     /*
      * DETERMINE GROUND OBJECTS METHOD
@@ -961,7 +974,11 @@ public class Ground : MonoBehaviour
 
 
 
-
+    /*
+     * ADD OBSTACLES METHOD
+     * 
+     * Method under development...
+     */
     private void AddObstacles(GameObject newGround)
     {
         // Determine the number of obstacles to generate

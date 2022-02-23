@@ -299,8 +299,8 @@ MonoBehaviour:
   _canFeatureObstacles: 1
   _canFeatureHealth: 0
   _canFeatureLightGate: 1
-  _minNumberOfObstacles: 0
-  _maxNumberOfObstacles: 0
+  _minNumberOfObstacles: 1
+  _maxNumberOfObstacles: 2
   _safeAreaFromLeft: 0.4
   _safeAreaFromRight: 0.7
   _obstacleChance: 0.5

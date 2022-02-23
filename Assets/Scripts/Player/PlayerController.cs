@@ -44,9 +44,9 @@ public class PlayerController : MonoBehaviour
     private PlayerState _playerState; // Player state
     private LastAction _lastAction; // Last action
     private LastCollision _lastCollision; // Last collision
+    private SpriteRenderer _playerSprite; // player sprite
     private ScreenInfo _screenInfo; // Screen information
     private Vector2 _velocity; // Velocity vector
-    private SpriteRenderer _playerSprite; // player sprite
     private float _distance; // Distance
     private float _groundHeight; // Ground height
     private float _holdJumpTime; // Hold jump time
@@ -55,16 +55,16 @@ public class PlayerController : MonoBehaviour
     private float _holdJumpTimer; // Hold jump timer
     private float _invincibilityTimer; // Invincibility timer
     private float _invinFlashTimer; // Invincibility flash timer
-    private int _health; // Player health
+    private float _colourCooldownTimer; // Colour cool down timer
     private bool _isGrounded = false; // Is Grounded boolean
     private bool _isHoldingJump = false; // Is Holding Jump boolean
     private bool _isInvincible = false; // Is invincible boolean
     private bool _gameStarted; // Game started boolean
     private bool _hasHitGround; // Has hit ground boolean
     private bool _isColourOne = true; // Is colour one initialised to true
-    private float _colourCooldownTimer; // Colour cool down timer
     private bool _canChangeColour = true; // Can change colour
     private bool _hasChangedColour = false; // Has changed colour
+    private int _health; // Player health
 
     // Player State Enumerator
     public enum PlayerState
@@ -808,11 +808,14 @@ public class PlayerController : MonoBehaviour
      */
     private void HitGround()
     {
+        if(!_hasHitGround)
+        {
+            // Set velocity to 0 for both X and Y components
+            _velocity = new Vector2(0f, 0f);
+        }
+
         // Set the has hit ground boolean to true
         _hasHitGround = true;
-
-        // Set velocity to 0
-        _velocity.x = 0;
 
         // Set the last collision to the ground
         _lastCollision = LastCollision.ground;
