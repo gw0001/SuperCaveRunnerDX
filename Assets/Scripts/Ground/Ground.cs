@@ -509,29 +509,21 @@ public class Ground : MonoBehaviour
         // Check if the item will feature health items
         if(newGameObject.GetComponent<Ground>().WillFeatureHealth)
         {
-            // Check that the current platform doesn't feature a healing item
-            //if(!HasHealth)
-            //{
-                // Add health item to the ground
-                AddHealth(newGameObject);
+            // Add health item to the ground
+            AddHealth(newGameObject);
 
-                // Set the has health boolean of the new game ground object to true
-                newGameObject.GetComponent<Ground>().HasHealth = true;
-            //}
+            // Set the has health boolean of the new game ground object to true
+            newGameObject.GetComponent<Ground>().HasHealth = true;
         }
 
         // Check if the new game object will feature light gates
         if(newGameObject.GetComponent<Ground>().WillFeatureLightGate)
         {
-            //// Check that the current platform doesn't feature a light gate
-            //if(!HasLightGate)
-            //{
-                // Add light gate to the new game object
-                AddLightGate(newGameObject);
+            // Add light gate to the new game object
+            AddLightGate(newGameObject);
 
-                // Set the has light gate boolean of the new ground object to true
-                newGameObject.GetComponent<Ground>().HasLightGate = true;
-            //}
+            // Set the has light gate boolean of the new ground object to true
+            newGameObject.GetComponent<Ground>().HasLightGate = true;
         }
 
         // Check if will feature obstacles is true
@@ -794,6 +786,13 @@ public class Ground : MonoBehaviour
         _spriteRenderer.sprite = Instantiate(_groundManager.ReturnPlatformSprite(index));
     }
 
+    /*
+     * DETERMINE POSSIBLE FEATURES METHOD
+     * 
+     * When invoked, the method determines which features
+     * the ground object will be capable of featuring,
+     * such as health, obstacles, and a light gate.
+     */
     public void DeterminePossibleFeatures()
     {
         // Check the health of the player
@@ -859,7 +858,7 @@ public class Ground : MonoBehaviour
      * 
      * Method determines if the ground object will
      * feature obstacles, light gates, healing item,
-     * or nothing at all.
+     * or nothing at all. 
      */
     public void DetermineObjectType()
     {

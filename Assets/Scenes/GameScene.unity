@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &37024766
 RectTransform:
   m_ObjectHideFlags: 0
@@ -183,7 +183,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'SUPER CAVE RUNNER DX
 
-    BUILD 180222'
+    BUILD 230222'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 95ec0fd030b3be34390781272d8a1d21, type: 2}
   m_sharedMaterial: {fileID: -2486371606908186400, guid: 95ec0fd030b3be34390781272d8a1d21, type: 2}
