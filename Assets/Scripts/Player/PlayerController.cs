@@ -4,7 +4,7 @@
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
 /* CREATED - 01/02/22                      */
-/* LAST MODIFIED - 22/02/22                */
+/* LAST MODIFIED - 23/02/22                */
 /* ======================================= */
 /* PLAYER CONTROLLER                       */
 /* PlayerController.cs                     */
@@ -383,6 +383,12 @@ public class PlayerController : MonoBehaviour
             // Set the x velocity of the player to the menu speed
             _velocity.x = _menuMoveSpeed;
         }
+
+        // Determine a random colour number
+        float randomColour = Random.Range(0f, 1f);
+
+        // Determine the starting colour based on the random colour number
+        _isColourOne = randomColour <= 0.5f ? true : false;
 
         //_playerSprite.color = _colourOne;
 
