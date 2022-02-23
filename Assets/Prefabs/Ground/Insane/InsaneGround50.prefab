@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5130134430945803032}
   - component: {fileID: 5130134430945803029}
   m_Layer: 0
-  m_Name: Ground40
+  m_Name: InsaneGround50
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 40, y: 40}
+  m_Size: {x: 50, y: 40}
   m_AdaptiveModeThreshold: 0
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -107,13 +107,13 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 16, y: 16}
-    newSize: {x: 40, y: 40}
+    newSize: {x: 50, y: 40}
     adaptiveTilingThreshold: 0
     drawMode: 2
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 40, y: 40}
+  m_Size: {x: 50, y: 40}
   m_EdgeRadius: 0
 --- !u!114 &5130134430945803029
 MonoBehaviour:
@@ -130,11 +130,11 @@ MonoBehaviour:
   _canFeatureObstacles: 0
   _canFeatureHealth: 0
   _canFeatureLightGate: 1
-  _minNumberOfObstacles: 0
-  _maxNumberOfObstacles: 0
-  _safeAreaFromLeft: 1
+  _minNumberOfObstacles: 1
+  _maxNumberOfObstacles: 3
+  _safeAreaFromLeft: 0.2
   _safeAreaFromRight: 1
-  _obstacleChance: 0
+  _obstacleChance: 0.85
   _lightGateChance: 0.85
   _healthChance: 0.25
   _platformChance: 0.7
@@ -167,7 +167,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6645667342906835601}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -24, y: 16, z: 0}
+  m_LocalPosition: {x: -29, y: 16, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -278,7 +278,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7438174656592424813}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 24, y: 16, z: 0}
+  m_LocalPosition: {x: 29, y: 16, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -442,7 +442,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 40, y: 8}
+  m_Size: {x: 50, y: 8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -466,7 +466,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 24, y: 8}
-    newSize: {x: 40, y: 8}
+    newSize: {x: 50, y: 8}
     adaptiveTilingThreshold: 0.5
     drawMode: 2
     adaptiveTiling: 0

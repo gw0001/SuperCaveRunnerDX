@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 5130134430945803032}
   - component: {fileID: 5130134430945803029}
   m_Layer: 0
-  m_Name: Platform40
+  m_Name: InsanePlatform40
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

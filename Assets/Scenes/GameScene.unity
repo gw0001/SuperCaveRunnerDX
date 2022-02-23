@@ -4006,7 +4006,12 @@ MonoBehaviour:
   - {fileID: 5130134430945803033, guid: 338730297a9c304429ce5dc7354edb9b, type: 3}
   - {fileID: 5130134430945803033, guid: 7980c67675879ff499e8c73bc70b9b72, type: 3}
   - {fileID: 5130134430945803033, guid: b0c969d9a38328c47a2642289a96fb79, type: 3}
-  _insaneGroundObjects: []
+  _insaneGroundObjects:
+  - {fileID: 5130134430945803033, guid: 68db5b4130d1ccc41a1668e62fb4f3f5, type: 3}
+  - {fileID: 5130134430945803033, guid: d3b9fcb1796b16c45a444aed2e9b06dc, type: 3}
+  - {fileID: 5130134430945803033, guid: e4149ff3b67a8084e8987210a69887c5, type: 3}
+  - {fileID: 5130134430945803033, guid: 50d07057f51ccfa448a178f0eb127558, type: 3}
+  - {fileID: 5130134430945803033, guid: 02080605b151a3c438126cd0a3969e17, type: 3}
   _veryEasyPlatformObjects:
   - {fileID: 5130134430945803033, guid: c5962a798c3805d47b113acd0b66e1d6, type: 3}
   - {fileID: 5130134430945803033, guid: 9bd74464c4944c149ab26121abd01433, type: 3}
@@ -4028,7 +4033,12 @@ MonoBehaviour:
   - {fileID: 5130134430945803033, guid: fc6fcd7253b291948b8997d13a31796f, type: 3}
   - {fileID: 5130134430945803033, guid: 10eeb92efb4edbc409b3d5c8892fd9e2, type: 3}
   - {fileID: 5130134430945803033, guid: 1f2ef33dd6175764dabd882b555e7b34, type: 3}
-  _insanePlatformObjects: []
+  _insanePlatformObjects:
+  - {fileID: 5130134430945803033, guid: f5dd6df86f14bd8418c22242ac19316b, type: 3}
+  - {fileID: 5130134430945803033, guid: 58974c0e95909ba408e4b53d998fe46d, type: 3}
+  - {fileID: 5130134430945803033, guid: dd06cf3e70721c845a7346d4517895b1, type: 3}
+  - {fileID: 5130134430945803033, guid: 431df299a9016e848b18008001cd271e, type: 3}
+  - {fileID: 5130134430945803033, guid: 16cd196d51b9aa842a8c423725a4a189, type: 3}
   _groundSprites:
   - {fileID: 21300000, guid: f2b75c6011bc7434d8f6f2dbc7b8a204, type: 3}
   - {fileID: 21300000, guid: a4cd8ebd011bae64a9a4b9f45f65fdd9, type: 3}
