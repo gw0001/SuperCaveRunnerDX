@@ -87,9 +87,8 @@ public class BackgroundParallaxManager : MonoBehaviour
         // Set the number of objects from the length of the array
         _numberOfObjects = _backgrounds.Length;
 
+        // Set the depth variable from the Z component of transform position
         _depth = transform.position.z;
-
-        Debug.Log("Depth " + _depth);
     }
 
     /*
