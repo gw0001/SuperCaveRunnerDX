@@ -22,7 +22,7 @@ public class BackgroundParallaxManager : MonoBehaviour
 {
     // *** SERIALIZED BACKGROUND PARALLAX MANAGER SETTINGS *** //
     [Header ("Background Parallax Manager Settings")]
-    [SerializeField] private float _depth; // Depth
+    private float _depth; // Depth
     [SerializeField] private GameObject[] _backgrounds; // Backgrounds array
     [SerializeField] private float _parallaxOffset = 2f; // Parallax offset value
 
@@ -86,6 +86,10 @@ public class BackgroundParallaxManager : MonoBehaviour
     {
         // Set the number of objects from the length of the array
         _numberOfObjects = _backgrounds.Length;
+
+        _depth = transform.position.z;
+
+        Debug.Log("Depth " + _depth);
     }
 
     /*

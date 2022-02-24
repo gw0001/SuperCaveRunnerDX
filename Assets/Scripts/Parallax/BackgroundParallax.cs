@@ -23,14 +23,13 @@ public class BackgroundParallax : MonoBehaviour
     [SerializeField] private bool _hasGeneratedBackground = false; // Has generated background
     
     // *** VARIABLES *** //
-    private float _depth = 1f; // Depth value - initialised to 1 to begin with
     private PlayerController _player; // Player controller
     private ScreenInfo _screenInfo; // Screen information
     private float _halfWidth; // Half width of the background object
     private BackgroundParallaxManager _parallaxManager; // Parallax Manager
     
     /*
-     * HALF WIDTH
+     * HALF WIDTH GET METHOD
      * 
      * Method returns the value
      * held by the half width
@@ -41,21 +40,6 @@ public class BackgroundParallax : MonoBehaviour
         get 
         {
             return _halfWidth;
-        }
-    }
-
-    /*
-     * DEPTH 
-     * 
-     * Method is used to set
-     * the depth variable to
-     * a value.
-     */
-    public float Depth
-    {
-        set
-        {
-            _depth = value;
         }
     }
 
@@ -94,13 +78,6 @@ public class BackgroundParallax : MonoBehaviour
 
         // Obtain the parallax manager from the parent
         _parallaxManager = GetComponentInParent<BackgroundParallaxManager>();
-
-        // Check that the parallax manager exists
-        if(_parallaxManager != null)
-        {
-            // Set the depth of the background object from the parallax manager
-            _depth = _parallaxManager.Depth;
-        }
     }
 
     /*
@@ -131,10 +108,10 @@ public class BackgroundParallax : MonoBehaviour
     void FixedUpdate()
     {
         // Determine the velocity by obtaining the player velocity and dividing by the depth
-        float velocity = _player.HorizontalVelocity / _depth;
+        float velocity = _player.HorizontalVelocity / _parallaxManager.Depth;
 
         // Obtain the position of the object
-        Vector2 position = transform.position;
+        Vector3 position = transform.position;
 
         // Alter the position of the object based on the velocity multiplied by the fixed delta time
         position.x -= velocity * Time.fixedDeltaTime;
@@ -202,7 +179,7 @@ public class BackgroundParallax : MonoBehaviour
         background.GetComponent<BackgroundParallax>().SetBackgroundParallaxManager(_parallaxManager);
 
         // Set the depth of the background object
-        background.GetComponent<BackgroundParallax>().Depth = _parallaxManager.Depth;
+        //background.GetComponent<BackgroundParallax>().Depth = _parallaxManager.Depth;
 
         // Set the parent of the new background object to the parent of the current background object
         background.GetComponent<BackgroundParallax>().SetParent(transform.parent);

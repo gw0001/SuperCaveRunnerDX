@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _invicibilityTime = 0.5f; // Invincibility time
     [SerializeField] private float _invinFlashTime = 0.1f; // Invincibility flash time
     [SerializeField] private float _colourCooldownTime = 0.5f;
+    [SerializeField] private float _playerHeadSpace = 3f;
+
 
     // *** SERIALIZED MENU OPTIONS *** //
     [Header ("Menu object settings")]
@@ -47,6 +49,7 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer _playerSprite; // player sprite
     private ScreenInfo _screenInfo; // Screen information
     private Vector2 _velocity; // Velocity vector
+    [SerializeField] private float _aboveHead;
     private float _distance; // Distance
     private float _groundHeight; // Ground height
     private float _holdJumpTime; // Hold jump time
@@ -321,6 +324,20 @@ public class PlayerController : MonoBehaviour
     }
 
     /*
+     * ABOVE HEAD GET METHOD
+     * 
+     * Method returns the value held by the 
+     * above head variable.
+     */
+    public float AboveHead
+    {
+        get
+        {
+            return _aboveHead;
+        }
+    }
+
+    /*
      * AWAKE METHOD
      * 
      * Method is invoked when the script is 
@@ -369,19 +386,17 @@ public class PlayerController : MonoBehaviour
 
         // Initialise the player with maximum health
         _health = _maxHealth;
-
-        // Check if the 
-        if(!_isMenuObject)
-        {
-            // Set the player position
-            transform.position = new Vector2((_screenInfo.LeftEdge + _screenInfo.SegmentWidth()), HalfHeight);
-        }
         
         // Check if the object is a menu object
         if(_isMenuObject)
         {
             // Set the x velocity of the player to the menu speed
             _velocity.x = _menuMoveSpeed;
+        }
+        else
+        {
+            // Set the player position
+            transform.position = new Vector2((_screenInfo.LeftEdge + _screenInfo.SegmentWidth()), HalfHeight);
         }
 
         // Determine a random colour number
@@ -397,6 +412,8 @@ public class PlayerController : MonoBehaviour
 
         // Set the has changed colour to false
         _hasChangedColour = false;
+
+        _aboveHead = transform.position.y + HalfHeight + _playerHeadSpace;
     }
 
     /*
@@ -680,6 +697,9 @@ public class PlayerController : MonoBehaviour
 
                 // Set the transform position to the position vector
                 transform.position = position;
+
+                // Update the space above the players head
+                _aboveHead = transform.position.y + HalfHeight + _playerHeadSpace;
             }
         }
     }

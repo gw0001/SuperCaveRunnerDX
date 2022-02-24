@@ -1102,7 +1102,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c79961ceecc1d744b35e1616a7d7c7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _depth: 2.5
   _backgrounds:
   - {fileID: 198111913358041160, guid: 3a1db20d491c80342b3e4b56b5f805c0, type: 3}
   - {fileID: 198111913358041160, guid: 0555d0d414ff1d5478fa2033adc86575, type: 3}
@@ -1124,6 +1123,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1197,6 +1197,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df3d3e02540073e48bffcfac9d2fb83d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &539480084 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 198111913358041161, guid: 3a1db20d491c80342b3e4b56b5f805c0, type: 3}
@@ -1610,7 +1622,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c79961ceecc1d744b35e1616a7d7c7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _depth: 7.5
   _backgrounds:
   - {fileID: 198111913358041160, guid: 9847c41f6f6cf194e88f31cd6ff9a8cf, type: 3}
   - {fileID: 198111913358041160, guid: ba8bd26efe9ca73488de517dc38967f8, type: 3}
@@ -1663,7 +1674,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c79961ceecc1d744b35e1616a7d7c7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _depth: 20
   _backgrounds:
   - {fileID: 198111913358041160, guid: fab7948841c956c49a97fe780b957883, type: 3}
   - {fileID: 198111913358041160, guid: 7bdabbbcbd59fc84697adb1271c61bbe, type: 3}
@@ -2002,7 +2012,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c79961ceecc1d744b35e1616a7d7c7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _depth: 10
   _backgrounds:
   - {fileID: 198111913358041160, guid: 5efaa24d5f5eea3488f358b7241895a4, type: 3}
   - {fileID: 198111913358041160, guid: ef7b3351620565240b8fc67eeb0aca7e, type: 3}
@@ -2399,7 +2408,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c79961ceecc1d744b35e1616a7d7c7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _depth: 30
   _backgrounds:
   - {fileID: 198111913358041160, guid: 77e7b47298e3dd04b806d8103637e623, type: 3}
   - {fileID: 198111913358041160, guid: 2bf2d26f83a5ffa40914c44c8c2c6a9e, type: 3}
@@ -2604,7 +2612,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 3
-  _gravity: 400
+  _gravity: 450
   _maxJumpVelocity: 50
   _maxRunVelocity: 100
   _maxAcceleration: 15
@@ -2615,8 +2623,10 @@ MonoBehaviour:
   _invicibilityTime: 1.5
   _invinFlashTime: 0.05
   _colourCooldownTime: 0.5
+  _playerHeadSpace: 3
   _isMenuObject: 0
   _menuMoveSpeed: 150
+  _aboveHead: 0
 --- !u!95 &1353138670
 Animator:
   serializedVersion: 4
@@ -2696,7 +2706,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c79961ceecc1d744b35e1616a7d7c7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _depth: 5
   _backgrounds:
   - {fileID: 198111913358041160, guid: a3e760b99fe2ed9439dd2605845218c9, type: 3}
   - {fileID: 198111913358041160, guid: a237007714f4f54458fb906dab4fc92d, type: 3}
@@ -4198,7 +4207,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 738533ef16608384197fa164e8d00b52, type: 3}
   - {fileID: 21300000, guid: 0b0e7c9708d96194a81c3f04ded006e9, type: 3}
   - {fileID: 21300000, guid: 211be0b15550af5469df2ad19568e1d7, type: 3}
-  _minHeightFromBottom: 5
+  _minHeightFromBottom: 6
   _maxHeigthFromTop: 15
   _jumpHeightBuffer: 0.65
   _jumpDistanceBuffer: 0.7
