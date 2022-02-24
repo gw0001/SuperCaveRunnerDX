@@ -493,15 +493,15 @@ public class Ground : MonoBehaviour
             newGameObject.GetComponent<Ground>().CanFeatureLightGate = false;
         }
 
+        // Determine the possible features that the new ground object can have
+        newGameObject.GetComponent<Ground>().DeterminePossibleFeatures();
+
         // Check if the current ground object has a health item
-        if(_hasHealth)
+        if (_hasHealth)
         {
             // Prevent the new ground object from featuring health
             newGameObject.GetComponent<Ground>().CanFeatureHealth = false;
         }
-
-        // Determine the possible features that the new ground object can have
-        newGameObject.GetComponent<Ground>().DeterminePossibleFeatures();
 
         // Determine the object the objects will be 
         newGameObject.GetComponent<Ground>().DetermineObjectType();
@@ -807,13 +807,6 @@ public class Ground : MonoBehaviour
             _canFeatureHealth = false;
         }
 
-        // Check if can feature health is true
-        if (_canFeatureHealth)
-        {
-            // Comparing to the health chance and determine if the ground object will feature a healing item
-            _willFeatureHealth = true;
-        }
-
         // Check if the ground object can feature obstacles
         if (_canFeatureObstacles)
         {
@@ -862,6 +855,13 @@ public class Ground : MonoBehaviour
      */
     public void DetermineObjectType()
     {
+        // Check if can feature health is true
+        if (_canFeatureHealth)
+        {
+            // Comparing to the health chance and determine if the ground object will feature a healing item
+            _willFeatureHealth = true;
+        }
+
         // Check for condition where will feature obstacles and will feature light gate are both true
         if (_willFeatureObstacles && _willFeatureLightGate)
         {
