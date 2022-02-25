@@ -96,7 +96,7 @@ public class ResultAnalyser : MonoBehaviour
             else if (lastCollision == PlayerController.LastCollision.lightgate)
             {
                 // Relay the last collision as an obstacle
-                lastActions += " INTO A BEAM OF LIGHT AND SPONTANIOUSLY COMBUSTED.";
+                lastActions += " INTO A BEAM OF LIGHT WITH THE WRONG ARMOUR COLOUR AND GOT FRIED.";
             }
             // Check if the player fell into the pit
             else if(lastCollision == PlayerController.LastCollision.pit)
@@ -127,7 +127,7 @@ public class ResultAnalyser : MonoBehaviour
             else if (lastCollision == PlayerController.LastCollision.lightgate)
             {
                 // Relay the last collision as an obstacle
-                lastActions += " INTO A BEAM OF LIGHT AND CAUGHT FIRE.";
+                lastActions += " INTO A BEAM OF LIGHT WITH THE WRONG ARMOUR COLOUR AND GOT FRIED.";
             }
             // Check if the players last collision was with a pit
             else if (lastCollision == PlayerController.LastCollision.pit)
@@ -154,12 +154,12 @@ public class ResultAnalyser : MonoBehaviour
         else if (distance > _mediumDistance && distance < _hardDistance)
         {
             // Display the message for failing at medium difficulty
-            additionalComment += "GOOD DISTANCE, YOU'RE PRETTY GOOD!!";
+            additionalComment += "YOU GOT AN EXCELLENT DISTANCE!!";
         }
         else if (distance >= _hardDistance && distance < _insaneDistance)
         {
             // Display the message for failing at hard difficulty
-            additionalComment += "WOW! NOW THAT'S FAR! THANKS FOR PLAYING!!";
+            additionalComment += "YOU DID WELL TO GET THIS FAR! THANKS FOR PLAYING!!";
         }
         else if (distance >= _insaneDistance)
         {

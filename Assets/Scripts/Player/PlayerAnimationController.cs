@@ -4,7 +4,7 @@
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
 /* CREATED - 20/02/22                      */
-/* LAST MODIFIED - 22/02/22                */
+/* LAST MODIFIED - 25/02/22                */
 /* ======================================= */
 /* PLAYER ANIMATION CONTROLLER             */
 /* PlayerAnimationController.cs            */
@@ -27,7 +27,6 @@ public class PlayerAnimationController : MonoBehaviour
     {
         // Obtain the player component
         _player = GetComponent<PlayerController>();
-
 
         // Player animator
         _playerAnimator = GetComponent<Animator>();
@@ -116,19 +115,17 @@ public class PlayerAnimationController : MonoBehaviour
             speed = 0.2f;
         }
 
-
         // Set the speed of the animator to the determined speed
         _playerAnimator.speed = speed;
 
-        // Set is idle to false
+        // Set animator "IsIdle" to false
         _playerAnimator.SetBool("IsIdle", false);
 
-        // Is in air to false
+        // Set animator "IsInAir" to false
         _playerAnimator.SetBool("IsInAir", false);
 
-        // Set is running to true
-        _playerAnimator.SetBool("IsRunning", true);
-        
+        // Set animator "IsRunning" to true
+        _playerAnimator.SetBool("IsRunning", true); 
     }
 
     /*
@@ -139,7 +136,10 @@ public class PlayerAnimationController : MonoBehaviour
      */
     private void HandleInAir()
     {
+        // Set animator "IsInAir" bool to true
         _playerAnimator.SetBool("IsInAir", true);
+
+        // Set animator "IsRunning" bool to false
         _playerAnimator.SetBool("IsRunning", false);
     }
 
@@ -151,9 +151,36 @@ public class PlayerAnimationController : MonoBehaviour
      */
     private void HandleDying()
     {
+        // Set the animator speed to 1
+        _playerAnimator.speed = 1f;
+
+        // Set animator "IsIdle" to false
         _playerAnimator.SetBool("IsIdle", false);
+
+        // Set animator "IsInAir" to false
         _playerAnimator.SetBool("IsInAir", false);
+
+        // Set animator "Is Running" to false
         _playerAnimator.SetBool("IsRunning", false);
+
+        // Set animator "IsDying" to true
         _playerAnimator.SetBool("IsDying", true);
+
+        // Determine the animation based on the last collision encountered by the player
+        if(_player.PlayerCollision == PlayerController.LastCollision.obstacle)
+        {
+            // Set animator "HitObstable" to true to display the obstacle death animation
+            _playerAnimator.SetBool("HitObstacle", true);
+        }
+        else if (_player.PlayerCollision == PlayerController.LastCollision.lightgate)
+        {
+            // Set animator "HitBeam" to true to display the light gate death animation
+            _playerAnimator.SetBool("HitBeam", true);
+        }
+        if (_player.PlayerCollision == PlayerController.LastCollision.ground || _player.PlayerCollision == PlayerController.LastCollision.pit)
+        {
+            // Set animator "HasFallen" to true to display a gravestone that will not be seen by the player (as far as I'm aware...)
+            _playerAnimator.SetBool("HasFallen", true);
+        }
     }
 }

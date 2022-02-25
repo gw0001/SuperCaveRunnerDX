@@ -4,7 +4,7 @@
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
 /* CREATED - 01/02/22                      */
-/* LAST MODIFIED - 23/02/22                */
+/* LAST MODIFIED - 25/02/22                */
 /* ======================================= */
 /* PLAYER CONTROLLER                       */
 /* PlayerController.cs                     */
@@ -33,10 +33,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _obstacleHitSpeedLoss = 0.3f; // Obstacle speed loss;
     [SerializeField] private float _invicibilityTime = 0.5f; // Invincibility time
     [SerializeField] private float _invinFlashTime = 0.1f; // Invincibility flash time
-    [SerializeField] private float _colourCooldownTime = 0.5f;
-    [SerializeField] private float _playerHeadSpace = 3f;
-
-
+    [SerializeField] private float _colourCooldownTime = 0.5f; // Colour cool down timer
+    [SerializeField] private float _playerHeadSpace = 3f; // Space above the players head
+    [SerializeField] private float _obstacleDeathTime = 2f; // Death time
+    [SerializeField] private float _lightGateDeathTime = 2f; // Beam death time
+    [SerializeField] private float _fallDeathTime = 2f; // Fall death time
+    [SerializeField] private float _spriteFadeTime = 1f; // Sprite fade time
+    [SerializeField] private float _spriteFlashTime = 0.025f; // Sprite flash time
+    
     // *** SERIALIZED MENU OPTIONS *** //
     [Header ("Menu object settings")]
     [SerializeField] private bool _isMenuObject; // Working on scrolling background for menu, will override player and ground objects
@@ -49,7 +53,7 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer _playerSprite; // player sprite
     private ScreenInfo _screenInfo; // Screen information
     private Vector2 _velocity; // Velocity vector
-    [SerializeField] private float _aboveHead;
+    private float _aboveHead; // Y coordinate above the player sprite
     private float _distance; // Distance
     private float _groundHeight; // Ground height
     private float _holdJumpTime; // Hold jump time
@@ -59,6 +63,9 @@ public class PlayerController : MonoBehaviour
     private float _invincibilityTimer; // Invincibility timer
     private float _invinFlashTimer; // Invincibility flash timer
     private float _colourCooldownTimer; // Colour cool down timer
+    private float _deathTime; // Death time
+    private float _deathTimer; // Death timer
+    private float _spriteFlashTimer; // Sprite flash timer
     private bool _isGrounded = false; // Is Grounded boolean
     private bool _isHoldingJump = false; // Is Holding Jump boolean
     private bool _isInvincible = false; // Is invincible boolean
@@ -369,6 +376,12 @@ public class PlayerController : MonoBehaviour
         // Set the invinvibility flash timer to 0 seconds
         _invinFlashTimer = 0f;
 
+        // Set the death timer to 0 seconds
+        _deathTimer = 0f;
+
+        // Set the sprite flash timer to 0 seconds
+        _spriteFlashTimer = 0f;
+
         // Set the player state to idle
         _playerState = PlayerState.idle;
 
@@ -413,6 +426,7 @@ public class PlayerController : MonoBehaviour
         // Set the has changed colour to false
         _hasChangedColour = false;
 
+        // Determine the Y value above the players head
         _aboveHead = transform.position.y + HalfHeight + _playerHeadSpace;
     }
 
@@ -435,271 +449,313 @@ public class PlayerController : MonoBehaviour
             // Check if the game has started
             if(_gameStarted)
             {
-                // Obtain the position of the player
-                Vector2 position = transform.position;
-
-                // Check if the player has fallen off the screen
-                if (position.y <= _screenInfo.BottomEdge - HalfHeight)
+                // Check that the player is not dying
+                if(_playerState != PlayerState.dying)
                 {
-                    // Check if the last collision is not with the ground
-                    if(_lastCollision != LastCollision.ground)
+                    // Obtain the position of the player
+                    Vector2 position = transform.position;
+
+                    // Check if the player has fallen off the screen
+                    if (position.y <= _screenInfo.BottomEdge - HalfHeight)
                     {
-                        // Set last collision to pit
-                        _lastCollision = LastCollision.pit;
-                    }
-
-                    // Invoke the player is dead function
-                    GameOver();
-
-                    // Return to avoid unecessary calculation
-                    return;
-                }
-
-                // Check if the player has life left
-                if (Health < 1)
-                {
-                    // Invoke the player is dead function
-                    GameOver();
-
-                    // Return to avoid unecessary calculation
-                    return;
-                }
-
-                // Check if colour has changed
-                if (_hasChangedColour)
-                {
-                    // Increment the cool down timer by the fixed time increment
-                    _colourCooldownTimer += Time.fixedDeltaTime;
-
-                    // Check if the colour cool down timer is greater than, or equal to, the colour cool down time
-                    if (_colourCooldownTimer >= _colourCooldownTime)
-                    {
-                        // Change the has changed boolean to false
-                        _hasChangedColour = false;
-
-                        // Set the can change colour boolean to true
-                        _canChangeColour = true;
-                    }
-                }
-
-                // Check if the player is invinvicle
-                if (_isInvincible)
-                {
-                    // Flash the sprite
-                    FlashSprite();
-
-                    // Invoke the invincibility method
-                    Invincibilty();
-                }
-
-                // Determine the crash ray origin
-                Vector2 crashRayOrigin = new Vector2(position.x, position.y);
-
-                // Cast crash ray forward 
-                RaycastHit2D crashForward = Physics2D.Raycast(crashRayOrigin, Vector2.right, HalfWidth + 0.1f);
-
-                // Check that if the crash forward ray has hit a collider
-                if (crashForward.collider != null)
-                {
-                    // Obtain an obstacle from the collider
-                    Obstacle obstacle = crashForward.collider.GetComponent<Obstacle>();
-
-                    // Check obstacle exists
-                    if (obstacle != null)
-                    {
-                        // Invoke the Hit Obstacle method
-                        HitObstacle(obstacle);
-                    }
-
-                    // Obtain a light beam from the collider
-                    LightBeam lightBeam = crashForward.collider.GetComponent<LightBeam>();
-
-                    // Check if the light beam exists
-                    if(lightBeam != null)
-                    {
-                        // Check if the player is not the same colour as the light beam
-                        if (_isColourOne != lightBeam.IsColourOne)
+                        // Check if the last collision is not with the ground
+                        if (_lastCollision != LastCollision.ground)
                         {
-                            // Invoke the hit light gate method
-                            HitLightGate();
+                            // Set last collision to pit
+                            _lastCollision = LastCollision.pit;
+                        }
+
+                        // Set the player state to dying
+                        _playerState = PlayerState.dying;
+
+                        // Set the velocity of the player to a zero vector
+                        _velocity = Vector2.zero;
+
+                        // Return to avoid unecessary calculation
+                        return;
+                    }
+
+                    // Check if the player has life left
+                    if (Health < 1)
+                    {
+                        // Set the player state to dying
+                        _playerState = PlayerState.dying;
+
+                        // Check the last thing the player collided with
+                        if (_lastCollision == LastCollision.obstacle)
+                        {
+                            // Player hit obstacle, set the death time for an obstacle death
+                            _deathTime = _obstacleDeathTime;
+                        }
+                        else if (_lastCollision == LastCollision.lightgate)
+                        {
+                            // Player last hit a light gate, set the death time for a light gate death
+                            _deathTime = _lightGateDeathTime;
+                        }
+                        else
+                        {
+                            // Player has fallen into a pit, set the death time for a fall death
+                            _deathTime = _fallDeathTime;
+                        }
+
+                        // Set the velocity to a zero vector
+                        _velocity = Vector2.zero;
+
+                        // Return to avoid unecessary calculation
+                        return;
+                    }
+
+                    // Check if colour has changed
+                    if (_hasChangedColour)
+                    {
+                        // Increment the cool down timer by the fixed time increment
+                        _colourCooldownTimer += Time.fixedDeltaTime;
+
+                        // Check if the colour cool down timer is greater than, or equal to, the colour cool down time
+                        if (_colourCooldownTimer >= _colourCooldownTime)
+                        {
+                            // Change the has changed boolean to false
+                            _hasChangedColour = false;
+
+                            // Set the can change colour boolean to true
+                            _canChangeColour = true;
                         }
                     }
 
-                    // Obtain the ground from the collider
-                    Ground ground = crashForward.collider.GetComponent<Ground>();
-
-                    // Check if the ground exists
-                    if (ground != null)
+                    // Check if the player is invinvicle
+                    if (_isInvincible)
                     {
-                        // Invoke the hit ground method
-                        HitGround();
+                        // Flash the sprite
+                        InvincibilityEffect();
+
+                        // Invoke the invincibility method
+                        Invincibilty();
                     }
 
-                    // Obtain the item collider
-                    HealthItem healthItem = crashForward.collider.GetComponent<HealthItem>();
+                    // Determine the crash ray origin
+                    Vector2 crashRayOrigin = new Vector2(position.x, position.y);
 
-                    // Check that a health item exists
-                    if(healthItem != null)
+                    // Cast crash ray forward 
+                    RaycastHit2D crashForward = Physics2D.Raycast(crashRayOrigin, Vector2.right, (0.5f * HalfWidth) + 0.1f);
+
+                    // Check that if the crash forward ray has hit a collider
+                    if (crashForward.collider != null)
                     {
-                        // Invoke the picked up function from the health item
-                        healthItem.PickedUp();
-                    }
-                }
+                        // Obtain an obstacle from the collider
+                        Obstacle obstacle = crashForward.collider.GetComponent<Obstacle>();
 
-                // Draw the ray in the scene view
-                Debug.DrawRay(crashRayOrigin, Vector2.right * (HalfWidth + 0.1f), Color.cyan);
-
-                // Cast crash ray downwards
-                RaycastHit2D crashDown= Physics2D.Raycast(crashRayOrigin, Vector2.up, VerticalVelocity * Time.fixedDeltaTime);
-                
-                // Check if the crash down collider exists
-                if (crashDown.collider != null)
-                {
-                    // Obtain an obstacle from the crash down collider
-                    Obstacle obstacle = crashDown.collider.GetComponent<Obstacle>();
-
-                    // Check obstacle exists
-                    if (obstacle != null)
-                    {
-                        // Invoke the Hit Obstacle method
-                        HitObstacle(obstacle);
-                    }
-                }
-
-                // Draw the ray in the scene view
-                Debug.DrawRay(crashRayOrigin, Vector2.up * VerticalVelocity * Time.fixedDeltaTime, Color.yellow);
-
-                // Check if the player is not grounded
-                if (!_isGrounded)
-                {
-                    // Check if the player is holding the jump button
-                    if (_isHoldingJump)
-                    {
-                        // Increment the hold jump timer by fixed delta time
-                        _holdJumpTimer += Time.fixedDeltaTime;
-
-                        // Check if the hold jump timer is greater than, or equal to, the max hold jump tim
-                        if (_holdJumpTimer >= _holdJumpTime)
+                        // Check obstacle exists
+                        if (obstacle != null)
                         {
-                            // Set "is holding jump" to false
-                            _isHoldingJump = false;
+                            // Invoke the Hit Obstacle method
+                            HitObstacle(obstacle);
                         }
-                    }
 
-                    // Determine the Y component of the position according to the Y component of velocity multiplied by the fixed delta time
-                    position.y += _velocity.y * Time.fixedDeltaTime;
+                        // Obtain a light beam from the collider
+                        LightBeam lightBeam = crashForward.collider.GetComponent<LightBeam>();
 
-                    // Check if the player isn't holding the jump button
-                    if (!_isHoldingJump)
-                    {
-                        // Adjust the Y component of velocity 
-                        _velocity.y -= _gravity * Time.fixedDeltaTime;
-                    }
+                        // Check if the light beam exists
+                        if (lightBeam != null)
+                        {
+                            // Check if the player is not the same colour as the light beam
+                            if (_isColourOne != lightBeam.IsColourOne)
+                            {
+                                // Invoke the hit light gate method
+                                HitLightGate();
+                            }
+                        }
 
-                    // Obtain the ground check ray origin
-                    Vector2 groundCheckRayOrigin = position;
+                        // Obtain the ground from the collider
+                        Ground ground = crashForward.collider.GetComponent<Ground>();
 
-                    // Alter the X component of the ray origin by the ground check ray offset
-                    groundCheckRayOrigin.x = groundCheckRayOrigin.x + _checkRayOffset;
-
-                    // Set ray direction to up (will become down when the velocity in Y is negative)
-                    Vector2 groundCheckRayDirection = Vector2.up;
-
-                    // determine the ground check ray distance based on the velocity multiplied by the fixed delta time
-                    float groundCheckRayDistance = (_velocity.y * Time.fixedDeltaTime) - HalfHeight;
-
-                    // Cast ray and store as a 2D raycast hit
-                    RaycastHit2D hit2D = Physics2D.Raycast(groundCheckRayOrigin, groundCheckRayDirection, groundCheckRayDistance);
-
-                    // Check if the collider exists and the X value of the collision point is the same as the X value of the ray origin
-                    if (hit2D.collider != null && !_hasHitGround)
-                    {
-                        // Obtain the ground object from the collision
-                        Ground ground = hit2D.collider.GetComponent<Ground>();
-
-                        // Check that the ground object exists
+                        // Check if the ground exists
                         if (ground != null)
                         {
-                            // Set the ground height
-                            _groundHeight = ground.GroundHeight + HalfHeight;
+                            // Invoke the hit ground method
+                            HitGround();
+                        }
 
-                            // Set the Y component to the ground height
-                            position.y = _groundHeight;
+                        // Obtain the item collider
+                        HealthItem healthItem = crashForward.collider.GetComponent<HealthItem>();
 
-                            // Set the y velocity to 0
-                            _velocity.y = 0f;
-
-                            // Set the player state to running
-                            _playerState = PlayerState.running;
-
-                            // Set the player last action to run
-                            _lastAction = LastAction.run;
-
-                            // Set "is grounded" to true
-                            _isGrounded = true;
+                        // Check that a health item exists
+                        if (healthItem != null)
+                        {
+                            // Invoke the picked up method from the health item
+                            healthItem.PickedUp();
                         }
                     }
 
                     // Draw the ray in the scene view
-                    Debug.DrawRay(groundCheckRayOrigin, groundCheckRayDirection * groundCheckRayDistance, Color.red);
-                }
+                    Debug.DrawRay(crashRayOrigin, Vector2.right * (HalfWidth + 0.1f), Color.cyan);
 
-                // Add the distance travelled at the current fixed time
-                _distance += (_velocity.x * Time.fixedDeltaTime) / transform.localScale.x;
+                    // Cast crash ray downwards
+                    RaycastHit2D crashDown = Physics2D.Raycast(crashRayOrigin, Vector2.up, VerticalVelocity * Time.fixedDeltaTime);
 
-                // Check if player is grounded
-                if (_isGrounded)
-                {
-                    // Determine the velocity ratio of the horizontal velocity
-                    float velocityRatio = _velocity.x / _maxRunVelocity;
-
-                    // Determine the the acceleration
-                    float acceleration = _maxAcceleration * (1 - velocityRatio);
-
-                    // Determine the hold time for the jump based on the max hold jump time and the velocity ratio
-                    _holdJumpTime = _maxHoldJumpTime * velocityRatio;
-
-                    // Increment the X component of velocity
-                    _velocity.x += acceleration * Time.fixedDeltaTime;
-
-                    // Check if the X component of velocity is greater than the max run velocity
-                    if (_velocity.x >= _maxRunVelocity)
+                    // Check if the crash down collider exists
+                    if (crashDown.collider != null)
                     {
-                        // Set the X component to the max run velocity
-                        _velocity.x = _maxRunVelocity;
-                    }
+                        // Obtain an obstacle from the crash down collider
+                        Obstacle obstacle = crashDown.collider.GetComponent<Obstacle>();
 
-                    // Obtain the jump check ray origin
-                    Vector2 jumpCheckRayOrigin = position;
+                        // Check obstacle exists
+                        if (obstacle != null)
+                        {
+                            // Invoke the Hit Obstacle method
+                            HitObstacle(obstacle);
+                        }
 
-                    // Alter the X component of the ray origin by the ground check ray offset
-                    jumpCheckRayOrigin.x = jumpCheckRayOrigin.x - _checkRayOffset;
+                        // Obtain a health item from the crash down collider
+                        HealthItem healthItem = crashDown.collider.GetComponent<HealthItem>();
 
-                    // Set ray direction to up (will become down when the velocity in Y is negative)
-                    Vector2 jumpCheckRayDirection = Vector2.up;
-
-                    // determine the ground check ray distance based on the velocity multiplied by the fixed delta time
-                    float jumpCheckRayDistance = (_velocity.y * Time.fixedDeltaTime) - HalfHeight;
-
-                    // Cast ray and store as a 2D raycast hit
-                    RaycastHit2D hit2D = Physics2D.Raycast(jumpCheckRayOrigin, jumpCheckRayDirection, jumpCheckRayDistance);
-
-                    // Check if the collider exists
-                    if (hit2D.collider == null)
-                    {
-                        // Set "is grounded" to true
-                        _isGrounded = false;
+                        // Check health item exists
+                        if (healthItem != null)
+                        {
+                            // Invoke the picked up method from the health item
+                            healthItem.PickedUp();
+                        }
                     }
 
                     // Draw the ray in the scene view
-                    Debug.DrawRay(jumpCheckRayOrigin, jumpCheckRayDirection * jumpCheckRayDistance, Color.green);
+                    Debug.DrawRay(crashRayOrigin, Vector2.up * VerticalVelocity * Time.fixedDeltaTime, Color.yellow);
+
+                    // Check if the player is not grounded
+                    if (!_isGrounded)
+                    {
+                        // Check if the player is holding the jump button
+                        if (_isHoldingJump)
+                        {
+                            // Increment the hold jump timer by fixed delta time
+                            _holdJumpTimer += Time.fixedDeltaTime;
+
+                            // Check if the hold jump timer is greater than, or equal to, the max hold jump tim
+                            if (_holdJumpTimer >= _holdJumpTime)
+                            {
+                                // Set "is holding jump" to false
+                                _isHoldingJump = false;
+                            }
+                        }
+
+                        // Determine the Y component of the position according to the Y component of velocity multiplied by the fixed delta time
+                        position.y += _velocity.y * Time.fixedDeltaTime;
+
+                        // Check if the player isn't holding the jump button
+                        if (!_isHoldingJump)
+                        {
+                            // Adjust the Y component of velocity 
+                            _velocity.y -= _gravity * Time.fixedDeltaTime;
+                        }
+
+                        // Obtain the ground check ray origin
+                        Vector2 groundCheckRayOrigin = position;
+
+                        // Alter the X component of the ray origin by the ground check ray offset
+                        groundCheckRayOrigin.x = groundCheckRayOrigin.x + _checkRayOffset;
+
+                        // Set ray direction to up (will become down when the velocity in Y is negative)
+                        Vector2 groundCheckRayDirection = Vector2.up;
+
+                        // determine the ground check ray distance based on the velocity multiplied by the fixed delta time
+                        float groundCheckRayDistance = (_velocity.y * Time.fixedDeltaTime) - HalfHeight;
+
+                        // Cast ray and store as a 2D raycast hit
+                        RaycastHit2D hit2D = Physics2D.Raycast(groundCheckRayOrigin, groundCheckRayDirection, groundCheckRayDistance);
+
+                        // Check if the collider exists and the X value of the collision point is the same as the X value of the ray origin
+                        if (hit2D.collider != null && !_hasHitGround)
+                        {
+                            // Obtain the ground object from the collision
+                            Ground ground = hit2D.collider.GetComponent<Ground>();
+
+                            // Check that the ground object exists
+                            if (ground != null)
+                            {
+                                // Set the ground height
+                                _groundHeight = ground.GroundHeight + HalfHeight;
+
+                                // Set the Y component to the ground height
+                                position.y = _groundHeight;
+
+                                // Set the y velocity to 0
+                                _velocity.y = 0f;
+
+                                // Set the player state to running
+                                _playerState = PlayerState.running;
+
+                                // Set the player last action to run
+                                _lastAction = LastAction.run;
+
+                                // Set "is grounded" to true
+                                _isGrounded = true;
+                            }
+                        }
+
+                        // Draw the ray in the scene view
+                        Debug.DrawRay(groundCheckRayOrigin, groundCheckRayDirection * groundCheckRayDistance, Color.red);
+                    }
+
+                    // Add the distance travelled at the current fixed time
+                    _distance += (_velocity.x * Time.fixedDeltaTime) / transform.localScale.x;
+
+                    // Check if player is grounded
+                    if (_isGrounded)
+                    {
+                        // Determine the velocity ratio of the horizontal velocity
+                        float velocityRatio = _velocity.x / _maxRunVelocity;
+
+                        // Determine the the acceleration
+                        float acceleration = _maxAcceleration * (1 - velocityRatio);
+
+                        // Determine the hold time for the jump based on the max hold jump time and the velocity ratio
+                        _holdJumpTime = _maxHoldJumpTime * velocityRatio;
+
+                        // Increment the X component of velocity
+                        _velocity.x += acceleration * Time.fixedDeltaTime;
+
+                        // Check if the X component of velocity is greater than the max run velocity
+                        if (_velocity.x >= _maxRunVelocity)
+                        {
+                            // Set the X component to the max run velocity
+                            _velocity.x = _maxRunVelocity;
+                        }
+
+                        // Obtain the jump check ray origin
+                        Vector2 jumpCheckRayOrigin = position;
+
+                        // Alter the X component of the ray origin by the ground check ray offset
+                        jumpCheckRayOrigin.x = jumpCheckRayOrigin.x - _checkRayOffset;
+
+                        // Set ray direction to up (will become down when the velocity in Y is negative)
+                        Vector2 jumpCheckRayDirection = Vector2.up;
+
+                        // determine the ground check ray distance based on the velocity multiplied by the fixed delta time
+                        float jumpCheckRayDistance = (_velocity.y * Time.fixedDeltaTime) - HalfHeight;
+
+                        // Cast ray and store as a 2D raycast hit
+                        RaycastHit2D hit2D = Physics2D.Raycast(jumpCheckRayOrigin, jumpCheckRayDirection, jumpCheckRayDistance);
+
+                        // Check if the collider exists
+                        if (hit2D.collider == null)
+                        {
+                            // Set "is grounded" to true
+                            _isGrounded = false;
+                        }
+
+                        // Draw the ray in the scene view
+                        Debug.DrawRay(jumpCheckRayOrigin, jumpCheckRayDirection * jumpCheckRayDistance, Color.green);
+                    }
+
+                    // Set the transform position to the position vector
+                    transform.position = position;
+
+                    // Update the space above the players head
+                    _aboveHead = transform.position.y + HalfHeight + _playerHeadSpace;
                 }
-
-                // Set the transform position to the position vector
-                transform.position = position;
-
-                // Update the space above the players head
-                _aboveHead = transform.position.y + HalfHeight + _playerHeadSpace;
+                else
+                {
+                    // Invoke the player dying method
+                    PlayerDying();
+                }
             }
         }
     }
@@ -789,12 +845,13 @@ public class PlayerController : MonoBehaviour
     }
 
     /*
-     * FLASH SPRITE METHOD
+     * INVINCIBILITY EFFECT METHOD
      * 
      * Method handles the flashing of the
-     * player sprite when invoked.
+     * player sprite when player is 
+     * invincible.
      */
-    private void FlashSprite()
+    private void InvincibilityEffect()
     {
         // Increment the invincibility flash timer by delta time
         _invinFlashTimer += Time.fixedDeltaTime;
@@ -973,6 +1030,7 @@ public class PlayerController : MonoBehaviour
         _playerState = PlayerState.dead;
     }
 
+
     /*
      * ADD HEALTH
      * 
@@ -993,5 +1051,71 @@ public class PlayerController : MonoBehaviour
 
         // Increment the health variable
         _health++;
+    }
+
+    /*
+     * DYING EFFECT METHOD
+     * 
+     * Method gives the sprite a flashing
+     * effect when the player is dying
+     */
+    private void DyingEffect()
+    { 
+        // Increment the sprite flash timer
+        _spriteFlashTimer += Time.fixedDeltaTime;
+
+        if (_spriteFlashTimer < _spriteFlashTime)
+        {
+            // Set the sprite colour to white with 0 alpha value
+            _playerSprite.color = new Vector4(_playerSprite.color.r, _playerSprite.color.g, _playerSprite.color.b, 0f);
+        }
+        else if(_spriteFlashTimer >= 2 * _spriteFlashTime)
+        {
+            // Reset the sprite flash timer to 0 seconds
+            _spriteFlashTimer = 0f;
+        }
+        else
+        {
+            // Set the colour of the sprite to white with 1f alpha value
+            _playerSprite.color = new Vector4(_playerSprite.color.r, _playerSprite.color.g, _playerSprite.color.b, 1f);
+        }
+    }
+
+    /*
+     * PLAYER DYING METHOD
+     * 
+     * When invoked, the method handles the
+     * time it takes to show the player die
+     * on screen, then consider the game
+     * over.
+     */
+    private void PlayerDying()
+    {
+        // Prevent the player from changing colour
+        _canChangeColour = false;
+
+        // Increment the death timer
+        _deathTimer += Time.fixedDeltaTime;
+
+        // Check that the last collision made by the player was with an obstacle or a light gate
+        if(_lastCollision == LastCollision.lightgate || _lastCollision == LastCollision.obstacle)
+        {
+            // Check if the death timer is greater than, or equal to, the death time minus the sprite fade time
+            if (_deathTimer >= _deathTime - _spriteFadeTime)
+            {
+                // Invoke the dying effect
+                DyingEffect();
+            }
+        }
+
+        // Check if the death timer is greater than, or equal to the death time
+        if(_deathTimer >= _deathTime)
+        {
+            // Set the sprite colour to white with 0 alpha value, to make the sprite disappear from the screen
+            _playerSprite.color = new Vector4(_playerSprite.color.r, _playerSprite.color.g, _playerSprite.color.b, 0f);
+
+            // Invoke the game over method
+            GameOver();
+        }
     }
 }

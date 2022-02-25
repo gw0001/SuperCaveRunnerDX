@@ -116,6 +116,8 @@ public class BackgroundParallax : MonoBehaviour
         // Alter the position of the object based on the velocity multiplied by the fixed delta time
         position.x -= velocity * Time.fixedDeltaTime;
 
+        position.z = _parallaxManager.Depth;
+
         // Set the transform position of the object
         transform.position = position;
 
