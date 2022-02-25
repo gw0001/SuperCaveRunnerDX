@@ -35,20 +35,23 @@ public class GameState : MonoBehaviour
     [SerializeField] private float _resultButtonWaitTime = 2f; // Button wait time
 
     // *** VARIABLES *** //
-    private TextMeshProUGUI _messageText; // Message UI text
-    private PlayerController _player; // Player
     private PlayerInput _playerInput; // Player input
-    private GameObject _resultsPanel; // Result panel
-    private TextMeshProUGUI _retryText; // Retry Text
-    private Image _retryButton; // Retry Button
-    private TextMeshProUGUI _resultsText; // Results text
+    private PlayerController _player; // Player
     private ResultAnalyser _resultAnalyser; // Result analyser object
     private AnnouncerManager _announcer; // Announcer object
-    [SerializeField] private ControlScheme _controlScheme;
+    private ControlScheme _controlScheme; // Control sceheme
     private ButtonSpriteManager _buttonManager; // Button manager object
+    private BestScoreManager _bestScoreManager; // Best score manager
+    private TextMeshProUGUI _messageText; // Message UI text
+    private TextMeshProUGUI _retryText; // Retry Text
+    private TextMeshProUGUI _resultsText; // Results text
+    private TextMeshProUGUI _bestDistanceText; // Best Distance Text 
+    private Difficulty _distanceDifficulty; // Game Difficulty
+    private GameObject _resultsPanel; // Result panel
     private GameObject _healthUI; // Health UI game object
     private GameObject _speedUI; // Speed UI game object
     private GameObject _distanceUI; // Distance UI game object
+    private Image _retryButton; // Retry Button
     private float _resultButtonWaitTimer; // Button wait timer
     private float _timer; // Timer
     private bool _gameStarted; // Game started boolean
@@ -57,7 +60,7 @@ public class GameState : MonoBehaviour
     private bool _resultsDisplayed; // Result displayed boolean
     private bool _readySoundPlayed; // Ready sound played boolean
     private bool _goSoundPlayed; // Go sound played boolean
-    [SerializeField] private Difficulty _distanceDifficulty; // Game Difficulty
+
 
     // Difficulty enumerator
     public enum Difficulty
@@ -142,7 +145,7 @@ public class GameState : MonoBehaviour
     /*
      * AWAKE METHOD
      */
-    void Awake()
+    private void Awake()
     {
         // Obtain the control scheme from the game scene
         _controlScheme = GameObject.FindObjectOfType<ControlScheme>();
@@ -159,6 +162,9 @@ public class GameState : MonoBehaviour
         // Set the player input the to player controller action map
         _playerInput.SwitchCurrentActionMap("PlayerController");
 
+        // Obtain the best score manager
+        _bestScoreManager = GameObject.FindObjectOfType<BestScoreManager>();
+
         // Obtain the message text object
         _messageText = GameObject.Find("MessageText").GetComponent<TextMeshProUGUI>();
 
@@ -170,6 +176,24 @@ public class GameState : MonoBehaviour
 
         // Obtain the retry text
         _retryText = GameObject.Find("RetryText").GetComponent<TextMeshProUGUI>();
+        
+        // Obtain the best distance text
+        _bestDistanceText = GameObject.Find("BestDistanceText").GetComponent<TextMeshProUGUI>();
+
+        // Check the best distance held by the best score manager
+        if(_bestScoreManager.BestDistance <= 0)
+        {
+            // Score best distance is 0, do not show the text
+            _bestDistanceText.alpha = 0f;
+        }
+        else
+        {
+            // Distance greater than 0, show text
+            _bestDistanceText.alpha = 1f;
+
+            // Set the text to the best distance
+            _bestDistanceText.text = "BEST: " + _bestScoreManager.BestDistance.ToString() + "m";
+        }
 
         // Obtain the retry button
         _retryButton = GameObject.Find("RetryButtonIcon").GetComponent<Image>();
@@ -297,6 +321,10 @@ public class GameState : MonoBehaviour
                 // Disable the game UI elements
                 DisableUIElements();
 
+                //
+                SetDistance();
+
+
                 // Enable the UI controller action map
                 _playerInput.SwitchCurrentActionMap("UIController");
 
@@ -392,6 +420,9 @@ public class GameState : MonoBehaviour
 
         // Deactivate the distance UI element
         _distanceUI.SetActive(false);
+
+        // Hide the best distance text
+        _bestDistanceText.alpha = 0f;
     }
 
     /*
@@ -444,12 +475,12 @@ public class GameState : MonoBehaviour
     }
 
     /*
- * UPDATE ICON METHOD
- * 
- * Method is used to update the start
- * button text icon, depending on the device
- * that the user is currently using.
- */
+     * UPDATE ICON METHOD
+     * 
+     * Method is used to update the start
+     * button text icon, depending on the device
+     * that the user is currently using.
+     */
     private void UpdateIcon()
     {
         // Obtain the players device
@@ -471,6 +502,25 @@ public class GameState : MonoBehaviour
         {
             // Set the button to the Space bar sprite
             _retryButton.sprite = _buttonManager.ReturnKeyboardSprite(0, true);
+        }
+    }
+
+    /*
+     * SET DISTANCE METHOD
+     * 
+     * Method is used to set the best distance of the 
+     * best distance score, depending on
+     */
+    private void SetDistance()
+    {
+        // Obtain the distance as an integer from the player
+        int newBestDistance = Mathf.FloorToInt(_player.Distance);
+
+        // Check if the new best distance is greater than the current best distance
+        if (newBestDistance > _bestScoreManager.BestDistance)
+        {
+            // Set the best distance to the new best distance
+            _bestScoreManager.BestDistance = newBestDistance;
         }
     }
 }
