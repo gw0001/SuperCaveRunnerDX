@@ -795,23 +795,31 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /*
+     * HIT LIGHT GATE METHOD
+     * 
+     * When invoked, the method alters the
+     * player health
+     */
     private void HitLightGate()
     {
         // Check if the player is not invincible
         if (!_isInvincible)
         {
             // Lose one hit point
-            _health--;
+            //_health--;
+
+            _health = 0;
 
             // Set the last collision made by the player to the obstacle
             _lastCollision = LastCollision.lightgate;
 
-            // Check if the players health is greater than 0
-            if (Health > 0)
-            {
-                // Set the is invincible boolean to true
-                _isInvincible = true;
-            }
+            //// Check if the players health is greater than 0
+            //if (Health > 0)
+            //{
+            //    // Set the is invincible boolean to true
+            //    _isInvincible = true;
+            //}
         }
     }
 
@@ -1111,8 +1119,18 @@ public class PlayerController : MonoBehaviour
         // Check if the death timer is greater than, or equal to the death time
         if(_deathTimer >= _deathTime)
         {
+
+            // Check that the last collision made by the player was with an obstacle or a light gate
+            if (_lastCollision == LastCollision.lightgate || _lastCollision == LastCollision.obstacle)
+            {
+
+                // Set the sprite colour to white with 0 alpha value, to make the sprite disappear from the screen
+                _playerSprite.color = new Vector4(_playerSprite.color.r, _playerSprite.color.g, _playerSprite.color.b, 0f);
+            }
+
+
             // Set the sprite colour to white with 0 alpha value, to make the sprite disappear from the screen
-            _playerSprite.color = new Vector4(_playerSprite.color.r, _playerSprite.color.g, _playerSprite.color.b, 0f);
+            //_playerSprite.color = new Vector4(_playerSprite.color.r, _playerSprite.color.g, _playerSprite.color.b, 0f);
 
             // Invoke the game over method
             GameOver();

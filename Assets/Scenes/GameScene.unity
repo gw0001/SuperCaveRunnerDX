@@ -155,7 +155,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1972597574}
-  m_RootOrder: 8
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -302,7 +302,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1972597574}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -331,7 +331,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'SUPER CAVE RUNNER DX
 
-    BUILD 250222 - 2'
+    BUILD 250222 - 3'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 95ec0fd030b3be34390781272d8a1d21, type: 2}
   m_sharedMaterial: {fileID: -2486371606908186400, guid: 95ec0fd030b3be34390781272d8a1d21, type: 2}
@@ -500,7 +500,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1972597574}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1175,7 +1175,7 @@ MonoBehaviour:
   _mediumDistance: 300
   _hardDistance: 1000
   _insaneDistance: 10000
-  _resultButtonWaitTime: 1.5
+  _resultButtonWaitTime: 1.25
 --- !u!4 &325606664 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 198111913358041161, guid: 77e7b47298e3dd04b806d8103637e623, type: 3}
@@ -2611,7 +2611,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -330, y: -133}
+  m_AnchoredPosition: {x: -330, y: -61}
   m_SizeDelta: {x: 610, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1188776075
@@ -3299,8 +3299,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -230, y: -61}
-  m_SizeDelta: {x: 410, y: 72}
+  m_AnchoredPosition: {x: -450, y: -133}
+  m_SizeDelta: {x: 850, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1518952474
 MonoBehaviour:
@@ -3322,7 +3322,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1234567m
+  m_text: 'CURRENT: 1234567m'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 95ec0fd030b3be34390781272d8a1d21, type: 2}
   m_sharedMaterial: {fileID: -2486371606908186400, guid: 95ec0fd030b3be34390781272d8a1d21, type: 2}
@@ -3569,7 +3569,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1972597574}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -3646,7 +3646,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1972597574}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3939,7 +3939,7 @@ RectTransform:
   - {fileID: 1471184297}
   - {fileID: 295124615}
   m_Father: {fileID: 1972597574}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -4081,7 +4081,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1972597574}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -4385,13 +4385,13 @@ RectTransform:
   m_Children:
   - {fileID: 1518952473}
   - {fileID: 1188776074}
+  - {fileID: 1039554}
   - {fileID: 1742153745}
   - {fileID: 160482734}
   - {fileID: 1670036291}
   - {fileID: 1935542559}
   - {fileID: 1813713151}
   - {fileID: 37024766}
-  - {fileID: 1039554}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

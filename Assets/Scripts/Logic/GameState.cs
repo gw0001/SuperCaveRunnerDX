@@ -180,20 +180,11 @@ public class GameState : MonoBehaviour
         // Obtain the best distance text
         _bestDistanceText = GameObject.Find("BestDistanceText").GetComponent<TextMeshProUGUI>();
 
-        // Check the best distance held by the best score manager
-        if(_bestScoreManager.BestDistance <= 0)
-        {
-            // Score best distance is 0, do not show the text
-            _bestDistanceText.alpha = 0f;
-        }
-        else
-        {
-            // Distance greater than 0, show text
-            _bestDistanceText.alpha = 1f;
+        // Distance greater than 0, show text
+        _bestDistanceText.alpha = 1f;
 
-            // Set the text to the best distance
-            _bestDistanceText.text = "BEST: " + _bestScoreManager.BestDistance.ToString() + "m";
-        }
+        // Set the text to the best distance
+        _bestDistanceText.text = "BEST: " + _bestScoreManager.BestDistance.ToString() + "m";
 
         // Obtain the retry button
         _retryButton = GameObject.Find("RetryButtonIcon").GetComponent<Image>();
@@ -321,10 +312,6 @@ public class GameState : MonoBehaviour
                 // Disable the game UI elements
                 DisableUIElements();
 
-                //
-                SetDistance();
-
-
                 // Enable the UI controller action map
                 _playerInput.SwitchCurrentActionMap("UIController");
 
@@ -363,6 +350,9 @@ public class GameState : MonoBehaviour
             // Check the players status
             CheckPlayer();
         }
+
+        // Check and update the best distance
+        SetBestDistance();
     }
 
     private void Update()
@@ -511,7 +501,7 @@ public class GameState : MonoBehaviour
      * Method is used to set the best distance of the 
      * best distance score, depending on
      */
-    private void SetDistance()
+    private void SetBestDistance()
     {
         // Obtain the distance as an integer from the player
         int newBestDistance = Mathf.FloorToInt(_player.Distance);
@@ -521,6 +511,9 @@ public class GameState : MonoBehaviour
         {
             // Set the best distance to the new best distance
             _bestScoreManager.BestDistance = newBestDistance;
+
+            // Update the best distance text
+            _bestDistanceText.text = "BEST: " + _bestScoreManager.BestDistance.ToString() + "m";
         }
     }
 }
