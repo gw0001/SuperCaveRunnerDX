@@ -6,8 +6,8 @@
 /* CREATED - 12/02/22                      */
 /* LAST MODIFIED - 12/02/22                */
 /* ======================================= */
-/* FIRST SCREEN MANAGER                    */
-/* FirstScreenManager.cs                   */
+/* FIRST SCREEN LOGIC                      */
+/* FirstScreenLogic.cs                     */
 /* ======================================= */
 /* Script for managing the first screen of */
 /* the game.                               */
@@ -18,13 +18,18 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class FIrstScreenLogic : MonoBehaviour
+public class FirstScreenLogic : MonoBehaviour
 {
     // *** SERIALISED SETTINGS *** //
     [Header ("Screen settings")]
     [SerializeField] private float _textAppearTime = 1f; // Text appear time
     [SerializeField] private float _textDisappearTime = 1f; // Text disappear time
     [SerializeField] private float _screenTime = 3f; // Screen time
+
+    [SerializeField] private AudioClip _introClip;
+
+    private AudioSource _introSound;
+    private bool _introSoundPlayed = false;
 
     // *** VARIABLES *** //
     private TextMeshProUGUI _screenText;
@@ -50,6 +55,21 @@ public class FIrstScreenLogic : MonoBehaviour
 
         // Set the screen text timer to 0 seconds
         _screenTimer = 0f;
+
+        // Initialise the intro sound played boolean to false
+        _introSoundPlayed = false;
+
+        // Obtain the audio source component from the game object
+        _introSound = GetComponent<AudioSource>();
+
+        // Set the clip to the intro clip
+        _introSound.clip = _introClip;
+
+        // Prevent the clip from looping
+        _introSound.loop = false;
+
+        // Prevent the sound clip from playing when the audio source is awoken
+        _introSound.playOnAwake = false;
     }
 
     /*
@@ -68,6 +88,13 @@ public class FIrstScreenLogic : MonoBehaviour
         {
             // Set the screen alpha to 1f
             _screenText.alpha = 1f;
+
+            // Check if the intro sound has been played
+            if(!_introSoundPlayed)
+            {
+                // Play Sound
+                PlaySound();
+            }
         }
 
         // Check if the screen timer is greater than, or equal to the screen time minus the text disappear time
@@ -83,5 +110,21 @@ public class FIrstScreenLogic : MonoBehaviour
             // Load the title screen
             SceneManager.LoadScene("TitleScreen");
         }
+    }
+
+    /*
+     * PLAY SOUND METHOD
+     * 
+     * When invoked, the method plays the intro
+     * sound and sets the sound played boolean
+     * to true.
+     */
+    private void PlaySound()
+    {
+        // Play the audio source
+        _introSound.Play();
+
+        // Set intro sound played boolean to true
+        _introSoundPlayed = true;
     }
 }

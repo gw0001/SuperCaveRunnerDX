@@ -4,7 +4,7 @@
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
 /* CREATED - 01/02/22                      */
-/* LAST MODIFIED - 25/02/22                */
+/* LAST MODIFIED - 26/02/22                */
 /* ======================================= */
 /* PLAYER CONTROLLER                       */
 /* PlayerController.cs                     */
@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour
     private LastCollision _lastCollision; // Last collision
     private SpriteRenderer _playerSprite; // player sprite
     private ScreenInfo _screenInfo; // Screen information
+    private PlayerSoundManager _playerSoundManager; // Player sound manager
     private Vector2 _velocity; // Velocity vector
     private float _aboveHead; // Y coordinate above the player sprite
     private float _distance; // Distance
@@ -418,8 +419,6 @@ public class PlayerController : MonoBehaviour
         // Determine the starting colour based on the random colour number
         _isColourOne = randomColour <= 0.5f ? true : false;
 
-        //_playerSprite.color = _colourOne;
-
         // Set the can change colour to true
         _canChangeColour = true;
 
@@ -428,6 +427,9 @@ public class PlayerController : MonoBehaviour
 
         // Determine the Y value above the players head
         _aboveHead = transform.position.y + HalfHeight + _playerHeadSpace;
+
+        // Obtain the player sound manager
+        _playerSoundManager = GameObject.FindObjectOfType<PlayerSoundManager>();
     }
 
     /*
@@ -465,6 +467,9 @@ public class PlayerController : MonoBehaviour
                             _lastCollision = LastCollision.pit;
                         }
 
+                        // Player has fallen into a pit, set the death time for a fall death
+                        _deathTime = _fallDeathTime;
+
                         // Set the player state to dying
                         _playerState = PlayerState.dying;
 
@@ -491,11 +496,6 @@ public class PlayerController : MonoBehaviour
                         {
                             // Player last hit a light gate, set the death time for a light gate death
                             _deathTime = _lightGateDeathTime;
-                        }
-                        else
-                        {
-                            // Player has fallen into a pit, set the death time for a fall death
-                            _deathTime = _fallDeathTime;
                         }
 
                         // Set the velocity to a zero vector
@@ -583,6 +583,9 @@ public class PlayerController : MonoBehaviour
                         {
                             // Invoke the picked up method from the health item
                             healthItem.PickedUp();
+
+                            // Play the pick up sound
+                            _playerSoundManager.PlayHealthGain();
                         }
                     }
 
@@ -613,6 +616,9 @@ public class PlayerController : MonoBehaviour
                         {
                             // Invoke the picked up method from the health item
                             healthItem.PickedUp();
+
+                            // Play the pick up sound
+                            _playerSoundManager.PlayHealthGain();
                         }
                     }
 
@@ -789,9 +795,19 @@ public class PlayerController : MonoBehaviour
             // Check if the players health is greater than 0
             if (Health > 0)
             {
+                // Play the health loss sound effect
+                _playerSoundManager.PlayHealthLoss();
+
                 // Set the is invincible boolean to true
                 _isInvincible = true;
             }
+        }
+
+        // Check if the players health is greater than 0
+        if(Health > 0)
+        {
+            // Play the sound effect for crashing into a stalagmite
+            _playerSoundManager.PlayCrash();
         }
     }
 
@@ -806,20 +822,11 @@ public class PlayerController : MonoBehaviour
         // Check if the player is not invincible
         if (!_isInvincible)
         {
-            // Lose one hit point
-            //_health--;
-
+            // Set health to 0
             _health = 0;
 
             // Set the last collision made by the player to the obstacle
             _lastCollision = LastCollision.lightgate;
-
-            //// Check if the players health is greater than 0
-            //if (Health > 0)
-            //{
-            //    // Set the is invincible boolean to true
-            //    _isInvincible = true;
-            //}
         }
     }
 
@@ -893,6 +900,7 @@ public class PlayerController : MonoBehaviour
      */
     private void HitGround()
     {
+        // Check if the player has not hit the ground
         if(!_hasHitGround)
         {
             // Set velocity to 0 for both X and Y components
@@ -940,8 +948,8 @@ public class PlayerController : MonoBehaviour
             // Determine the ground distance based on the absolute value between the player position and the ground height
             float groundDistance = Mathf.Abs(position.y - _groundHeight);
 
-            // Check if the player is grounded or if the player is slightly above the ground
-            if (_isGrounded || groundDistance <= _jumpGroundThreshold)
+            // Check if the player is grounded or if the player is slightly above the ground and the player is not dying
+            if ((_isGrounded || groundDistance <= _jumpGroundThreshold) && _playerState != PlayerState.dying)
             {
                 // Set "is grounded" to false
                 _isGrounded = false;
@@ -957,6 +965,9 @@ public class PlayerController : MonoBehaviour
 
                 // Set the last action by the player to jump
                 _lastAction = LastAction.jump;
+
+                // Play jumping sound effect
+                _playerSoundManager.PlayJump();
 
                 // Reset the hold jump timer
                 _holdJumpTimer = 0.0f;
@@ -1072,6 +1083,7 @@ public class PlayerController : MonoBehaviour
         // Increment the sprite flash timer
         _spriteFlashTimer += Time.fixedDeltaTime;
 
+        // Check the value of the sprite flash timer and determine how the sprite should be displayed
         if (_spriteFlashTimer < _spriteFlashTime)
         {
             // Set the sprite colour to white with 0 alpha value
@@ -1105,6 +1117,25 @@ public class PlayerController : MonoBehaviour
         // Increment the death timer
         _deathTimer += Time.fixedDeltaTime;
 
+        // Play death sound
+        if(_lastCollision == LastCollision.obstacle)
+        {
+            // Play obstacle death
+            _playerSoundManager.PlayDeathObstacle();
+
+        }
+        else if(_lastCollision == LastCollision.lightgate)
+        {
+            // Play light gate death
+            _playerSoundManager.PlayDeathLightGate();
+
+        }
+        else
+        {
+            // Play falling death sound effect
+            _playerSoundManager.PlayDeathFall();
+        }
+
         // Check that the last collision made by the player was with an obstacle or a light gate
         if(_lastCollision == LastCollision.lightgate || _lastCollision == LastCollision.obstacle)
         {
@@ -1127,10 +1158,6 @@ public class PlayerController : MonoBehaviour
                 // Set the sprite colour to white with 0 alpha value, to make the sprite disappear from the screen
                 _playerSprite.color = new Vector4(_playerSprite.color.r, _playerSprite.color.g, _playerSprite.color.b, 0f);
             }
-
-
-            // Set the sprite colour to white with 0 alpha value, to make the sprite disappear from the screen
-            //_playerSprite.color = new Vector4(_playerSprite.color.r, _playerSprite.color.g, _playerSprite.color.b, 0f);
 
             // Invoke the game over method
             GameOver();

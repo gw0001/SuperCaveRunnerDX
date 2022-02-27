@@ -45,7 +45,9 @@ public class GameState : MonoBehaviour
     private TextMeshProUGUI _messageText; // Message UI text
     private TextMeshProUGUI _retryText; // Retry Text
     private TextMeshProUGUI _resultsText; // Results text
-    private TextMeshProUGUI _bestDistanceText; // Best Distance Text 
+    private TextMeshProUGUI _bestDistanceText; // Best Distance Text
+    private TextMeshProUGUI _newBestDistanceAlertText; // BestDistance alert text
+    private TextMeshProUGUI _newBestDistanceScoreText; // New best distance score text
     private Difficulty _distanceDifficulty; // Game Difficulty
     private GameObject _resultsPanel; // Result panel
     private GameObject _healthUI; // Health UI game object
@@ -54,6 +56,7 @@ public class GameState : MonoBehaviour
     private Image _retryButton; // Retry Button
     private float _resultButtonWaitTimer; // Button wait timer
     private float _timer; // Timer
+    private int _currentBestDistance; // Current best distance
     private bool _gameStarted; // Game started boolean
     private bool _gameEnded; // Game ended boolean
     private bool _canPressButton; // Can press button boolean
@@ -189,6 +192,21 @@ public class GameState : MonoBehaviour
         // Obtain the retry button
         _retryButton = GameObject.Find("RetryButtonIcon").GetComponent<Image>();
 
+        // Obtain the new best distance alert text
+        _newBestDistanceAlertText = GameObject.Find("NewBestDistanceAlert").GetComponent<TextMeshProUGUI>(); // BestDistance alert text
+
+        // Hide the new best distance score from view
+        _newBestDistanceAlertText.alpha = 0f;
+
+        // Obtain the new best distance score text
+        _newBestDistanceScoreText = GameObject.Find("NewBestDistanceScore").GetComponent<TextMeshProUGUI>(); // BestDistance alert text
+
+        // Hide the new best distance score from view
+        _newBestDistanceScoreText.alpha = 0f;
+
+        // Set the current best distance
+        _currentBestDistance = _bestScoreManager.BestDistance;
+
         // Set the alpha of the reults text to 0f
         _retryText.alpha = 0f;
 
@@ -320,6 +338,18 @@ public class GameState : MonoBehaviour
 
                 // Set the text of the results
                 _resultsText.text = _resultAnalyser.ResultAnalysis();
+
+                if(_bestScoreManager.BestDistance > _currentBestDistance)
+                {
+                    // Show the new alert to the player
+                    _newBestDistanceAlertText.alpha = 1f;
+
+                    // Display the new high score to the player
+                    _newBestDistanceScoreText.alpha = 1f;
+
+                    // Set the text of the new best distance
+                    _newBestDistanceScoreText.text = _bestScoreManager.BestDistance + "m";
+                }
 
                 // Set results displayed boolean to true
                 _resultsDisplayed = true;

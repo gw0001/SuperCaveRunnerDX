@@ -22,6 +22,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "MuteMusic",
+                    "type": "Button",
+                    "id": "42132fc6-4f78-47e5-840e-65b03c0f91f2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -29,17 +38,6 @@
                     "name": "",
                     "id": "2fc1a9c7-48de-4ec7-b3dd-4ac0436b3997",
                     "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "00038232-fe31-4cf7-999b-17140044d1ca",
-                    "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -71,41 +69,8 @@
                 },
                 {
                     "name": "",
-                    "id": "ba9e3b48-2812-49ad-9f03-ed889f6a883e",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "03f3717a-f726-4035-9441-309fdddb999d",
-                    "path": "<Touchscreen>/Press",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Touch",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "98bb6c85-e687-4a7f-b199-bd03ae3c58fc",
                     "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ChangeColour",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "da4e72e9-bcc7-4520-9abd-b9a6d4d64dc5",
-                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -137,23 +102,34 @@
                 },
                 {
                     "name": "",
-                    "id": "5a879c9c-20c3-499d-8f75-67c2480981d7",
-                    "path": "<Gamepad>/leftTrigger",
+                    "id": "6b4e6312-c5cc-48d4-a306-d5e179104417",
+                    "path": "<Keyboard>/m",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
-                    "action": "ChangeColour",
+                    "groups": "Keyboard",
+                    "action": "MuteMusic",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "18067f1f-bd94-45a7-bcec-bc278f9f8e70",
-                    "path": "<Touchscreen>/touch*/Press",
+                    "id": "2a80e78a-eb94-4d3b-8f0f-7d707c7439fe",
+                    "path": "<Mouse>/middleButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Touch",
-                    "action": "ChangeColour",
+                    "groups": "Mouse",
+                    "action": "MuteMusic",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "18b2352e-e831-4e63-854e-c4c5649441e3",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "MuteMusic",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -240,17 +216,6 @@
                 },
                 {
                     "name": "",
-                    "id": "c4dce443-884e-41e2-b0fd-3c7402ca48aa",
-                    "path": "<Touchscreen>/Press",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Touch",
-                    "action": "Accept",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "ba198c2c-3bbb-41c7-983d-3c71cec76182",
                     "path": "",
                     "interactions": "",
@@ -292,17 +257,6 @@
             "devices": [
                 {
                     "devicePath": "<Gamepad>",
-                    "isOptional": true,
-                    "isOR": false
-                }
-            ]
-        },
-        {
-            "name": "Touch",
-            "bindingGroup": "Touch",
-            "devices": [
-                {
-                    "devicePath": "<Touchscreen>",
                     "isOptional": true,
                     "isOR": false
                 }

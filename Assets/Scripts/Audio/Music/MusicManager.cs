@@ -4,7 +4,7 @@
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
 /* CREATED - 12/02/22                      */
-/* LAST MODIFIED - 12/02/22                */
+/* LAST MODIFIED - 27/02/22                */
 /* ======================================= */
 /* MusicManager                            */
 /* MusicManager.cs                         */
@@ -71,5 +71,25 @@ public class MusicManager : MonoBehaviour
     public void StopMusic()
     {
         _musicSource.Stop();
+    }
+
+    /*
+     * MUTE MUSIC METHOD
+     * 
+     * Method mutes the music when invoked.
+     */
+    public void MuteMusic()
+    {
+        _musicSource.mute = true;
+    }
+
+    /*
+     * UNMUTE MUSIC METHOD
+     * 
+     * Method unmutes the music when invoked.
+     */
+    public void UnmuteMusic()
+    {
+        _musicSource.mute = false;
     }
 }
