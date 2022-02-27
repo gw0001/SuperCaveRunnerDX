@@ -22,8 +22,8 @@ public class ForegroundParallaxManager : MonoBehaviour
     // *** SERIALIZED FOREGROUND SETTINGS *** //
     [Header ("Foreground Settings")]
     [SerializeField] private GameObject[] _foregroundObjects; // Foreground object array
-    [SerializeField, Range(30f, 99f)] private float _maxTime = 45f; // Maximum time before a cavern object appears
-    [SerializeField, Range(0.5f, 29.9f)] private float _minTime = 2.5f; // Minimum time before cavern object appears
+    [SerializeField, Range(15f, 99f)] private float _maxTime = 45f; // Maximum time before a cavern object appears
+    [SerializeField, Range(0.5f, 14.9f)] private float _minTime = 2.5f; // Minimum time before cavern object appears
     [SerializeField, Range(0.5f, 0.675f)] private float _minDepth = 0.5f; // Minimum depth to camera
     [SerializeField, Range(0.675f, 0.85f)] private float _maxDepth = 0.85f; // Maximum depth to camera
 

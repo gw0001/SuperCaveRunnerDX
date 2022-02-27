@@ -4,7 +4,7 @@
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
 /* CREATED - 11/02/22                      */
-/* LAST MODIFIED - 18/02/22                */
+/* LAST MODIFIED - 27/02/22                */
 /* ======================================= */
 /* TITLE SCREEN MANAGER                    */
 /* TitleScreenManager.cs                   */
@@ -26,9 +26,17 @@ public class TitleScreenManager : MonoBehaviour
 
     // *** VARIABLES *** //
     private Image _fadeImage; // Fade image
-    private Image _titleImage; // Title image 
+    private Image _titleImageRegular; // Title image 
+    private Image _titleSuper; // Super image
+    private Image _titleCaveRunner; // Cave runner image
+    private Image _titleD; // D image
+    private Image _titleX; // X image
     private GameObject _pressStart; // Press start game object
     private AnnouncerManager _announcerVoice; // Announcer voice
+    private Credits _credits; // Credits
+    private Color _visible = new Color(1f, 1f, 1f, 1f); // Visible colour
+    private Color _invisible = new Color(1f, 1f, 1f, 0f); // Invisible colour
+    private Color _fadeStart = new Color(0f, 0f, 0f, 1f); // Fade start colour
     private float _screenFadeTimer = 0f; // Screen fade timer
     private float _titleAppearTimer = 0f; // title appear timer
     private bool _titleLoaded = false; // Title loaded boolean
@@ -36,6 +44,22 @@ public class TitleScreenManager : MonoBehaviour
     private bool _mainTitlePlayed = false; // Main title played boolean
     private bool _dPlayed = false; // D played boolean
     private bool _xPlayed = false; // X played boolean
+
+
+
+    private bool _superLoaded = false;
+    private bool _caveRunnerLoaded = false;
+    private bool _dLoaded = false;
+    private bool _xLoaded = false;
+
+    [SerializeField] private float _superTime;
+    [SerializeField] private float _caveRunnerTime;
+    [SerializeField] private float _dTime;
+    [SerializeField] private float _xTime;
+
+
+
+
 
     /*
      * AWAKE METHOD
@@ -49,16 +73,43 @@ public class TitleScreenManager : MonoBehaviour
         _fadeImage = GameObject.Find("FadeImage").GetComponent<Image>();
 
         // Obtain the title image from the scene
-        _titleImage = GameObject.Find("GameTitle").GetComponent<Image>();
+        _titleImageRegular = GameObject.Find("GameTitleRegular").GetComponent<Image>();
+
+        // Obtain the Super image from the scene
+        _titleSuper = GameObject.Find("TitleSuper").GetComponent<Image>();
+
+        // Obtain the Credits script from the scene
+        _credits = FindObjectOfType<Credits>();
+
+        // Obtain the cave runner image from the scene
+        _titleCaveRunner = GameObject.Find("TitleCaveRunner").GetComponent<Image>();
+
+        // Obtain the D image from the scene
+        _titleD = GameObject.Find("TitleD").GetComponent<Image>();
+
+        // Obtain the X image from the scene
+        _titleX = GameObject.Find("TitleX").GetComponent<Image>();
 
         // Obtain the press start component from the scene
         _pressStart = GameObject.Find("PressStartText");
 
-        // Set the alpha of the fade image so it is visible to begin with
-        _fadeImage.color = new Vector4(0f, 0f, 0f, 1f);
+        // Set the alpha of the fade image so the fade start colour
+        _fadeImage.color = _fadeStart;
 
-        // Set the colour of the title image so it is invisible to begin with
-        _titleImage.color = new Vector4(1f, 1f, 1f, 0f);
+        // Set the colour of the title image to the invisible colour
+        _titleImageRegular.color = _invisible;
+
+        // Set the super image to the invisible colour
+        _titleSuper.color = _invisible;
+
+        // Set the cave runner image to the invisible colour
+        _titleCaveRunner.color = _invisible;
+
+        // Set the d image to the invisible colour
+        _titleD.color = _invisible;
+
+        // Set the X 
+        _titleX.color = _invisible;
 
         // Disable the press start component
         _pressStart.SetActive(false);
@@ -138,16 +189,19 @@ public class TitleScreenManager : MonoBehaviour
                 float alpha = _titleAppearTimer / _titleAppearTime;
 
                 // Set the colour of the title image with the new alpha value
-                _titleImage.color = new Vector4(1f, 1f, 1f, alpha);
+                _titleCaveRunner.color = new Vector4(1f, 1f, 1f, alpha);
 
                 // Check if the title appear timer is greater than, or equal to, the title appear time
                 if (_titleAppearTimer >= _titleAppearTime && !_mainTitlePlayed)
                 {
                     // Set the title colour so that it will be completely visible
-                    _titleImage.color = new Vector4(1f, 1f, 1f, 1f);
+                    _titleCaveRunner.color = _visible;
 
                     // Enable the press start object
                     _pressStart.SetActive(true);
+
+                    // Enable the credits
+                    _credits.EnableCredits();
 
                     // Play the title sound effect
                     _announcerVoice.GameAnnouncer.PlaySound(0);
@@ -230,16 +284,19 @@ public class TitleScreenManager : MonoBehaviour
                 float alpha = _titleAppearTimer / _titleAppearTime;
 
                 // Set the colour of the title image with the new alpha value
-                _titleImage.color = new Vector4(1f, 1f, 1f, alpha);
+                _titleImageRegular.color = new Vector4(1f, 1f, 1f, alpha);
 
                 // Check if the title appear timer is greater than, or equal to, the title appear time
                 if (_titleAppearTimer >= _titleAppearTime && !_mainTitlePlayed)
                 {
                     // Set the title colour so that it will be completely visible
-                    _titleImage.color = new Vector4(1f, 1f, 1f, 1f);
+                    _titleImageRegular.color = new Vector4(1f, 1f, 1f, 1f);
 
                     // Enable the press start object
                     _pressStart.SetActive(true);
+
+                    // Enable the credits
+                    _credits.EnableCredits();
 
                     // Play the title sound effect
                     _announcerVoice.GameAnnouncer.PlaySound(0);

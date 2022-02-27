@@ -525,7 +525,7 @@ public class PlayerController : MonoBehaviour
                     // Check if the player is invinvicle
                     if (_isInvincible)
                     {
-                        // Flash the sprite
+                        // Invoke the invincibility effect
                         InvincibilityEffect();
 
                         // Invoke the invincibility method
@@ -560,6 +560,9 @@ public class PlayerController : MonoBehaviour
                             // Check if the player is not the same colour as the light beam
                             if (_isColourOne != lightBeam.IsColourOne)
                             {
+                                // Ensure the is colour one value is the opposite value of the light beam
+                                _isColourOne = !lightBeam.IsColourOne;
+
                                 // Invoke the hit light gate method
                                 HitLightGate();
                             }
@@ -1150,7 +1153,6 @@ public class PlayerController : MonoBehaviour
         // Check if the death timer is greater than, or equal to the death time
         if(_deathTimer >= _deathTime)
         {
-
             // Check that the last collision made by the player was with an obstacle or a light gate
             if (_lastCollision == LastCollision.lightgate || _lastCollision == LastCollision.obstacle)
             {

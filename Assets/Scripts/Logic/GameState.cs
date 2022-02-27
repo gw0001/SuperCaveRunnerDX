@@ -4,7 +4,7 @@
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
 /* CREATED - 13/02/22                      */
-/* LAST MODIFIED - 22/02/22                */
+/* LAST MODIFIED - 27/02/22                */
 /* ======================================= */
 /* GAME STATE                              */
 /* GameState.cs                            */
@@ -42,6 +42,7 @@ public class GameState : MonoBehaviour
     private ControlScheme _controlScheme; // Control sceheme
     private ButtonSpriteManager _buttonManager; // Button manager object
     private BestScoreManager _bestScoreManager; // Best score manager
+    private SoundEffect _newBestSoundEffect; // New best sound effect
     private TextMeshProUGUI _messageText; // Message UI text
     private TextMeshProUGUI _retryText; // Retry Text
     private TextMeshProUGUI _resultsText; // Results text
@@ -63,6 +64,8 @@ public class GameState : MonoBehaviour
     private bool _resultsDisplayed; // Result displayed boolean
     private bool _readySoundPlayed; // Ready sound played boolean
     private bool _goSoundPlayed; // Go sound played boolean
+    private bool _newBestSoundPlayed; // New best sound played
+    private bool _niceSoundPlayed; // Nice sound played boolean
 
 
     // Difficulty enumerator
@@ -201,6 +204,9 @@ public class GameState : MonoBehaviour
         // Obtain the new best distance score text
         _newBestDistanceScoreText = GameObject.Find("NewBestDistanceScore").GetComponent<TextMeshProUGUI>(); // BestDistance alert text
 
+        // Obtain the new best sound effect from the game scene
+        _newBestSoundEffect = GameObject.Find("NewBestSound").GetComponent<SoundEffect>();
+
         // Hide the new best distance score from view
         _newBestDistanceScoreText.alpha = 0f;
 
@@ -236,6 +242,12 @@ public class GameState : MonoBehaviour
 
         // Set the go sound played to false
         _goSoundPlayed = false;
+
+        // Set the new best sound played boolean to false
+        _newBestSoundPlayed = false;
+
+        // Set the nice sound played to false
+        _niceSoundPlayed = false;
 
         // Set the message text to the ready message
         _messageText.text = _readyMessage;
@@ -339,6 +351,7 @@ public class GameState : MonoBehaviour
                 // Set the text of the results
                 _resultsText.text = _resultAnalyser.ResultAnalysis();
 
+                // Check if the best distance is greater than the current best distance
                 if(_bestScoreManager.BestDistance > _currentBestDistance)
                 {
                     // Show the new alert to the player
@@ -349,6 +362,16 @@ public class GameState : MonoBehaviour
 
                     // Set the text of the new best distance
                     _newBestDistanceScoreText.text = _bestScoreManager.BestDistance + "m";
+
+                    // Check if the new best sound has been played
+                    if(!_newBestSoundPlayed)
+                    {
+                        // Play the sound effect for the new best distance
+                        _newBestSoundEffect.PlaySoundEffect();
+
+                        // Set the new best sound played to true
+                        _newBestSoundPlayed = true;
+                    }
                 }
 
                 // Set results displayed boolean to true
@@ -372,6 +395,22 @@ public class GameState : MonoBehaviour
 
                     // Set can press button to true
                     _canPressButton = true;
+                }
+            }
+            else
+            {
+                // Check if the nice sound hasn't been played
+                if (!_niceSoundPlayed)
+                {
+                    // Check if the player distance at the end is 69
+                    if (Mathf.FloorToInt(_player.Distance) == 69)
+                    {
+                        // Play the "Nice" sound
+                        _announcer.GameAnnouncer.PlaySound(5);
+
+                        // Set the nice sound played to true
+                        _niceSoundPlayed = true;
+                    }
                 }
             }
         }

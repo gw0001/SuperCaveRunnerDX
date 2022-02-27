@@ -4,7 +4,7 @@
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
 /* CREATED - 05/02/22                      */
-/* LAST MODIFIED - 08/02/22                */
+/* LAST MODIFIED - 27/02/22                */
 /* ======================================= */
 /* FOREGROUND PARALLAX                     */
 /* ForegroundParallax.cs                   */
@@ -263,6 +263,12 @@ public class ForegroundParallax : MonoBehaviour
         _parallaxManager = parallaxManager;
     }
 
+    /*
+     * SET PARENT METHOD
+     * 
+     * Method sets the parent of the foreground
+     * object.
+     */
     public void SetParent(Transform parent)
     {
         transform.parent = parent;
