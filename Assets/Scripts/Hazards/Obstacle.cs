@@ -4,7 +4,7 @@
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
 /* CREATED - 06/02/22                      */
-/* LAST MODIFIED - 27/02/22                */
+/* LAST MODIFIED - 28/02/22                */
 /* ======================================= */
 /* OBSTACLE                                */
 /* Obstacle.cs                             */
@@ -137,8 +137,29 @@ public class Obstacle : MonoBehaviour
             // Instantiate a random debris object
             Debris debris = Instantiate(_debrisObjects[randomIndex]);
 
+            // Determine the maximum Y position for the object to spawn
+            float maxY = transform.position.y + HalfHeight;
+
+            // Determine the minimum y position for the object to spawn
+            float minY = transform.position.y;
+
+            // Determine the minimum X position for the object to spawn
+            float minX = transform.position.x - HalfWidth;
+
+            // Determine the maximum X position for the object to spawn
+            float maxX = transform.position.x + HalfWidth;
+
+            // New empty position vector
+            Vector2 position;
+
+            // Determine the X position from the maximum and minimum X values
+            position.x = Random.Range(minX, maxX);
+
+            // Determine the Y position from the maximum and minimum Y values
+            position.y = Random.Range(minY, maxY);
+
             // Set the transform of the debris object
-            debris.transform.position = transform.position;
+            debris.transform.position = position;
 
             // Set the velocity of the debris object
             debris.SetVelocity(velocity);

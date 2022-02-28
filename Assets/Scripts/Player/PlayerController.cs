@@ -4,7 +4,7 @@
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
 /* CREATED - 01/02/22                      */
-/* LAST MODIFIED - 27/02/22                */
+/* LAST MODIFIED - 28/02/22                */
 /* ======================================= */
 /* PLAYER CONTROLLER                       */
 /* PlayerController.cs                     */
@@ -536,7 +536,7 @@ public class PlayerController : MonoBehaviour
                     Vector2 crashRayOrigin = new Vector2(position.x, position.y);
 
                     // Cast crash ray forward 
-                    RaycastHit2D crashForward = Physics2D.Raycast(crashRayOrigin, Vector2.right, (0.75f * HalfWidth) + 0.1f);
+                    RaycastHit2D crashForward = Physics2D.Raycast(crashRayOrigin, Vector2.right, HorizontalVelocity * Time.fixedDeltaTime);
 
                     // Check that if the crash forward ray has hit a collider
                     if (crashForward.collider != null)

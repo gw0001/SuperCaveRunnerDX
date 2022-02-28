@@ -18,6 +18,7 @@ using UnityEngine;
 
 public class Debris : MonoBehaviour
 {
+    private ScreenInfo _screenInfo;
     private Vector2 _velocity; // Velocitu
     private float _maxAngle = 70f; // Maximum angle
     private float _minAngle = 15f; // Minimum angle
@@ -38,6 +39,9 @@ public class Debris : MonoBehaviour
      */
     private void Awake()
     {
+        // Obtain the screen info component
+        _screenInfo = GameObject.FindObjectOfType<ScreenInfo>();
+
         // Initialise the timer to 0 seconds
         _timer = 0f;
 
@@ -46,9 +50,6 @@ public class Debris : MonoBehaviour
 
         // Determine the random vector
         Vector2 randomVector = new Vector2(Mathf.Cos(randomAngle), Mathf.Sin(randomAngle));
-
-        // Normalize the vector
-        randomVector.Normalize();
 
         // Set the velocity vector to the normalised vector
         _velocity = randomVector;
@@ -148,6 +149,13 @@ public class Debris : MonoBehaviour
 
         // Rotate the object
         transform.Rotate(Vector3.forward * _rotationDegrees);
+
+        // Check if the debris has left the screen
+        if(transform.position.y <= _screenInfo.BottomEdge - _halfHeight)
+        {
+            // Invoke the destroy debris function
+            DestroyDebris();
+        }
 
         // Check if the timer is greater than, or equal to, the life time value
         if (_timer >= _lifeTime)
