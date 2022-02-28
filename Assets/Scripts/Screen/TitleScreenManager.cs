@@ -4,7 +4,7 @@
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
 /* CREATED - 11/02/22                      */
-/* LAST MODIFIED - 27/02/22                */
+/* LAST MODIFIED - 28/02/22                */
 /* ======================================= */
 /* TITLE SCREEN MANAGER                    */
 /* TitleScreenManager.cs                   */
@@ -27,10 +27,10 @@ public class TitleScreenManager : MonoBehaviour
     // *** VARIABLES *** //
     private Image _fadeImage; // Fade image
     private Image _titleImageRegular; // Title image 
-    private Image _titleSuper; // Super image
+    private TitleSuper _titleSuper; // Super image
     private Image _titleCaveRunner; // Cave runner image
-    private Image _titleD; // D image
-    private Image _titleX; // X image
+    private BigLetter _titleD; // D image
+    private BigLetter _titleX; // X image
     private GameObject _pressStart; // Press start game object
     private AnnouncerManager _announcerVoice; // Announcer voice
     private Credits _credits; // Credits
@@ -44,22 +44,8 @@ public class TitleScreenManager : MonoBehaviour
     private bool _mainTitlePlayed = false; // Main title played boolean
     private bool _dPlayed = false; // D played boolean
     private bool _xPlayed = false; // X played boolean
-
-
-
-    private bool _superLoaded = false;
-    private bool _caveRunnerLoaded = false;
-    private bool _dLoaded = false;
-    private bool _xLoaded = false;
-
-    [SerializeField] private float _superTime;
-    [SerializeField] private float _caveRunnerTime;
-    [SerializeField] private float _dTime;
-    [SerializeField] private float _xTime;
-
-
-
-
+    private bool _dLoaded = false; // D loaded boolean
+    private bool _xLoaded = false; // X Loaded boolean
 
     /*
      * AWAKE METHOD
@@ -76,7 +62,7 @@ public class TitleScreenManager : MonoBehaviour
         _titleImageRegular = GameObject.Find("GameTitleRegular").GetComponent<Image>();
 
         // Obtain the Super image from the scene
-        _titleSuper = GameObject.Find("TitleSuper").GetComponent<Image>();
+        _titleSuper = GameObject.Find("TitleSuper").GetComponent<TitleSuper>();
 
         // Obtain the Credits script from the scene
         _credits = FindObjectOfType<Credits>();
@@ -85,10 +71,10 @@ public class TitleScreenManager : MonoBehaviour
         _titleCaveRunner = GameObject.Find("TitleCaveRunner").GetComponent<Image>();
 
         // Obtain the D image from the scene
-        _titleD = GameObject.Find("TitleD").GetComponent<Image>();
+        _titleD = GameObject.Find("TitleD").GetComponent<BigLetter>();
 
         // Obtain the X image from the scene
-        _titleX = GameObject.Find("TitleX").GetComponent<Image>();
+        _titleX = GameObject.Find("TitleX").GetComponent<BigLetter>();
 
         // Obtain the press start component from the scene
         _pressStart = GameObject.Find("PressStartText");
@@ -99,17 +85,14 @@ public class TitleScreenManager : MonoBehaviour
         // Set the colour of the title image to the invisible colour
         _titleImageRegular.color = _invisible;
 
-        // Set the super image to the invisible colour
-        _titleSuper.color = _invisible;
-
         // Set the cave runner image to the invisible colour
         _titleCaveRunner.color = _invisible;
 
         // Set the d image to the invisible colour
-        _titleD.color = _invisible;
+        _titleD.enabled = false;
 
         // Set the X 
-        _titleX.color = _invisible;
+        _titleX.enabled = false;
 
         // Disable the press start component
         _pressStart.SetActive(false);
@@ -203,6 +186,9 @@ public class TitleScreenManager : MonoBehaviour
                     // Enable the credits
                     _credits.EnableCredits();
 
+                    // Have the "Super" move to the title
+                    _titleSuper.CanMove();
+
                     // Play the title sound effect
                     _announcerVoice.GameAnnouncer.PlaySound(0);
 
@@ -213,6 +199,16 @@ public class TitleScreenManager : MonoBehaviour
                 // Check if the title appear time is greater than sum of the appear time and "super cave runner" time, and main title played is true and d played is false
                 if (_titleAppearTimer >= (_titleAppearTime + _announcerVoice.GameAnnouncer.SuperCaveRunnerTime) && _mainTitlePlayed && !_dPlayed)
                 {
+                    // Check is "D" has not been loaded
+                    if(!_dLoaded)
+                    {
+                        // Enable the "D" for the title
+                        _titleD.enabled = true;
+
+                        // Set "D" loaded to true
+                        _dLoaded = true;
+                    }
+
                     // Stop any current audio from the announcer
                     _announcerVoice.GameAnnouncer.Stop();
 
@@ -226,6 +222,16 @@ public class TitleScreenManager : MonoBehaviour
                 // Check if the title appear time is greater than sum of the appear time, "super cave runner" time and "D" time, and main title played is true and d played is false
                 if (_titleAppearTimer >= (_titleAppearTime + _announcerVoice.GameAnnouncer.SuperCaveRunnerTime + +_announcerVoice.GameAnnouncer.DTime) && _mainTitlePlayed && _dPlayed && !_xPlayed)
                 {
+                    // Check if "X" has not loaded
+                    if (!_xLoaded)
+                    {
+                        // Enable the "X" for the title
+                        _titleX.enabled = true;
+
+                        // Set "X" loaded to true
+                        _xLoaded = true;
+                    }
+
                     // Stop any current audio from the announcer
                     _announcerVoice.GameAnnouncer.Stop();
 

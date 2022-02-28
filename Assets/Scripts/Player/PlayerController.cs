@@ -1000,6 +1000,9 @@ public class PlayerController : MonoBehaviour
             // Check if the player can change colour
             if (_canChangeColour )
             {
+                // Play the colour change sound effect
+                _playerSoundManager.PlayArmourChange(IsColourOne);
+
                 // Invert the colour
                 _isColourOne = !_isColourOne;
 

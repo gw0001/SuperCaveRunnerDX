@@ -96,7 +96,7 @@ public class ResultAnalyser : MonoBehaviour
             else if (lastCollision == PlayerController.LastCollision.lightgate)
             {
                 // Relay the last collision as an obstacle
-                lastActions += " INTO A BEAM OF LIGHT WITH THE WRONG ARMOUR COLOUR AND GOT FRIED.";
+                lastActions += " INTO A BEAM OF LIGHT WITH THE WRONG ARMOUR COLOUR, AND GOT FRIED.";
             }
             // Check if the player fell into the pit
             else if(lastCollision == PlayerController.LastCollision.pit)
@@ -115,7 +115,7 @@ public class ResultAnalyser : MonoBehaviour
             if (lastCollision == PlayerController.LastCollision.ground)
             {
                 // Relay the players collision
-                lastActions += " OFF THE EDGE, THEN FACE PLANETED INTO A WALL.";
+                lastActions += " OFF THE EDGE, FACE PLANTED INTO A WALL, THEN FELL INTO A PIT.";
             }
             // Check if the last collision was with an obstacle
             else if (lastCollision == PlayerController.LastCollision.obstacle)
@@ -154,17 +154,17 @@ public class ResultAnalyser : MonoBehaviour
         else if (distance > _mediumDistance && distance < _hardDistance)
         {
             // Display the message for failing at medium difficulty
-            additionalComment += "YOU GOT AN EXCELLENT DISTANCE!!";
+            additionalComment += "GETTING BETTER, YOU CAN DO IT!";
         }
         else if (distance >= _hardDistance && distance < _insaneDistance)
         {
             // Display the message for failing at hard difficulty
-            additionalComment += "YOU DID WELL TO GET THIS FAR! THANKS FOR PLAYING!!";
+            additionalComment += "EXCELLENT DISTANCE! THANKS FOR PLAYING!!";
         }
         else if (distance >= _insaneDistance)
         {
             // Display a message for at insane difficulty
-            additionalComment += "HOW IN THE WORLD DID YOU GET THIS FAR!? I HOPE YOU REALISE THERE IS NO END TO THIS GAME!!";
+            additionalComment += "I WASN'T EXPECTING ANYONE TO GET THIS FAR. I HOPE YOU REALISE THERE IS NO END TO THIS GAME...";
         }
 
         // Finalise the result text

@@ -4,7 +4,7 @@
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
 /* CREATED - 25/02/22                      */
-/* LAST MODIFIED - 26/02/22                */
+/* LAST MODIFIED - 28/02/22                */
 /* ======================================= */
 /* PLAYER SOUND MANAGER                    */
 /* PlayerSoundManager.cs                   */
@@ -22,13 +22,19 @@ public class PlayerSoundManager : MonoBehaviour
     // *** SERIALISED VARIABLES *** //
     [Header("Jump audio settings")]
     [SerializeField] private AudioClip _jumpClip; // Jump audio clip
-    [SerializeField] private float _jumpPitchMin = 0.85f; // Minimum pitch value
-    [SerializeField] private float _jumpPitchMax = 1.0f; // Maximum pitch value
+    [SerializeField] private float _jumpPitchMin = 0.85f; // Minimum jump pitch value
+    [SerializeField] private float _jumpPitchMax = 1.0f; // Maximum jump pitch value
+
+    [Header("Armour audio settings")]
+    [SerializeField] private AudioClip _colourOneToTwo; // Colour one to colour two sound effect
+    [SerializeField] private AudioClip _colourTwoToOne; // Colour two to colour one sound effect
+    [SerializeField] private float _armourPitchMin = 0.85f; // Minimum armour pitch value
+    [SerializeField] private float _armourPitchMax = 1.0f; // Maximum armour pitch value
 
     [Header ("Crash audio settings")]
     [SerializeField] private AudioClip _crashClip; // Crash audio clip
-    [SerializeField] private float _crashPitchMin = 0.85f; // Minimum pitch value
-    [SerializeField] private float _crashPitchMax = 1.0f; // Maximum pitch value
+    [SerializeField] private float _crashPitchMin = 0.85f; // Minimum crash pitch value
+    [SerializeField] private float _crashPitchMax = 1.0f; // Maximum crash pitch value
 
     [Header ("Health audio settings")]
     [SerializeField] private AudioClip _healthGainedClip; // Healh gained clip
@@ -43,10 +49,12 @@ public class PlayerSoundManager : MonoBehaviour
 
     // *** VARIABLES *** //
     private AudioSource _jumpSource; // Jump audio source
+    private AudioSource _armourSource; // Armour audio source
     private AudioSource _crashSource; // Crash audio source
     private AudioSource _healthSource; // Health audio source
     private AudioSource _deathSource; // Death source
     private bool _jumpPlaying; // Jump plauing boolean
+    private bool _armourPlaying; // Armour playing boolean
     private bool _crashPlaying; // Crash playing boolean
     private bool _healthPlaying; // Health playing boolean
     private bool _deathPlaying; // Death playing boolean
@@ -62,6 +70,9 @@ public class PlayerSoundManager : MonoBehaviour
     {
         // Initialise jump source
         InitialiseJumpSource();
+
+        // Initialise the armour source
+        InitialiseArmourSource();
 
         // Initialise the crash source
         InitialiseCrashSource();
@@ -90,6 +101,13 @@ public class PlayerSoundManager : MonoBehaviour
         {
             // Set jump played to false
             _jumpPlaying = false;
+        }
+
+        // Check if the armour source is not playing any audio
+        if(!_armourSource.isPlaying)
+        {
+            // Set armour playing to true
+            _armourPlaying = false;
         }
 
         // Check if the crash source is not playing audio
@@ -128,6 +146,17 @@ public class PlayerSoundManager : MonoBehaviour
 
         // Initialise the jump playing boolean to false
         _jumpPlaying = false;
+    }
+
+    private void InitialiseArmourSource()
+    {
+        _armourSource = GameObject.Find("ArmourAudioChannel").GetComponent<AudioSource>();
+
+        _armourSource.loop = false;
+
+        _armourSource.playOnAwake = false;
+
+        _armourPlaying = false;
     }
 
     /*
@@ -215,6 +244,45 @@ public class PlayerSoundManager : MonoBehaviour
 
             // Set jump played to true
             _jumpPlaying = true;
+        }
+    }
+
+    /*
+     * PLAY ARMOUR CHANGE METHOD
+     * 
+     * Method plays the armour change sound 
+     * depending on if the player is colour one
+     * or colour two, and at a random
+     * pitch when invoked.
+     */
+    public void PlayArmourChange(bool isColourOne)
+    {
+        // Check if the armour sound effect is playing
+        if(!_armourPlaying)
+        {
+            // Determine a pitch value
+            float pitch = Random.Range(_armourPitchMin, _armourPitchMax);
+
+            // Set the pitch for the armour
+            _armourSource.pitch = pitch;
+
+            // Check if colour one is true
+            if (isColourOne)
+            {
+                // Use the colour one to colour two clip
+                _armourSource.clip = _colourOneToTwo;
+            }
+            else
+            {
+                // Use colour two to colour one clip
+                _armourSource.clip = _colourTwoToOne;
+            }
+
+            // Play the clip
+            _armourSource.Play();
+
+            // Set armour playing to true
+            _armourPlaying = true;
         }
     }
 

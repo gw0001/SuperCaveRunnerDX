@@ -18,6 +18,10 @@ using UnityEngine;
 
 public class SoundEffect : MonoBehaviour
 {
+    // *** SERIALISED VARIABLES *** //
+    [SerializeField] private float _minPitch = 0.5f;
+    [SerializeField] private float _maxPitch = 1.0f;
+
     // *** VARIABLE *** //
     private AudioSource _soundEffect; // Sound effect audio source
 
@@ -42,6 +46,21 @@ public class SoundEffect : MonoBehaviour
     {
         _soundEffect.Play();
     }
+
+    /*
+     * PLAY WITH RANDOM PITCH
+     */
+    public void PlayWithRandomPitch()
+    {
+        float randomPitch = Random.Range(_minPitch, _maxPitch);
+
+        _soundEffect.pitch = randomPitch;
+
+        _soundEffect.Play();
+    }
+
+
+
 
     /*
      * STOP SOUND EFFECT

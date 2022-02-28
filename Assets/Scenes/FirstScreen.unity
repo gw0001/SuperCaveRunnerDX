@@ -379,7 +379,7 @@ MonoBehaviour:
   _textAppearTime: 1
   _textDisappearTime: 0.5
   _screenTime: 4
-  _introClip: {fileID: 8300000, guid: 287e5d81816d23a4b86bb15033d7d9db, type: 3}
+  _introClip: {fileID: 8300000, guid: 26f5b35fca4d27343a2da885dff77723, type: 3}
 --- !u!82 &224809410
 AudioSource:
   m_ObjectHideFlags: 0
