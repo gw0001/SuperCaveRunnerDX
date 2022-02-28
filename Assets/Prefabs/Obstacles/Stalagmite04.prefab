@@ -124,3 +124,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b76da38b294e8134ebb127bb63e868ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _debrisObjects:
+  - {fileID: -511628525156627576, guid: 1aa43ff33f5d1164899e70daba178b7b, type: 3}
+  - {fileID: -3100038155142939695, guid: 19c7a6c29d46aea4aaea47df3b3d66c3, type: 3}
+  - {fileID: -7431773657433726502, guid: 43056345a7e805e4983c481f1edf4ee0, type: 3}
+  - {fileID: 744150655101565584, guid: 2f049eb092a069e4f9384d9a04746c3e, type: 3}
+  - {fileID: 3751237429592266144, guid: 8bc3b92f931e52a408566ce6b32139f9, type: 3}
+  _minDebris: 3

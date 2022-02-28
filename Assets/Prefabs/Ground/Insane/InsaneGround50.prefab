@@ -127,12 +127,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ae7f3fdf73bc2a49a0badfef5f1898c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canFeatureObstacles: 0
+  _canFeatureObstacles: 1
   _canFeatureHealth: 0
   _canFeatureLightGate: 1
   _minNumberOfObstacles: 1
-  _maxNumberOfObstacles: 3
-  _safeAreaFromLeft: 0.2
+  _maxNumberOfObstacles: 1
+  _safeAreaFromLeft: 0.65
   _safeAreaFromRight: 1
   _obstacleChance: 0.85
   _lightGateChance: 0.85

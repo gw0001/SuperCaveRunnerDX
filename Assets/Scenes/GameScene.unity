@@ -331,7 +331,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'SUPER CAVE RUNNER DX
 
-    BUILD 270222 - 2'
+    BUILD 280222 - 1'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 95ec0fd030b3be34390781272d8a1d21, type: 2}
   m_sharedMaterial: {fileID: -2486371606908186400, guid: 95ec0fd030b3be34390781272d8a1d21, type: 2}
@@ -1228,7 +1228,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.25
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1360,11 +1360,11 @@ MonoBehaviour:
   _goTime: 1.5
   _readyMessage: READY...
   _goMessage: GO!!
-  _easyDistance: 150
+  _easyDistance: 200
   _mediumDistance: 500
   _hardDistance: 1000
   _insaneDistance: 5000
-  _resultButtonWaitTime: 1.25
+  _resultButtonWaitTime: 1.3
 --- !u!4 &325606664 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 198111913358041161, guid: 77e7b47298e3dd04b806d8103637e623, type: 3}
@@ -1486,7 +1486,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.15
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -2337,7 +2337,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 0.65
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -2824,14 +2824,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3003535497509210156, guid: 7aeff8cf193f84845b8f1d13cdb4cee1, type: 3}
-      propertyPath: _arcade01Chance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3003535497509210156, guid: 7aeff8cf193f84845b8f1d13cdb4cee1, type: 3}
-      propertyPath: _teuchterChance
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3003535497509210158, guid: 7aeff8cf193f84845b8f1d13cdb4cee1, type: 3}
       propertyPath: m_Name
       value: Announcer(DISABLE BEFORE BUILDING)
@@ -2987,7 +2979,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.35
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -3947,7 +3939,7 @@ MonoBehaviour:
   _gravity: 450
   _maxJumpVelocity: 50
   _maxRunVelocity: 100
-  _maxAcceleration: 15
+  _maxAcceleration: 20
   _maxHoldJumpTime: 0.25
   _jumpGroundThreshold: 1
   _checkRayOffset: 0.75
@@ -5614,15 +5606,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _veryEasyGroundObjects:
+  - {fileID: 5130134430945803033, guid: 9b3d967204951714daa0b08c7ca0a914, type: 3}
+  - {fileID: 5130134430945803033, guid: be0d274bc7bc49e45a7fb2eebc0068c9, type: 3}
+  - {fileID: 5130134430945803033, guid: 6c01775a27505e24e84fad546ba0ab84, type: 3}
   - {fileID: 5130134430945803033, guid: 654fd1597cb9556498befc41d97ea7ed, type: 3}
   - {fileID: 5130134430945803033, guid: fa8749bf997bd1a4ba67eda8d45f402a, type: 3}
   - {fileID: 5130134430945803033, guid: d791debb37409a341a2a3fdda9120e9b, type: 3}
   _easyGroundObjects:
+  - {fileID: 5130134430945803033, guid: eb6d9d8ee7519f34da74dc0d6d9cf3c7, type: 3}
+  - {fileID: 5130134430945803033, guid: 3b262d7eabc77454bbc0ebe67d286c75, type: 3}
   - {fileID: 5130134430945803033, guid: 88719c0af2f600243ac6ece2acc5d911, type: 3}
   - {fileID: 5130134430945803033, guid: aec51e8ddaa3b0d44b87dc52dc9ea00c, type: 3}
   - {fileID: 5130134430945803033, guid: b7c2151f0ce5d464892f6f69bcf9afef, type: 3}
   - {fileID: 5130134430945803033, guid: 3035ecaaa75b9244f881f157d3108013, type: 3}
   - {fileID: 5130134430945803033, guid: 6a9bdd8ab6096524d8e05cd9cb2d3489, type: 3}
+  - {fileID: 5130134430945803033, guid: 4cf8054572bb98e4e87efd63a6abff83, type: 3}
   _mediumGroundObjects:
   - {fileID: 5130134430945803033, guid: 49ea2434990dc844e8aa65fe766cd138, type: 3}
   - {fileID: 5130134430945803033, guid: 3cd3ac958c984474cb7a78df7a393c4e, type: 3}
@@ -5634,11 +5632,16 @@ MonoBehaviour:
   - {fileID: 5130134430945803033, guid: 27e3b72a76f4abc4493c43b41c957875, type: 3}
   - {fileID: 5130134430945803033, guid: df085af95a2824749bd4603fff63edfe, type: 3}
   _hardGroundObjects:
-  - {fileID: 5130134430945803033, guid: 4a0299ae409d2104da6f3989a71f9bbd, type: 3}
-  - {fileID: 5130134430945803033, guid: c49a060630bf94d4db2434159e79f844, type: 3}
-  - {fileID: 5130134430945803033, guid: 338730297a9c304429ce5dc7354edb9b, type: 3}
-  - {fileID: 5130134430945803033, guid: 7980c67675879ff499e8c73bc70b9b72, type: 3}
-  - {fileID: 5130134430945803033, guid: b0c969d9a38328c47a2642289a96fb79, type: 3}
+  - {fileID: 5130134430945803033, guid: 464469190cb2a47498e743e1c3299e9f, type: 3}
+  - {fileID: 5130134430945803033, guid: c19d81612e54b004d9837ddb7e06d2ec, type: 3}
+  - {fileID: 5130134430945803033, guid: 8b4051acbaee7944a9090e4c52a46507, type: 3}
+  - {fileID: 5130134430945803033, guid: 70fa433d32648634b96d583a398b67f5, type: 3}
+  - {fileID: 5130134430945803033, guid: 73b6d6be1daf4f445af41ba7a2a30e7c, type: 3}
+  - {fileID: 5130134430945803033, guid: d5e21a44818b58a4eb8b15247ee64a63, type: 3}
+  - {fileID: 5130134430945803033, guid: f661957dcfda2d943a31a8c562cf8170, type: 3}
+  - {fileID: 5130134430945803033, guid: ad0df257a39fa3f45844a46fbe8eb285, type: 3}
+  - {fileID: 5130134430945803033, guid: 98909d97db9d1154ebe572cb5ca534ce, type: 3}
+  - {fileID: 5130134430945803033, guid: 562c2ea7c88a7734b95e715a0a6f0cea, type: 3}
   _insaneGroundObjects:
   - {fileID: 5130134430945803033, guid: 68db5b4130d1ccc41a1668e62fb4f3f5, type: 3}
   - {fileID: 5130134430945803033, guid: d3b9fcb1796b16c45a444aed2e9b06dc, type: 3}

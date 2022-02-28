@@ -4,7 +4,7 @@
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
 /* CREATED - 06/02/22                      */
-/* LAST MODIFIED - 13/02/22                */
+/* LAST MODIFIED - 27/02/22                */
 /* ======================================= */
 /* OBSTACLE                                */
 /* Obstacle.cs                             */
@@ -19,11 +19,16 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour
 {
+    // *** SERIALISED VARIABLES *** //
+    [SerializeField] private Debris[] _debrisObjects; // Debris object array
+
     // *** OBSTACLE VARIABLES *** //
     private PlayerController _player; // Player object
     private ScreenInfo _screenInfo; // Screen info object
     private float _halfHeight; // Half height
     private float _halfWidth; // Half width
+    private int _minDebris = 3; // Minimum number of debris objects
+    private int _maxDebris = 10; // Maximum number of debris objects
 
     /*
      * HALF HEIGHT GET METHOD
@@ -115,13 +120,31 @@ public class Obstacle : MonoBehaviour
 
     /*
      * DESTROY OBSTACLE METHOD
+     * 
+     * Method adds a number of debris objects
      */
-    public void DestroyObstacle()
+    public void DestroyObstacle(float velocity)
     {
-        // Will need to create rock particles on impact
-        // Will need to play a sound when the obstacle is destroyed
+        // Determine a the number of debris objects between the min and max debris objects
+        int numberOfDebris = Random.Range(_minDebris, _maxDebris);
 
-        // Destroy the game object
-        Destroy(gameObject);
+        // Iterate up to the number of debris objects
+        for(int i = 0; i < numberOfDebris; i++)
+        {
+            // Random index
+            int randomIndex = Random.Range(0, _debrisObjects.Length);
+
+            // Instantiate a random debris object
+            Debris debris = Instantiate(_debrisObjects[randomIndex]);
+
+            // Set the transform of the debris object
+            debris.transform.position = transform.position;
+
+            // Set the velocity of the debris object
+            debris.SetVelocity(velocity);
+        }
+
+        // Destroy this game object
+        Destroy(this.gameObject);
     }
 }

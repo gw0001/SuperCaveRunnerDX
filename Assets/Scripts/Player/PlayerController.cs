@@ -4,7 +4,7 @@
 /* ======================================= */
 /* AUTHOR - Graeme White - 2022            */
 /* CREATED - 01/02/22                      */
-/* LAST MODIFIED - 26/02/22                */
+/* LAST MODIFIED - 27/02/22                */
 /* ======================================= */
 /* PLAYER CONTROLLER                       */
 /* PlayerController.cs                     */
@@ -536,7 +536,7 @@ public class PlayerController : MonoBehaviour
                     Vector2 crashRayOrigin = new Vector2(position.x, position.y);
 
                     // Cast crash ray forward 
-                    RaycastHit2D crashForward = Physics2D.Raycast(crashRayOrigin, Vector2.right, (0.5f * HalfWidth) + 0.1f);
+                    RaycastHit2D crashForward = Physics2D.Raycast(crashRayOrigin, Vector2.right, (0.75f * HalfWidth) + 0.1f);
 
                     // Check that if the crash forward ray has hit a collider
                     if (crashForward.collider != null)
@@ -781,7 +781,7 @@ public class PlayerController : MonoBehaviour
     private void HitObstacle(Obstacle obstacle)
     {
         // Destroy the obstacle - will need to remove this and control this from the obstacle object
-        obstacle.DestroyObstacle();
+        obstacle.DestroyObstacle(HorizontalVelocity);
 
         // Check if the player is not invincible
         if (!_isInvincible)
