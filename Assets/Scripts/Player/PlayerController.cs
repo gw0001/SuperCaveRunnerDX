@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _checkRayOffset = 0.7f; // Offset of the rays that check if the player is grounded and can jump
     [SerializeField] private float _obstacleHitSpeedLoss = 0.3f; // Obstacle speed loss;
     [SerializeField] private float _invicibilityTime = 0.5f; // Invincibility time
+    [SerializeField] private float _armourChangeInvincibilityTime = 0.1f; // Armour change invincibility time
     [SerializeField] private float _invinFlashTime = 0.1f; // Invincibility flash time
     [SerializeField] private float _colourCooldownTime = 0.5f; // Colour cool down timer
     [SerializeField] private float _playerHeadSpace = 3f; // Space above the players head
@@ -62,6 +63,7 @@ public class PlayerController : MonoBehaviour
     private float _halfWidth; // Half width of player
     private float _holdJumpTimer; // Hold jump timer
     private float _invincibilityTimer; // Invincibility timer
+    private float _armourChangeInvincibilityTimer; // Armour change invincibility timer
     private float _invinFlashTimer; // Invincibility flash timer
     private float _colourCooldownTimer; // Colour cool down timer
     private float _deathTime; // Death time
@@ -70,6 +72,7 @@ public class PlayerController : MonoBehaviour
     private bool _isGrounded = false; // Is Grounded boolean
     private bool _isHoldingJump = false; // Is Holding Jump boolean
     private bool _isInvincible = false; // Is invincible boolean
+    private bool _armourChangeInvincibilityActive = false; // Armour change invincibility
     private bool _gameStarted; // Game started boolean
     private bool _hasHitGround; // Has hit ground boolean
     private bool _isColourOne = true; // Is colour one initialised to true
@@ -374,6 +377,9 @@ public class PlayerController : MonoBehaviour
         // Set the invincibility timer to 0 seconds
         _invincibilityTimer = 0f;
 
+        // Set the armour change invincibility timer to 0 seconds
+        _armourChangeInvincibilityTimer = 0f;
+
         // Set the invinvibility flash timer to 0 seconds
         _invinFlashTimer = 0f;
 
@@ -519,6 +525,16 @@ public class PlayerController : MonoBehaviour
 
                             // Set the can change colour boolean to true
                             _canChangeColour = true;
+                        }
+                    }
+
+                    if(_armourChangeInvincibilityActive)
+                    {
+                        _armourChangeInvincibilityTimer += Time.fixedDeltaTime;
+
+                        if(_armourChangeInvincibilityTimer >= _armourChangeInvincibilityTime)
+                        {
+                            _armourChangeInvincibilityActive = false;
                         }
                     }
 
@@ -823,7 +839,7 @@ public class PlayerController : MonoBehaviour
     private void HitLightGate()
     {
         // Check if the player is not invincible
-        if (!_isInvincible)
+        if (!_isInvincible && !_armourChangeInvincibilityActive)
         {
             // Set health to 0
             _health = 0;
@@ -1008,6 +1024,12 @@ public class PlayerController : MonoBehaviour
 
                 // Set the has changed colour boolean to true
                 _hasChangedColour = true;
+
+                // Reset the armour changed invincibility timer
+                _armourChangeInvincibilityTimer = 0f;
+
+                // Enable the armour change invincibility
+                _armourChangeInvincibilityActive = true;
 
                 // Reset the cooldown timer
                 _colourCooldownTimer = 0f;

@@ -4080,6 +4080,7 @@ MonoBehaviour:
   _checkRayOffset: 0.75
   _obstacleHitSpeedLoss: 0.25
   _invicibilityTime: 1.25
+  _armourChangeInvincibilityTime: 0.1
   _invinFlashTime: 0.05
   _colourCooldownTime: 0.25
   _playerHeadSpace: 3

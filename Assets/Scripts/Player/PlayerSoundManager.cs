@@ -148,14 +148,23 @@ public class PlayerSoundManager : MonoBehaviour
         _jumpPlaying = false;
     }
 
+    /*
+     * INITIALISE ARMOUR SOURCE
+     * 
+     * Method initialises the armour audio source.
+     */
     private void InitialiseArmourSource()
     {
+        // Obtain the armour source from the game scene
         _armourSource = GameObject.Find("ArmourAudioChannel").GetComponent<AudioSource>();
 
+        // Prevent the armour audio from looping
         _armourSource.loop = false;
 
+        // Prevent armour audio playing when audio source is awoken
         _armourSource.playOnAwake = false;
 
+        // Initialise the armour playing boolean to false
         _armourPlaying = false;
     }
 
